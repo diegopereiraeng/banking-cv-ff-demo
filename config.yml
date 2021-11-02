@@ -1,0 +1,25 @@
+allowedOrigins: http://localhost:8080
+
+elkUrl: http://localhost
+elkIndex: index
+ffApiKey: 78f5d400-e061-4e96-8300-fc2f0cfc9225
+ffMetricKey: errorconfig
+ffLogKey: logerrorconfig
+target: env
+
+defaultConfig:
+  running: true
+  name: target
+  darkTheme: false
+  logConfig:
+    logsPerMinute: 60
+    errorRate: 5.0
+    errorMessage: KnownException
+  metricConfig:
+    callsPerMinute: 60
+    errorRate: 5.0
+    minErrorValue: 0.01
+    maxErrorValue: 1.00
+    shouldDoDelayedCalls: false
+    name: target
+
