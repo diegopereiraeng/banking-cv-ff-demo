@@ -35,8 +35,8 @@ public class BehaviorGenerator {
     running = new ArrayList<>();
     applyConfig(config);
 
-    cfClient = new CfClient("2b739ccf-7b27-44b8-bc00-e95f8e89cd67", io.harness.cf.client.api.Config.builder().build());
-    target = Target.builder().name("DarkTheme").identifier("diego.pereira@harness.io").build();
+    cfClient = new CfClient("28b69c40-d2aa-4636-9508-94576fd86a77", io.harness.cf.client.api.Config.builder().build());
+    target = Target.builder().name("BehaviorGenerator").identifier("diego.pereira@harness.io").build();
 
   }
 
@@ -58,15 +58,15 @@ public class BehaviorGenerator {
   public Config getConfig() {
 
     boolean resultFlag1;
-    boolean resultFlag2;
+    String resultFlag2;
 
     resultFlag1 =
-            cfClient.boolVariation("Dark_Theme", target, false);
-    log.info("FF Dark_Theme Boolean variation for target" + target+ " is " + resultFlag1 );
+            cfClient.boolVariation("external_transaction", target, false);
+    log.info("FF external_transaction Boolean variation for target" + target+ " is " + resultFlag1 );
 
     resultFlag2 =
-            cfClient.boolVariation("darktheme", target, false);
-    log.info("FF Darktheme Boolean variation for target" + target+ " is " + resultFlag2 );
+            cfClient.stringVariation("transaction_url", target, "default_value");
+    log.info("FF transaction_url Boolean variation for target" + target+ " is " + resultFlag2 );
 
     config.setDarkTheme(resultFlag1);
 

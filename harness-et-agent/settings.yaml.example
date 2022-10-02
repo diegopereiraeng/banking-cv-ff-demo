@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=schemas/settings.schema.json
+
+# list of settings you want to allow.
+legacy:
+  - debug.logconsole
+#  - org.id: 
+#  - account.id: 
+#  - project.id: 
+#  - env.id: 
+#  - deployment.name: 
+#  - server.name: 
+#    this is used for the collector url
+#  - collector.url: 
+
+# chose strategy, extend the other settings or override them.
+strategy: extend

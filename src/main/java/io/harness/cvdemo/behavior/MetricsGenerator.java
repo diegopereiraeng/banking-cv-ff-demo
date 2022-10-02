@@ -1,5 +1,7 @@
 package io.harness.cvdemo.behavior;
 
+import io.harness.cf.client.api.CfClient;
+import io.harness.cf.client.dto.Target;
 import io.harness.cvdemo.App;
 import io.harness.cvdemo.config.beans.ElkLogPublishConfig;
 import io.harness.cvdemo.config.beans.MetricConfig;
@@ -20,6 +22,8 @@ public class MetricsGenerator implements Runnable {
   protected Client client;
   private final ElkLogPublishConfig elkLogPublishConfig;
   private SecureRandom r = new SecureRandom();
+
+  private CfClient cfClient;
 
   public MetricsGenerator(MetricConfig metricConfig, ElkLogPublishConfig elkLogPublishConfig) {
     this.metricConfig = metricConfig;
@@ -62,6 +66,8 @@ public class MetricsGenerator implements Runnable {
       //String apiKey = "4491708f-83b2-4695-8b7e-311f254f12b1";
       String apiKey = elkLogPublishConfig.getFfApiKey();
 
+
+      Target target = Target.builder().name("MetricsGenerator").identifier("diego.pereira@harness.io").build();
       /**
        * Define you target on which you would like to evaluate the featureFlag
        */
@@ -96,6 +102,19 @@ public class MetricsGenerator implements Runnable {
         }
 
         getTarget.request().get();
+
+        Boolean externalTransaction = cfClient.boolVariation("external_transaction",target,false);
+
+        if (externalTransaction){
+          log.info("External Transaction Enabled");
+          WebTarget getTransactions = client.target(cfClient.stringVariation("transaction_url",target,"http://localhost:8080/metric/normal-call"));
+
+          log.info("External Transaction Status: "+getTransactions.request().get().getStatus());
+        }
+        else {
+          log.warn("External Transaction Disabled");
+        }
+
         Thread.sleep(60000 / metricConfig.getCallsPerMinute());
       }
     } catch (InterruptedException ex) {

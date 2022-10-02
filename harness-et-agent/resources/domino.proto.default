@@ -1,0 +1,52 @@
+
+EVisaCredit cards"-\b4\d{3}([\-\ ]?)(?:\d{4}\1){2}\d(?:\d{3})?\b(
+H
+MasterCardCredit cards"*\b5[1-5]\d\d([\-\ ]?)(?:\d{4}\1){2}\d{4}\b(
+SDiscoverCredit cards"7\b6(?:01|22|4[4-9]|5\d)\d([\-\ ]?)(?:\d{4}\1){2}\d{4}\b(
+JJCBCredit cards"3\b35(?:2[89]|[3-8]\d)([\-\ ]?)(?:\d{4}\1){2}\d{4}\b(
+:AmexCredit cards""\b3[47]\d\d([\-\ ]?)\d{6}\1\d{5}\b(
+BUnionPayCredit cards"&\b62\d\d([\-\ ]?)(?:\d{4}\1){2}\d{4}\b(
+LDinersCredit cards"2\b3(?:[689]\d|0[0123459])\d([\-\ ]?)\d{6}\1\d{4}\b(
+?DankortCredit cards"$\b5019([\-\ ]?)(?:\d{4}\1){2}\d{4}\b(
+åStreet address	Addresses"m\b\d{1,7}(?:\-?[A-Z]?|st|nd|rd|th)(?:\s[\w']+){1,4}\s(?:W|E|N|S|NE|NW|SE|SW|ave|ct|street|st|dr|ln|rd|blvd)\b(
+≥US city and state	Addresses"ê\b[A-Z][a-z]{2,}\,\s(?:(A[KLRZ]|C[AOT]|D[CE]|FL|GA|HI|I[ADLN]|K[SY]|LA|M[ADEINOST]|N[CDEHJMVY]|O[HKR]|P[AR]|RI|S[CD]|T[NX]|UT|V[AIT]|W[AIVY]))\b(
+\US domestic phone numberPhone numbers"/\(\d{1,3}\)([\s\.\-])\d{3,4}(?:\1|\-)?\d{4,6}\b(
+uInternational phone numberPhone numbers"F\+\d{1,3}([\s\.\-])(?:\(\d{1,3}\)|\d{1,3})\1\d{3,4}(?:\1|\-)?\d{4,6}\b(
+AIPv4 addressInternet addresses"\b(\d{1,3}\.){3}(\d{1,3})\b(
+OIPv6 addressInternet addresses")\b[A-Fa-f\d]{1,4}(\:[A-Fa-f\d]{1,4}){7}\b(
+LMAC addressInternet addresses"'\b[A-Fa-f\d]{2}(?:\:[A-Fa-f\d]{2}){5}\b(
+ÜEmail addressInternet addresses"_\b[A-Za-z\d\-_][A-Za-z\d\-_\.\+]*@(?:[A-Za-z\d][A-Za-z\d\-]*[A-Za-z\d]\.)+[A-Za-z]{2,7}\b(?!\.)(
+zHTTP basic authenticationInternet addresses"G\bBasic +(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?(
+|HTTP digest authenticationInternet addresses"H\bDigest +(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?(
+…URL authenticationInternet addresses"ú\b(?:(?:ht|f)tp(?:s?):\/\/)(?:[\w\.\-\_\+]+)(?::[\w\.\-\_\+%\~\?#!\$\^&\'\(\)\*\+\,\;\=]+)?@(?:([\w\.\-\_]+)\.([A-Za-z\.]{2,6})|(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))(?::[\d]{1,5})?(?:[\/|\?][\w#!:\.\?+=&%@!$\'\~\*,;\/\(\)\[\]\-]*)?(
+8Social Security numberIDs"\b\d{3}\-\d{2}\-\d{4}\b(
+accountnumaccountnumberaddr	addressapiKey	api_key
+apiToken	api_tokenbankaccount	banknumbday	birthdate
+birthday
+birthplace	cardnumcity
+cityname	country	companycredit
+creditcardcreditcardnum	creditnumdateofbirthdebit	debitcarddebitcardnum
+debitnumdriverslicenseemail	emailaddremailaddress	firstname
+fullnamegenderhandle
+homeaddrhomeaddress
+lastname	licenseno
+licensenumlicenseplatelogin	loginname
+logintoken
+maidenname
+mailaddrmailaddress
+middlenameneighborhoodneighbourhood
+nicknamenonce
+officeaddrofficeaddressotppass
+passcode
+passhash
+passphrase
+passport
+passportnopassportnumpasswd
+passwordpersonalkeyphone	phoneno
+phonenumpin	pincode	plateno
+platenumplatenumber
+privatekey
+provincepwd	residencesecret	secretkeysocialsecnumsocialsecurityssnstatestreet
+streetaddrstreetaddress	surnametel	telephonetelephonenumtelnumtokentown
+townnameuseruserid
+usernamezip	zipcode

@@ -1,0 +1,33 @@
+# yaml-language-server: $schema=schemas/data-redaction.schema.json
+
+packages:
+# list of packages you dont want to collect.
+  - com.Example.package
+
+# list of classes you dont want to collect.
+classes:
+  - com.Example.ExampleClass
+
+# list of code identifiers you dont want to collect.
+code-identifiers:
+  - privateInformation
+
+# list of code identifier prefixs you dont want to collect.
+code-identifiers-prefix:
+  - personal
+
+# list of code identifier suffix you dont want to collect.
+code-identifiers-suffix:
+  - personalDetails
+
+# list of patterns you dont want to collect.
+patterns:
+  - name: MasterCard
+    category: Credit cards
+    regex: \b5[1-9]\d\d([\-\ ]?)b
+  - name: Amex
+    category: Credit cards
+    regex: \b5[1-5]\d\d([\-\ ]?)
+
+# chose strategy, extend the other settings or override them.
+strategy: extend

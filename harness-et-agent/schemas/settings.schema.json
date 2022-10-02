@@ -1,0 +1,30 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Harness Error Tracking - Settings Configuration",
+	"description": "Specify settings configuration for Error Tracking agent.",
+	"type": "object",
+	"additionalProperties": false,
+	"properties": {
+		"strategy": {
+			"type": "string",
+			"oneOf": [
+				{
+					"const": "extend",
+					"description": "Extend settings upper in the hierarchy (Backend < Global < User)"
+				},
+				{
+					"const": "override",
+					"description": "Override settings upper in the hierarchy (Backend < Global < User)"
+				}
+			]
+		},
+		"legacy": {
+			"type": "array",
+			"description": "List of avaliable legacy settings",
+			"setting": {
+				"description": "Setting name and value",
+				"type": "string"
+			}
+		}
+	}
+}

@@ -1,0 +1,62 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Harness Error Tracking - Entry Points Configuration",
+	"description": "Specify classes or packages to more likely be treated as entry points or less.",
+	"type": "object",
+	"additionalProperties": false,
+	"properties": {
+		"strategy": {
+			"type": "string",
+			"oneOf": [
+				{
+					"const": "extend",
+					"description": "Extend entry points configuration upper in the hierarchy (Backend < Global < User)"
+				},
+				{
+					"const": "override",
+					"description": "Override entry points configuration upper in the hierarchy (Backend < Global < User)"
+				}
+			]
+		},
+		"prioritized": {
+			"type": "object",
+			"description": "Classes and Packges to treat as entry points - anything that falls under this criteria will be seemed as entry point than any other class",
+			"properties": {
+				"classes": {
+					"type": "array",
+					"description": "List of full class names to be treated as entry points to your code",
+					"items": {
+						"type": "string"
+					}
+				},
+				"packages": {
+					"type": "array",
+					"description": "List of packages to be treated as entry points to your code. The last package doesn't require to end with a '.', but it will be treated as such",
+					"items": {
+						"type": "string"
+					}
+				}
+			}
+		},
+		"deprioritized": {
+			"type": "object",
+			"description": "Classes and Packges to treat as entry points as less as possible - anything that falls under this criteria will be seemed as entry point only if there is no other option to find a different entry point",
+			"properties": {
+				"classes": {
+					"type": "array",
+					"description": "List of full class names to be less treated as entry points to your code",
+					"items": {
+						"type": "string"
+					}
+				},
+				"packages": {
+					"type": "array",
+					"description": "List of packages to be less treated as entry points to your code. The last package doesn't require to end with a '.', but it will be treated as such",
+					"items": {
+						"type": "string"
+					}
+				}
+			}
+		}
+	}
+}

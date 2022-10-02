@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=schemas/filters.schema.json
+
+filter-type: user
+
+# list of packages you WANT to allow.
+packages:
+  - com.example.package
+
+# list of classes you WANT to allow.
+classes:
+  - com.Example.ExampleClass
+
+# chose strategy, extend the other settings or override them.
+strategy: extend

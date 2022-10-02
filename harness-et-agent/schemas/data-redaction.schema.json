@@ -1,0 +1,79 @@
+{
+	"$schema": "http://json-schema.org/draft-07/schema#",
+	"title": "Harness Error Tracking - Data Redaction Configuration",
+	"description": "Specify identifiers or regular expressions to be used to find runtime elements that should be redacted.",
+	"type": "object",
+	"additionalProperties": false,
+	"properties": {
+		"strategy": {
+			"type": "string",
+			"oneOf": [
+				{
+					"const": "extend",
+					"description": "Extend data redaction configuration upper in the hierarchy (Backend < Global < User)"
+				},
+				{
+					"const": "override",
+					"description": "Override data redaction configuration upper in the hierarchy (Backend < Global < User)"
+				}
+			]
+		},
+		"packages": {
+			"type": "array",
+			"description": "List of packages, e.g. com.tests.sensitive, that should not be collected (case-insensitive)",
+			"items": {
+				"type": "string"
+			}
+		},
+		"classes": {
+			"type": "array",
+			"description": "List of full class names, e.g. com.tests.CreditCard, that should not be collected (case-insensitive)",
+			"items": {
+				"type": "string"
+			}
+		},
+		"code-identifiers": {
+			"type": "array",
+			"description": "List of code identifiers, e.g. local variable names or arguments, that their values should not be collected (case-insensitive)",
+			"items": {
+				"type": "string"
+			}
+		},
+		"code-identifiers-prefix": {
+			"type": "array",
+			"description": "List of code identifiers prefixes that their values should not be collected (case-insensitive)",
+			"items": {
+				"type": "string"
+			}
+		},
+		"code-identifiers-suffix": {
+			"type": "array",
+			"description": "List of code identifiers suffixes that their values should not be collected (case-insensitive)",
+			"items": {
+				"type": "string"
+			}
+		},
+		"patterns": {
+			"type": "array",
+			"description": "List of regular expressions that should be checked against collected strings prior to sending the event.",
+			"items": {
+				"type": "object",
+				"required": ["name", "category", "regex"],
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "The name for this regular expression pattern"
+					},
+					"category": {
+						"type": "string",
+						"description": "The category for which this regular expression pattern belongs, e.g. Credit cards, IDs, Phone numbers etc."
+					},
+					"regex": {
+						"type": "string",
+						"description": "The regular expression that should be used to identify senesitivy information"
+					}
+				}
+			}
+		}
+	}
+}

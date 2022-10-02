@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=schemas/entry-points.schema.json
+
+# list of packages or classes to set up as entry point
+prioritized:
+  packages:
+    - com.Example.package
+  classes:
+    - com.Example.ExampleClass
+
+# list of packages or classes to set up as entry point with the least priority
+deprioritized:
+  packages:
+    - com.Example.DeprioritizedPackage
+  classes:
+    - com.Example.DeprioritizedExampleClass
+
+# chose strategy, extend the other settings or override them.
+strategy: extend
