@@ -4,6 +4,7 @@ FROM openjdk:8
 RUN curl -Lso yq https://github.com/mikefarah/yq/releases/download/2.2.1/yq_linux_amd64 && \
     chmod +x yq && \
     mv yq /usr/local/bin
+
 COPY config.yml /opt/cv-demo/
 COPY target/*.jar /opt/cv-demo/app.jar
 #COPY AppServerAgent-4.5.0.23604.tar.gz  /opt/cv-demo/AppServerAgent-4.5.0.23604.tar.gz
