@@ -5,6 +5,7 @@ RUN curl -Lso yq https://github.com/mikefarah/yq/releases/download/2.2.1/yq_linu
     chmod +x yq && \
     mv yq /usr/local/bin
 
+# Copy app files
 COPY config.yml /opt/cv-demo/
 COPY target/*.jar /opt/cv-demo/app.jar
 #COPY AppServerAgent-4.5.0.23604.tar.gz  /opt/cv-demo/AppServerAgent-4.5.0.23604.tar.gz
