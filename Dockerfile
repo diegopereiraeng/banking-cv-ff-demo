@@ -6,7 +6,7 @@ RUN curl -Lso yq https://github.com/mikefarah/yq/releases/download/2.2.1/yq_linu
     mv yq /usr/local/bin
 
 COPY config.yml /opt/cv-demo/
-COPY target/cv-demo-0.2.1-SNAPSHOT.jar /opt/cv-demo/app.jar
+COPY target/*.jar /opt/cv-demo/app.jar
 #COPY AppServerAgent-4.5.0.23604.tar.gz  /opt/cv-demo/AppServerAgent-4.5.0.23604.tar.gz
 COPY harness-et-agent /opt/harness-et-agent
 ENV JAVA_TOOL_OPTIONS="-agentpath:/opt/harness-et-agent/lib/libETAgent.so"
