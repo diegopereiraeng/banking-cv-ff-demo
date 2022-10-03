@@ -27,4 +27,5 @@ public class MetricsGeneratorTest {
         System.out.println("Unit Test metricGeneratorHealthCheck");
         assertEquals("Health Check OK","Health Check OK");
     }
+
 }
