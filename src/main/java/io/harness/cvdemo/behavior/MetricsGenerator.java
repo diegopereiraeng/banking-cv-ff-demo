@@ -99,6 +99,7 @@ public class MetricsGenerator implements Runnable {
           double value = r.nextInt() * range + metricConfig.getMinErrorValue();
           getTarget = client.target("http://localhost:8080"
                   + "/metric/error-call?value=" + value);
+          throw new RuntimeException("Error Tracking in the area");
         }
 
         getTarget.request().get();
@@ -121,6 +122,7 @@ public class MetricsGenerator implements Runnable {
       Thread.currentThread().interrupt();
     } catch (Exception e) {
       log.error(e.getMessage());
+      throw new RuntimeException("Error Tracking in the area");
     }
 
   }
