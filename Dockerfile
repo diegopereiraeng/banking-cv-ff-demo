@@ -7,20 +7,30 @@ RUN curl -Lso yq https://github.com/mikefarah/yq/releases/download/2.2.1/yq_linu
 
 RUN apt-get update && apt-get install -y unzip
 
-RUN mkdir -p /opt/newrelic
 
-RUN curl -O https://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic-java.zip && unzip newrelic-java.zip && cp -Rp ./newrelic/* /opt/newrelic/
+#RUN mkdir -p /opt/newrelic
 
-ENV JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic/newrelic.jar"
+#RUN curl -O https://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic-java.zip && unzip newrelic-java.zip && cp -Rp ./newrelic/* /opt/newrelic/
+
+#ENV JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic/newrelic.jar"
+
+
+
+#DataDog
+RUN wget -O dd-java-agent.jar "https://dtdg.co/latest-java-tracer"
+ENV JAVA_OPTS="$JAVA_OPTS -javaagent:/dd-java-agent.jar"
 
 # Copy app files
 COPY config.yml /opt/cv-demo/
 COPY target/cv-demo-1.0.0.jar /opt/cv-demo/app.jar
 
 #COPY AppServerAgent-4.5.0.23604.tar.gz  /opt/cv-demo/AppServerAgent-4.5.0.23604.tar.gz
+
+# Error Tracking
 COPY harness-et-agent /opt/harness-et-agent
 ENV JAVA_TOOL_OPTIONS="-agentpath:/opt/harness-et-agent/lib/libETAgent.so=debug.logconsole"
-ENV ET_COLLECTOR_URL=https://app.harness.io/gratis/et-collector
+
+#ENV ET_COLLECTOR_URL=https://app.harness.io/gratis/et-collector
 #ENV ET_APPLICATION_NAME=FF_CV_DEMO
 #ENV ET_DEPLOYMENT_NAME=1
 #ENV ET_ENV_ID=gitflow
