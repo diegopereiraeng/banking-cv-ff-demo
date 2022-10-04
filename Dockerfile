@@ -11,11 +11,7 @@ RUN mkdir -p /opt/newrelic
 
 RUN curl -O https://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic-java.zip && unzip newrelic-java.zip && cp -Rp ./newrelic/* /opt/newrelic/
 
-
 ENV JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic/newrelic.jar"
-
-ENV NEW_RELIC_APP_NAME="ff-cv-demo"
-
 
 # Copy app files
 COPY config.yml /opt/cv-demo/
