@@ -5,9 +5,22 @@ RUN curl -Lso yq https://github.com/mikefarah/yq/releases/download/2.2.1/yq_linu
     chmod +x yq && \
     mv yq /usr/local/bin
 
+RUN apk update && apk upgrade && \
+    apk add zip
+
+RUN curl -O https://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic-java.zip && unzip newrelic-java.zip
+
+RUN mkdir -p /opt/newrelic
+ADD ./newrelic/newrelic.jar /opt/newrelic/newrelic.jar
+ENV JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic/newrelic.jar"
+
+ENV NEW_RELIC_APP_NAME="ff-cv-demo"
+
+
 # Copy app files
 COPY config.yml /opt/cv-demo/
 COPY target/cv-demo-1.0.0.jar /opt/cv-demo/app.jar
+
 #COPY AppServerAgent-4.5.0.23604.tar.gz  /opt/cv-demo/AppServerAgent-4.5.0.23604.tar.gz
 COPY harness-et-agent /opt/harness-et-agent
 ENV JAVA_TOOL_OPTIONS="-agentpath:/opt/harness-et-agent/lib/libETAgent.so"
