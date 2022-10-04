@@ -21,12 +21,12 @@ COPY target/cv-demo-1.0.0.jar /opt/cv-demo/app.jar
 COPY harness-et-agent /opt/harness-et-agent
 ENV JAVA_TOOL_OPTIONS="-agentpath:/opt/harness-et-agent/lib/libETAgent.so=debug.logconsole"
 ENV ET_COLLECTOR_URL=https://app.harness.io/gratis/et-collector
-ENV ET_APPLICATION_NAME=FF_CV_DEMO
-ENV ET_DEPLOYMENT_NAME=1
-ENV ET_ENV_ID=gitflow
-ENV ET_ACCOUNT_ID=Io9SR1H7TtGBq9LVyJVB2w
-ENV ET_ORG_ID=default
-ENV ET_PROJECT_ID=FF_GITFLOW_CV
+#ENV ET_APPLICATION_NAME=FF_CV_DEMO
+#ENV ET_DEPLOYMENT_NAME=1
+#ENV ET_ENV_ID=gitflow
+#ENV ET_ACCOUNT_ID=Io9SR1H7TtGBq9LVyJVB2w
+#ENV ET_ORG_ID=default
+#ENV ET_PROJECT_ID=FF_GITFLOW_CV
 #RUN wget -qO- https://get.et.harness.io/releases/latest/nix/harness-et-agent.tar.gz | tar -xz
 #COPY newrelic-java-5.3.0.tar.gz /opt/cv-demo/
 
@@ -57,4 +57,4 @@ CMD bash -c ' \
     if [[ "" != "$FF_LOG_KEY" ]]; then yq write -i $CONFIG_FILE ffLogKey "$FF_LOG_KEY"; fi; \
     if [[ "" != "$FF_TARGET" ]]; then yq write -i $CONFIG_FILE target "$FF_TARGET"; fi; \
     if [[ "" != "$LOG_MSG" ]]; then yq write -i $CONFIG_FILE defaultConfig.logConfig.errorMessage "LOG_MSG"; fi; \
-    java $JAVA_OPTS -jar app.jar server config.yml'
+    java $JAVA_TOOL_OPTIONS $JAVA_OPTS -jar app.jar server config.yml'
