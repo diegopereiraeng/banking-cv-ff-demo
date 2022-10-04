@@ -7,10 +7,11 @@ RUN curl -Lso yq https://github.com/mikefarah/yq/releases/download/2.2.1/yq_linu
 
 RUN apt-get update && apt-get install -y unzip
 
-RUN curl -O https://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic-java.zip && unzip newrelic-java.zip
-
 RUN mkdir -p /opt/newrelic
-ADD ./newrelic/newrelic.jar /opt/newrelic/newrelic.jar
+
+RUN curl -O https://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic-java.zip && unzip newrelic-java.zip && cp -Rp ./newrelic/* /opt/newrelic/
+
+
 ENV JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic/newrelic.jar"
 
 ENV NEW_RELIC_APP_NAME="ff-cv-demo"
