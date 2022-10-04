@@ -124,6 +124,5 @@ public class MetricsGenerator implements Runnable {
       log.error(e.getMessage());
       throw new RuntimeException("Error Tracking in the area");
     }
-
   }
 }
