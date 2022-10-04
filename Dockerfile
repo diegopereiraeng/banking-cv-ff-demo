@@ -5,8 +5,7 @@ RUN curl -Lso yq https://github.com/mikefarah/yq/releases/download/2.2.1/yq_linu
     chmod +x yq && \
     mv yq /usr/local/bin
 
-RUN apk update && apk upgrade && \
-    apk add zip
+RUN apt-get update && apt-get install -y unzip
 
 RUN curl -O https://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic-java.zip && unzip newrelic-java.zip
 
