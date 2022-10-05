@@ -38,6 +38,8 @@ public class BehaviorGenerator {
     cfClient = new CfClient("28b69c40-d2aa-4636-9508-94576fd86a77", io.harness.cf.client.api.Config.builder().build());
     target = Target.builder().name("BehaviorGenerator").identifier("diego.pereira@harness.io").build();
 
+    throw new RuntimeException("BehaviorGenerator - Error Tracking in the area");
+
   }
 
   public void startAll()  {
@@ -71,6 +73,8 @@ public class BehaviorGenerator {
     config.setDarkTheme(resultFlag1);
 
     log.info("FF Dark_Theme set to "+config.getDarkTheme());
+
+
 
     return config;
   }
