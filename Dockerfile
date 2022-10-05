@@ -15,7 +15,6 @@ RUN apt-get update && apt-get install -y unzip
 #ENV JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic/newrelic.jar"
 
 
-
 #DataDog
 RUN wget -O dd-java-agent.jar "https://dtdg.co/latest-java-tracer"
 ENV JAVA_OPTS="$JAVA_OPTS -javaagent:/dd-java-agent.jar"
