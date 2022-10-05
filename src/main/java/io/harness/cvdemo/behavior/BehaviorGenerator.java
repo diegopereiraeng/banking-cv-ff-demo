@@ -38,26 +38,6 @@ public class BehaviorGenerator {
     cfClient = new CfClient("28b69c40-d2aa-4636-9508-94576fd86a77", io.harness.cf.client.api.Config.builder().build());
     target = Target.builder().name("BehaviorGenerator").identifier("diego.pereira@harness.io").build();
 
-    // Initializing String variable with null value
-    String ptr = null;
-
-    // Checking if ptr.equals null or works fine.
-    try
-    {
-      // This line of code throws NullPointerException
-      // because ptr is null
-      if (ptr.equals("gfg"))
-        System.out.print("Same");
-      else
-        System.out.print("Not Same");
-    }
-    catch(NullPointerException e)
-    {
-
-      log.error("NullPointerException Caught");
-      throw e;
-    }
-
   }
 
   public void startAll()  {
