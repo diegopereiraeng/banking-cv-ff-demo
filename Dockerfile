@@ -17,8 +17,8 @@ RUN apt-get update && apt-get install -y unzip
 
 
 #DataDog
-RUN wget -O dd-java-agent.jar "https://dtdg.co/latest-java-tracer"
-ENV JAVA_OPTS="$JAVA_OPTS -javaagent:/dd-java-agent.jar"
+#RUN wget -O dd-java-agent.jar "https://dtdg.co/latest-java-tracer"
+#ENV JAVA_OPTS="$JAVA_OPTS -javaagent:/dd-java-agent.jar"
 
 # Copy app files
 COPY config.yml /opt/cv-demo/
