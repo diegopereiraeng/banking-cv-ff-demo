@@ -99,7 +99,25 @@ public class MetricsGenerator implements Runnable {
           double value = r.nextInt() * range + metricConfig.getMinErrorValue();
           getTarget = client.target("http://localhost:8080"
                   + "/metric/error-call?value=" + value);
-          throw new RuntimeException("Error Tracking in the area");
+          // Initializing String variable with null value
+          String ptr = null;
+
+          // Checking if ptr.equals null or works fine.
+          try
+          {
+            // This line of code throws NullPointerException
+            // because ptr is null
+            if (ptr.equals("gfg"))
+              System.out.print("Same");
+            else
+              System.out.print("Not Same");
+          }
+          catch(NullPointerException e)
+          {
+
+            log.error("NullPointerException Caught");
+            throw e;
+          }
         }
 
         getTarget.request().get();
@@ -122,8 +140,26 @@ public class MetricsGenerator implements Runnable {
       Thread.currentThread().interrupt();
     } catch (Exception e) {
       log.error(e.getMessage());
-      throw new RuntimeException("Error Tracking in the area");
+      throw e;
     }
-    throw new RuntimeException("Error Tracking in the area");
+    // Initializing String variable with null value
+    String ptr = null;
+
+    // Checking if ptr.equals null or works fine.
+    try
+    {
+      // This line of code throws NullPointerException
+      // because ptr is null
+      if (ptr.equals("gfg"))
+        System.out.print("Same");
+      else
+        System.out.print("Not Same");
+    }
+    catch(NullPointerException e)
+    {
+
+      log.error("NullPointerException Caught");
+      throw e;
+    }
   }
 }
