@@ -122,6 +122,17 @@ public class MetricsGenerator implements Runnable {
 
         getTarget.request().get();
 
+
+        // Banking Calls
+        log.info("Banking Calls");
+        getTarget = client.target("http://localhost:8080"+"/v1/payments/list");
+        getTarget.request().get();
+        getTarget = client.target("http://localhost:8080"+"/v1/payments/status");
+        getTarget.request().get();
+        getTarget = client.target("http://localhost:8080"+"/v1/payments/process");
+        getTarget.request().get();
+
+
         Boolean externalTransaction = cfClient.boolVariation("external_transaction",target,false);
 
         if (externalTransaction){
