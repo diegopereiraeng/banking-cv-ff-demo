@@ -37,7 +37,7 @@ public class PaymentsResource {
     @GET
     @Path("list")
     public Response executeNormalCall() {
-        int max = 600, min = 200;
+        int max = 500, min = 200;
         int msDelay = r.nextInt((max - min) + 1) + min;
         try {
             Thread.sleep(msDelay);
