@@ -71,7 +71,6 @@ public class PaymentsResource {
             return Response.serverError().build();
         }
         return Response.serverError().build();
-
     }
 
     @GET
