@@ -23,7 +23,7 @@ public class MetricsGenerator implements Runnable {
   private final ElkLogPublishConfig elkLogPublishConfig;
   private SecureRandom r = new SecureRandom();
 
-  private CfClient cfClient;
+  private CfClient cfClient ;
 
   public MetricsGenerator(MetricConfig metricConfig, ElkLogPublishConfig elkLogPublishConfig) {
     this.metricConfig = metricConfig;
@@ -43,13 +43,13 @@ public class MetricsGenerator implements Runnable {
     // Maybe get payment status
     if (r.nextInt(2) <= 0){
       getPaymentTarget = client.target("http://localhost:8080"
-              + "/v1/payments/status");
+              + "/v1/payments/status?value="+r.nextInt(50));
       getPaymentTarget.request().get();
     }
     // Maybe payment process
     if (r.nextInt(100) <= 40) {
       getPaymentTarget = client.target("http://localhost:8080"
-              + "/v1/payments/process");
+              + "/v1/payments/process?value="+r.nextInt(100));
       getPaymentTarget.request().get();
     }
   }
@@ -66,6 +66,8 @@ public class MetricsGenerator implements Runnable {
       //String apiKey = "4491708f-83b2-4695-8b7e-311f254f12b1";
       String apiKey = elkLogPublishConfig.getFfApiKey();
 
+
+      cfClient = new CfClient("28b69c40-d2aa-4636-9508-94576fd86a77", io.harness.cf.client.api.Config.builder().build());
 
       Target target = Target.builder().name("MetricsGenerator").identifier("diego.pereira@harness.io").build();
       /**
@@ -130,31 +132,40 @@ public class MetricsGenerator implements Runnable {
         log.info("Banking Calls");
         getTarget = client.target("http://localhost:8080"+"/v1/payments/list");
         getTarget.request().get();
-        getTarget = client.target("http://localhost:8080"+"/v1/payments/status");
+        getTarget = client.target("http://localhost:8080"+"/v1/payments/status?value="+r.nextInt(100));
         getTarget.request().get();
-        getTarget = client.target("http://localhost:8080"+"/v1/payments/process");
+        getTarget = client.target("http://localhost:8080"+"/v1/payments/process?value="+r.nextInt(100));
         getTarget.request().get();
 
+        log.info("FF - check if FF is initialized");
 
-        Boolean externalTransaction = cfClient.boolVariation("external_transaction",target,false);
+        if (cfClient.isInitialized()){
+          log.info("FF - check if External Transaction Enabled");
+          Boolean externalTransaction = cfClient.boolVariation("external_transaction",target,false);
+          log.info("FF - checked if External Transaction Enabled");
+          if (externalTransaction){
+            log.info("External Transaction Enabled");
+            WebTarget getTransactions = client.target(cfClient.stringVariation("transaction_url",target,"http://localhost:8080/metric/normal-call"));
 
-        if (externalTransaction){
-          log.info("External Transaction Enabled");
-          WebTarget getTransactions = client.target(cfClient.stringVariation("transaction_url",target,"http://localhost:8080/metric/normal-call"));
-
-          log.info("External Transaction Status: "+getTransactions.request().get().getStatus());
+            log.info("External Transaction Status: "+getTransactions.request().get().getStatus());
+          }
+          else {
+            log.warn("External Transaction Disabled");
+          }
         }
-        else {
-          log.warn("External Transaction Disabled");
-        }
 
-        Thread.sleep(60000 / metricConfig.getCallsPerMinute());
+
+        Thread.sleep(55000 / metricConfig.getCallsPerMinute());
       }
     } catch (InterruptedException ex) {
+      log.error(ex.getMessage());
       Thread.currentThread().interrupt();
     } catch (Exception e) {
+      log.error("Fail in generating Metric Behavior");
       log.error(e.getMessage());
-      throw e;
+      log.error(e.getCause().getMessage());
+      log.error(e.getLocalizedMessage());
+      log.error(e.toString());
     }
 
   }
