@@ -43,13 +43,13 @@ public class MetricsGenerator implements Runnable {
     // Maybe get payment status
     if (r.nextInt(2) <= 0){
       getPaymentTarget = client.target("http://localhost:8080"
-              + "/v1/payments/status?value=5608");
+              + "/v1/payments/status");
       getPaymentTarget.request().get();
     }
     // Maybe payment process
     if (r.nextInt(100) <= 40) {
       getPaymentTarget = client.target("http://localhost:8080"
-              + "/v1/payments/process?value=5608");
+              + "/v1/payments/process");
       getPaymentTarget.request().get();
     }
   }
@@ -76,8 +76,11 @@ public class MetricsGenerator implements Runnable {
       for (int i = 0; i < metricConfig.getCallsPerMinute(); i++) {
 
         boolean result;
-        paymentGenerator();
-
+        try {
+          paymentGenerator();
+        }catch (Exception e){
+          log.error("Payments Generator Error");
+        }
         result = App.behaviorGenerator.checkFlag(elkLogPublishConfig.getFfMetricKey());
         log.info("FF Metric Boolean variation for target" + elkLogPublishConfig.getTarget()+ " is " + result );
 
