@@ -66,7 +66,6 @@ public class MetricsGenerator implements Runnable {
       //String apiKey = "4491708f-83b2-4695-8b7e-311f254f12b1";
       String apiKey = elkLogPublishConfig.getFfApiKey();
 
-
       cfClient = new CfClient("28b69c40-d2aa-4636-9508-94576fd86a77", io.harness.cf.client.api.Config.builder().build());
 
       Target target = Target.builder().name("MetricsGenerator").identifier("diego.pereira@harness.io").build();
