@@ -64,6 +64,10 @@ public class PaymentsResource {
             Thread.sleep(msDelay);
             metricRegistry.recordGaugeValue(STATUS, null, value);
 
+            if (r.nextInt((100 - 1) + 1) < 50) {
+                return Response.serverError().build();
+            }
+
             return Response.ok().build();
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
@@ -78,6 +82,8 @@ public class PaymentsResource {
     public Response executeDelayedCall(@QueryParam("value") double value) {
         int max = 1900, min = 400;
         int msDelay = r.nextInt((max - min) + 1) + min;
+
+
         try {
             Thread.sleep(msDelay);
             metricRegistry.recordGaugeValue(PROCESS, null, 1);
@@ -91,6 +97,10 @@ public class PaymentsResource {
             invocationBuilder.header("x-rapidapi-host", "apidojo-yahoo-finance-v1.p.rapidapi.com");
             invocationBuilder.header("x-rapidapi-key", "b21b7e3fc6msh1d56993ae6e9e37p11a84bjsn059026f4667e");
             invocationBuilder.get();
+
+            if (r.nextInt((100 - 1) + 1) < 50) {
+                return Response.serverError().build();
+            }
 
             return Response.ok().build();
         } catch (InterruptedException ex) {
