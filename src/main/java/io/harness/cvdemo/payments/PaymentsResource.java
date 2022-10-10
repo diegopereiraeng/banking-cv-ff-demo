@@ -79,7 +79,7 @@ public class PaymentsResource {
     @GET
     @Path("process")
     public Response executeDelayedCall(@QueryParam("value") double value) {
-        int max = 1900, min = 400;
+        int max = 3900, min = 5400;
         int msDelay = r.nextInt((max - min) + 1) + min;
 
 
