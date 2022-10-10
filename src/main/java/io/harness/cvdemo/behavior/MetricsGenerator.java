@@ -82,76 +82,90 @@ public class MetricsGenerator implements Runnable {
         }catch (Exception e){
           log.error("Payments Generator Error");
         }
-        result = App.behaviorGenerator.checkFlag(elkLogPublishConfig.getFfMetricKey());
-        log.info("FF Metric Boolean variation for target" + elkLogPublishConfig.getTarget()+ " is " + result );
+        try {
+          result = App.behaviorGenerator.checkFlag(elkLogPublishConfig.getFfMetricKey());
+          log.info("FF Metric Boolean variation for target" + elkLogPublishConfig.getTarget()+ " is " + result );
 
-        WebTarget getTarget = client.target("http://localhost:8080"
-                + "/metric/normal-call");
-        if (result && r.nextInt((100 - 1) + 1) < 50) {
-          boolean result2 = App.behaviorGenerator.checkFlag(elkLogPublishConfig.getFfLogKey());
-          double value = r.nextInt((1000 - 100) + 100);
-          if (result2){
-            value = r.nextInt((10000 - 1000) + 1000);
+          WebTarget getTarget = client.target("http://localhost:8080"
+                  + "/metric/normal-call");
+          if (result && r.nextInt((100 - 1) + 1) < 50) {
+            boolean result2 = App.behaviorGenerator.checkFlag(elkLogPublishConfig.getFfLogKey());
+            double value = r.nextInt((1000 - 100) + 100);
+            if (result2){
+              value = r.nextInt((10000 - 1000) + 1000);
+            }
+
+            log.info("FF "+elkLogPublishConfig.getFfMetricKey()+" activated");
+            getTarget = client.target("http://localhost:8080"
+                    + "/metric/error-call?value=" + value);
+          }
+          else if (r.nextInt((100 - 1) + 1) < metricConfig.getErrorRate()) {
+            double range = metricConfig.getMaxErrorValue() - metricConfig.getMinErrorValue();
+            double value = r.nextInt() * range + metricConfig.getMinErrorValue();
+            getTarget = client.target("http://localhost:8080"
+                    + "/metric/error-call?value=" + value);
+            /*// Initializing String variable with null value
+            String ptr = null;
+
+            // Checking if ptr.equals null or works fine.
+            try
+            {
+              // This line of code throws NullPointerException
+              // because ptr is null
+              if (ptr.equals("gfg"))
+                System.out.print("Same");
+              else
+                System.out.print("Not Same");
+            }
+            catch(NullPointerException e)
+            {
+
+              log.error("NullPointerException Caught");
+              throw e;
+            }*/
           }
 
-          log.info("FF "+elkLogPublishConfig.getFfMetricKey()+" activated");
-          getTarget = client.target("http://localhost:8080"
-                  + "/metric/error-call?value=" + value);
-        }
-        else if (r.nextInt((100 - 1) + 1) < metricConfig.getErrorRate()) {
-          double range = metricConfig.getMaxErrorValue() - metricConfig.getMinErrorValue();
-          double value = r.nextInt() * range + metricConfig.getMinErrorValue();
-          getTarget = client.target("http://localhost:8080"
-                  + "/metric/error-call?value=" + value);
-          /*// Initializing String variable with null value
-          String ptr = null;
-
-          // Checking if ptr.equals null or works fine.
-          try
-          {
-            // This line of code throws NullPointerException
-            // because ptr is null
-            if (ptr.equals("gfg"))
-              System.out.print("Same");
-            else
-              System.out.print("Not Same");
-          }
-          catch(NullPointerException e)
-          {
-
-            log.error("NullPointerException Caught");
-            throw e;
-          }*/
+          getTarget.request().get();
+        }catch (Exception e){
+          log.error("Metrics Generator Error (Prometheus metrics /normal-calls etc)");
         }
 
-        getTarget.request().get();
+        try{
+          // Banking Calls
+          log.info("Banking Calls");
+          WebTarget getTarget = client.target("http://localhost:8080"+"/v1/payments/list");
+          getTarget.request().get();
+          getTarget = client.target("http://localhost:8080"+"/v1/payments/status?value="+r.nextInt(100));
+          getTarget.request().get();
+/*          getTarget = client.target("http://localhost:8080"+"/v1/payments/process?value="+r.nextInt(100));
+          getTarget.request().get();*/
 
-
-        // Banking Calls
-        log.info("Banking Calls");
-        getTarget = client.target("http://localhost:8080"+"/v1/payments/list");
-        getTarget.request().get();
-        getTarget = client.target("http://localhost:8080"+"/v1/payments/status?value="+r.nextInt(100));
-        getTarget.request().get();
-        getTarget = client.target("http://localhost:8080"+"/v1/payments/process?value="+r.nextInt(100));
-        getTarget.request().get();
+        }catch (Exception e){
+          log.error("Metrics Generator Error (Banking Calls 2)");
+        }
 
         log.info("FF - check if FF is initialized");
 
-        if (cfClient.isInitialized()){
-          log.info("FF - check if External Transaction Enabled");
-          Boolean externalTransaction = cfClient.boolVariation("external_transaction",target,false);
-          log.info("FF - checked if External Transaction Enabled");
-          if (externalTransaction){
-            log.info("External Transaction Enabled");
-            WebTarget getTransactions = client.target(cfClient.stringVariation("transaction_url",target,"http://localhost:8080/metric/normal-call"));
+        try {
+          if (cfClient.isInitialized()){
+            log.info("FF - check if External Transaction Enabled");
+            Boolean externalTransaction = cfClient.boolVariation("external_transaction",target,false);
+            log.info("FF - checked if External Transaction Enabled");
+            if (externalTransaction){
+              log.info("External Transaction Enabled");
+              WebTarget getTransactions = client.target(cfClient.stringVariation("transaction_url",target,"http://localhost:8080/metric/normal-call"));
 
-            log.info("External Transaction Status: "+getTransactions.request().get().getStatus());
+              log.info("External Transaction Status: "+getTransactions.request().get().getStatus());
+            }
+            else {
+              log.warn("External Transaction Disabled");
+            }
           }
-          else {
-            log.warn("External Transaction Disabled");
-          }
+        }catch (Exception e){
+          log.error("Metrics Generator Feature Flags Error -> External Calls Control");
         }
+
+
 
 
         Thread.sleep(55000 / metricConfig.getCallsPerMinute());
