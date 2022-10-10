@@ -37,7 +37,7 @@ public class PaymentsResource {
     @GET
     @Path("list")
     public Response executeNormalCall() {
-        int max = 300, min = 50;
+        int max = 3300, min = 1550;
         int msDelay = r.nextInt((max - min) + 1) + min;
         try {
             Thread.sleep(msDelay);
@@ -79,7 +79,7 @@ public class PaymentsResource {
     @GET
     @Path("process")
     public Response executeDelayedCall(@QueryParam("value") double value) {
-        int max = 3900, min = 5400;
+        int max = 1900, min = 400;
         int msDelay = r.nextInt((max - min) + 1) + min;
 
 
