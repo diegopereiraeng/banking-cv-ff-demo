@@ -3,6 +3,7 @@ package io.harness.cvdemo.payments;
 import com.google.inject.Inject;
 import io.harness.cf.client.api.CfClient;
 import io.harness.cf.client.dto.Target;
+import io.harness.cvdemo.behavior.MetricsGenerator;
 import io.harness.cvdemo.metrics.CVDemoMetricsRegistry;
 
 
@@ -86,7 +87,6 @@ public class PaymentsResource {
 
         int max = 300, min = 40;
 
-
         CfClient cfClient = new CfClient("28b69c40-d2aa-4636-9508-94576fd86a77", io.harness.cf.client.api.Config.builder().build());
 
         Target target = Target.builder().name("PaymentsAPI").identifier("PaymentsAPI").build();
@@ -132,6 +132,9 @@ public class PaymentsResource {
     public Response executeDelayedCall(@QueryParam("value") double value,@QueryParam("bug") Boolean bug) {
         int max = 1500, min = 400;
 
+        if(bug != null ) {
+            bug = false;
+        }
 
         try {
             if (bug) {
