@@ -34,7 +34,7 @@ public class MetricsGenerator implements Runnable {
     }
   }
 
-  public void paymentGenerator(){
+  public void paymentGenerator(Boolean bug){
     // List Payments
     WebTarget getPaymentTarget = client.target("http://localhost:8080"
             + "/v1/payments/list");
@@ -48,8 +48,15 @@ public class MetricsGenerator implements Runnable {
     }
     // Maybe payment process
     if (r.nextInt(100) <= 40) {
-      getPaymentTarget = client.target("http://localhost:8080"
-              + "/v1/payments/process?value="+r.nextInt(100));
+
+      if (bug){
+        getPaymentTarget = client.target("http://localhost:8080"
+                + "/v1/payments/process?bug=true&value="+r.nextInt(100));
+      }else{
+        getPaymentTarget = client.target("http://localhost:8080"
+                + "/v1/payments/process?bug=false&value="+r.nextInt(100));
+      }
+
       getPaymentTarget.request().get();
     }
   }
@@ -77,8 +84,42 @@ public class MetricsGenerator implements Runnable {
       for (int i = 0; i < metricConfig.getCallsPerMinute(); i++) {
 
         boolean result;
+        Boolean bug_process = false;
+
         try {
-          paymentGenerator();
+          if (cfClient.isInitialized()){
+
+            log.info("FF - check if bug process is enabled");
+            bug_process = cfClient.boolVariation("bug_process_response", target, false);
+
+
+
+            log.info("FF - check if External Transaction Enabled");
+            Boolean externalTransaction = cfClient.boolVariation("external_transaction",target,false);
+            log.info("FF - checked if External Transaction Enabled");
+            if (externalTransaction){
+              log.info("External Transaction Enabled");
+              WebTarget getTransactions = client.target(cfClient.stringVariation("transaction_url",target,"http://localhost:8080/metric/normal-call"));
+
+              log.info("External Transaction Status: "+getTransactions.request().get().getStatus());
+            }
+            else {
+              log.warn("External Transaction Disabled");
+            }
+          }
+        }catch (Exception e){
+          log.error("Metrics Generator Feature Flags Error -> External Calls Control");
+        }
+
+
+        try {
+
+          if (bug_process) {
+            paymentGenerator(true);
+          }else {
+            paymentGenerator(false);
+          }
+
         }catch (Exception e){
           log.error("Payments Generator Error");
         }
@@ -137,7 +178,7 @@ public class MetricsGenerator implements Runnable {
           getTarget.request().get();
           getTarget = client.target("http://localhost:8080"+"/v1/payments/status?value="+r.nextInt(100));
           getTarget.request().get();
-/*          getTarget = client.target("http://localhost:8080"+"/v1/payments/process?value="+r.nextInt(100));
+/*          getTarget = client.target("http://localhost:8080"+"/v1/payments/process?bug=true&value="+r.nextInt(100));
           getTarget.request().get();*/
 
         }catch (Exception e){
@@ -146,24 +187,7 @@ public class MetricsGenerator implements Runnable {
 
         log.info("FF - check if FF is initialized");
 
-        try {
-          if (cfClient.isInitialized()){
-            log.info("FF - check if External Transaction Enabled");
-            Boolean externalTransaction = cfClient.boolVariation("external_transaction",target,false);
-            log.info("FF - checked if External Transaction Enabled");
-            if (externalTransaction){
-              log.info("External Transaction Enabled");
-              WebTarget getTransactions = client.target(cfClient.stringVariation("transaction_url",target,"http://localhost:8080/metric/normal-call"));
 
-              log.info("External Transaction Status: "+getTransactions.request().get().getStatus());
-            }
-            else {
-              log.warn("External Transaction Disabled");
-            }
-          }
-        }catch (Exception e){
-          log.error("Metrics Generator Feature Flags Error -> External Calls Control");
-        }
 
 
 

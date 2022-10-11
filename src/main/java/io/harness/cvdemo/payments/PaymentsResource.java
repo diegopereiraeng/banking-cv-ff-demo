@@ -129,22 +129,15 @@ public class PaymentsResource {
 
     @GET
     @Path("process")
-    public Response executeDelayedCall(@QueryParam("value") double value) {
+    public Response executeDelayedCall(@QueryParam("value") double value,@QueryParam("bug") Boolean bug) {
         int max = 1500, min = 400;
 
-        CfClient cfClient = new CfClient("28b69c40-d2aa-4636-9508-94576fd86a77", io.harness.cf.client.api.Config.builder().build());
-
-        Target target = Target.builder().name("PaymentsAPI").identifier("PaymentsAPI").build();
-        Boolean bug_list_response = false;
 
         try {
-            if (cfClient.isInitialized()) {
-                log.info("FF - check if bug is enabled");
-                bug_list_response = cfClient.boolVariation("bug_process_response", target, false);
-                if (bug_list_response) {
-                    max = 6300;
-                    min = 4550;
-                }
+            if (bug) {
+                log.info("FF - process bug is enabled");
+                max = 6300;
+                min = 4550;
             }
         }catch(Exception e){
             log.error("FF bug process failed");
