@@ -42,27 +42,23 @@ public class PaymentsResource {
 
     @GET
     @Path("list")
-    public Response executeNormalCall() {
+    public Response executeNormalCall(@QueryParam("bug") Boolean bug) {
         int max = 500, min = 250;
 
-        CfClient cfClient = new CfClient("28b69c40-d2aa-4636-9508-94576fd86a77", io.harness.cf.client.api.Config.builder().build());
-
-        Target target = Target.builder().name("PaymentsAPI").identifier("PaymentsAPI").build();
-        Boolean bug_list_response = false;
-
         try {
-            if (cfClient.isInitialized()) {
-                log.info("FF - check if bug is enabled");
-                bug_list_response = cfClient.boolVariation("bug_list_response", target, false);
-                if (bug_list_response) {
-                    max = 3300;
-                    min = 2550;
-                }
+            if(bug == null ) {
+                bug = false;
+            }
+
+            if (bug) {
+                log.info("FF - list bug is enabled");
+                max = 5300;
+                min = 3550;
             }
         }catch(Exception e){
-              log.error("FF bug list failed");
-              log.error(e.toString());
-              log.error(e.getMessage());
+            log.error("FF bug list failed");
+            log.error(e.toString());
+            log.error(e.getMessage());
 
         }
 
@@ -82,24 +78,20 @@ public class PaymentsResource {
 
     @GET
     @Path("status")
-    public Response executeErrorCall(@QueryParam("value") double value) {
+    public Response executeErrorCall(@QueryParam("value") double value,@QueryParam("bug") Boolean bug) {
 
 
         int max = 300, min = 40;
 
-        CfClient cfClient = new CfClient("28b69c40-d2aa-4636-9508-94576fd86a77", io.harness.cf.client.api.Config.builder().build());
-
-        Target target = Target.builder().name("PaymentsAPI").identifier("PaymentsAPI").build();
-        Boolean bug_list_response = false;
-
         try {
-            if (cfClient.isInitialized()) {
-                log.info("FF - check if bug is enabled");
-                bug_list_response = cfClient.boolVariation("bug_status_response", target, false);
-                if (bug_list_response) {
-                    max = 2300;
-                    min = 1550;
-                }
+            if(bug == null ) {
+                bug = false;
+            }
+
+            if (bug) {
+                log.info("FF - status bug is enabled");
+                max = 3300;
+                min = 2550;
             }
         }catch(Exception e){
             log.error("FF bug status failed");
@@ -132,11 +124,13 @@ public class PaymentsResource {
     public Response executeDelayedCall(@QueryParam("value") double value,@QueryParam("bug") Boolean bug) {
         int max = 1500, min = 400;
 
-        if(bug != null ) {
-            bug = false;
-        }
+
 
         try {
+            if(bug == null ) {
+                bug = false;
+            }
+
             if (bug) {
                 log.info("FF - process bug is enabled");
                 max = 6300;

@@ -34,22 +34,34 @@ public class MetricsGenerator implements Runnable {
     }
   }
 
-  public void paymentGenerator(Boolean bug){
+  public void paymentGenerator(Boolean bug_list, Boolean bug_status, Boolean bug_process){
     // List Payments
     WebTarget getPaymentTarget = client.target("http://localhost:8080"
-            + "/v1/payments/list");
+            + "/v1/payments/list?bug=false");
+    if (bug_list){
+      getPaymentTarget = client.target("http://localhost:8080"
+              + "/v1/payments/list?bug=true");
+    }
     getPaymentTarget.request().get();
 
     // Maybe get payment status
     if (r.nextInt(2) <= 0){
-      getPaymentTarget = client.target("http://localhost:8080"
-              + "/v1/payments/status?value="+r.nextInt(50));
+
+      if (bug_status){
+        getPaymentTarget = client.target("http://localhost:8080"
+                + "/v1/payments/status?bug=true&value="+r.nextInt(50));
+      }
+      else {
+        getPaymentTarget = client.target("http://localhost:8080"
+                + "/v1/payments/status?bug=false&value="+r.nextInt(50));
+      }
+
       getPaymentTarget.request().get();
     }
     // Maybe payment process
-    if (r.nextInt(100) <= 40) {
+    if (r.nextInt(100) <= 60) {
 
-      if (bug){
+      if (bug_process){
         getPaymentTarget = client.target("http://localhost:8080"
                 + "/v1/payments/process?bug=true&value="+r.nextInt(100));
       }else{
@@ -85,6 +97,8 @@ public class MetricsGenerator implements Runnable {
 
         boolean result;
         Boolean bug_process = false;
+        Boolean bug_status = false;
+        Boolean bug_list = false;
 
         try {
           if (cfClient.isInitialized()){
@@ -92,6 +106,11 @@ public class MetricsGenerator implements Runnable {
             log.info("FF - check if bug process is enabled");
             bug_process = cfClient.boolVariation("bug_process_response", target, false);
 
+            log.info("FF - check if bug status is enabled");
+            bug_status = cfClient.boolVariation("bug_status_response", target, false);
+
+            log.info("FF - check if bug list is enabled");
+            bug_list = cfClient.boolVariation("bug_list_response", target, false);
 
 
             log.info("FF - check if External Transaction Enabled");
@@ -114,11 +133,7 @@ public class MetricsGenerator implements Runnable {
 
         try {
 
-          if (bug_process) {
-            paymentGenerator(true);
-          }else {
-            paymentGenerator(false);
-          }
+          paymentGenerator(bug_list,bug_status,bug_process);
 
         }catch (Exception e){
           log.error("Payments Generator Error");
