@@ -19,7 +19,7 @@ ENV JAVA_OPTS="$JAVA_OPTS -javaagent:/dd-java-agent.jar"
 
 # Copy app files
 COPY config.yml /opt/cv-demo/
-COPY target/cv-demo-1.0.0.jar /opt/cv-demo/app.jar
+COPY target/cv-demo-1.0.1.jar /opt/cv-demo/app.jar
 
 #COPY AppServerAgent-4.5.0.23604.tar.gz  /opt/cv-demo/AppServerAgent-4.5.0.23604.tar.gz
 

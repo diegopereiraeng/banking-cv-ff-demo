@@ -130,7 +130,6 @@ public class MetricsGenerator implements Runnable {
           log.error("Metrics Generator Feature Flags Error -> External Calls Control");
         }
 
-
         try {
 
           paymentGenerator(bug_list,bug_status,bug_process);
