@@ -106,7 +106,7 @@ public class PaymentsResource {
             Thread.sleep(msDelay);
             metricRegistry.recordGaugeValue(STATUS, null, value);
 
-            if (r.nextInt((100 - 1) + 1) < 50) {
+            if (r.nextInt((100 - 1) + 1) < 20) {
                 return Response.serverError().build();
             }
 
