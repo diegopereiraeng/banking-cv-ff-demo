@@ -1,7 +1,10 @@
 package io.harness.cvdemo.payments;
 
 import com.google.inject.Inject;
+import io.harness.cf.client.api.CfClient;
+import io.harness.cf.client.dto.Target;
 import io.harness.cvdemo.metrics.CVDemoMetricsRegistry;
+
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -14,7 +17,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.security.SecureRandom;
-
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 
 
 import static io.harness.cvdemo.payments.Constants.LIST;
@@ -24,6 +28,7 @@ import static io.harness.cvdemo.payments.Constants.PROCESS;
 
 
 
+@Slf4j
 @Path("v1/payments")
 @Produces(MediaType.APPLICATION_JSON)
 public class PaymentsResource {
@@ -37,7 +42,29 @@ public class PaymentsResource {
     @GET
     @Path("list")
     public Response executeNormalCall() {
-        int max = 3300, min = 1550;
+        int max = 500, min = 250;
+
+        CfClient cfClient = new CfClient("28b69c40-d2aa-4636-9508-94576fd86a77", io.harness.cf.client.api.Config.builder().build());
+
+        Target target = Target.builder().name("PaymentsAPI").identifier("PaymentsAPI").build();
+        Boolean bug_list_response = false;
+
+        try {
+            if (cfClient.isInitialized()) {
+                log.info("FF - check if bug is enabled");
+                bug_list_response = cfClient.boolVariation("bug_list_response", target, false);
+                if (bug_list_response) {
+                    max = 3300;
+                    min = 2550;
+                }
+            }
+        }catch(Exception e){
+              log.error("FF bug list failed");
+              log.error(e.toString());
+              log.error(e.getMessage());
+
+        }
+
         int msDelay = r.nextInt((max - min) + 1) + min;
         try {
             Thread.sleep(msDelay);
@@ -58,6 +85,30 @@ public class PaymentsResource {
 
 
         int max = 300, min = 40;
+
+
+        CfClient cfClient = new CfClient("28b69c40-d2aa-4636-9508-94576fd86a77", io.harness.cf.client.api.Config.builder().build());
+
+        Target target = Target.builder().name("PaymentsAPI").identifier("PaymentsAPI").build();
+        Boolean bug_list_response = false;
+
+        try {
+            if (cfClient.isInitialized()) {
+                log.info("FF - check if bug is enabled");
+                bug_list_response = cfClient.boolVariation("bug_status_response", target, false);
+                if (bug_list_response) {
+                    max = 2300;
+                    min = 1550;
+                }
+            }
+        }catch(Exception e){
+            log.error("FF bug status failed");
+            log.error(e.toString());
+            log.error(e.getMessage());
+
+        }
+
+
         int msDelay = r.nextInt((max - min) + 1) + min;
         try {
             Thread.sleep(msDelay);
@@ -79,7 +130,30 @@ public class PaymentsResource {
     @GET
     @Path("process")
     public Response executeDelayedCall(@QueryParam("value") double value) {
-        int max = 1900, min = 400;
+        int max = 1500, min = 400;
+
+        CfClient cfClient = new CfClient("28b69c40-d2aa-4636-9508-94576fd86a77", io.harness.cf.client.api.Config.builder().build());
+
+        Target target = Target.builder().name("PaymentsAPI").identifier("PaymentsAPI").build();
+        Boolean bug_list_response = false;
+
+        try {
+            if (cfClient.isInitialized()) {
+                log.info("FF - check if bug is enabled");
+                bug_list_response = cfClient.boolVariation("bug_process_response", target, false);
+                if (bug_list_response) {
+                    max = 6300;
+                    min = 4550;
+                }
+            }
+        }catch(Exception e){
+            log.error("FF bug process failed");
+            log.error(e.toString());
+            log.error(e.getMessage());
+
+        }
+
+
         int msDelay = r.nextInt((max - min) + 1) + min;
 
 
