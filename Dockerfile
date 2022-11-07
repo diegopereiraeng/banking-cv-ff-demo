@@ -7,7 +7,6 @@ RUN curl -Lso yq https://github.com/mikefarah/yq/releases/download/2.2.1/yq_linu
 
 RUN apt-get update && apt-get install -y unzip
 
-
 #RUN mkdir -p /opt/newrelic
 #RUN curl -O https://download.newrelic.com/newrelic/java-agent/newrelic-agent/current/newrelic-java.zip && unzip newrelic-java.zip && cp -Rp ./newrelic/* /opt/newrelic/
 
