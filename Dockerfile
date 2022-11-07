@@ -20,6 +20,23 @@ ENV JAVA_OPTS="$JAVA_OPTS -javaagent:/dd-java-agent.jar"
 COPY config.yml /opt/cv-demo/
 COPY target/cv-demo-1.0.1.jar /opt/cv-demo/app.jar
 
+# Appdynamics
+RUN wget -O AppServerAgent.zip "$(curl 'https://download.appdynamics.com/download/custom/v1/' \
+	  -H 'authority: download.appdynamics.com' \
+	  -H 'accept: application/json, text/plain, */*' \
+	  -H 'accept-language: en-US,en;q=0.9,pt-BR;q=0.8,pt;q=0.7,es-419;q=0.6,es;q=0.5' \
+	  -H 'content-type: application/x-www-form-urlencoded' \
+	  -H 'origin: https://econocombrasil.saas.appdynamics.com' \
+	  -H 'referer: https://econocombrasil.saas.appdynamics.com/' \
+	  -H 'sec-ch-ua: "Google Chrome";v="107", "Chromium";v="107", "Not=A?Brand";v="24"' \
+	  -H 'sec-ch-ua-mobile: ?0' \
+	  -H 'sec-ch-ua-platform: "macOS"' \
+	  -H 'sec-fetch-dest: empty' \
+	  -H 'sec-fetch-mode: cors' \
+	  -H 'sec-fetch-site: same-site' \
+	  -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36' \
+	  --data-raw 'type=java-jdk8&account-access-key=z3wz73pivywb&controller-host=econocombrasil.saas.appdynamics.com&controller-port=443&controller-ssl-enabled=true&account=econocombrasil&timestamp=1667851003594&agent-version=22.8.1.0&auto_naming=false&application-name=srm-demo-app&tier-name=backend-java&node-name=srm-node' \
+	  --compressed)"
 #COPY AppServerAgent-4.5.0.23604.tar.gz  /opt/cv-demo/AppServerAgent-4.5.0.23604.tar.gz
 
 # Error Tracking
