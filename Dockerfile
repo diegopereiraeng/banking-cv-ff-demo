@@ -36,7 +36,7 @@ RUN wget -O AppServerAgent.zip "$(curl 'https://download.appdynamics.com/downloa
 	  -H 'sec-fetch-site: same-site' \
 	  -H 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36' \
 	  --data-raw 'type=java-jdk8&account-access-key=z3wz73pivywb&controller-host=econocombrasil.saas.appdynamics.com&controller-port=443&controller-ssl-enabled=true&account=econocombrasil&timestamp=1667851003594&agent-version=22.8.1.0&auto_naming=false&application-name=srm-demo-app&tier-name=backend-java&node-name=srm-node' \
-	  --compressed)"
+	  --compressed)";mkdir appdy;unzip AppServerAgent.zip -d appdy/appagent
 #COPY AppServerAgent-4.5.0.23604.tar.gz  /opt/cv-demo/AppServerAgent-4.5.0.23604.tar.gz
 
 # Error Tracking
@@ -61,7 +61,7 @@ CMD bash -c ' \
     if [[ "$ENABLE_APPDYNAMICS" == "true" ]]; then \
       tar -xvzf AppServerAgent-4.5.0.23604.tar.gz; \
       node_name="-Dappdynamics.agent.nodeName=$(hostname)"; \
-      JAVA_OPTS=$JAVA_OPTS" -javaagent:/opt/cv-demo/AppServerAgent-4.5.0.23604/javaagent.jar -Dappdynamics.jvm.shutdown.mark.node.as.historical=true"; \
+      JAVA_OPTS=$JAVA_OPTS" -javaagent:appdy/appagent/javaagent.jar -Dappdynamics.jvm.shutdown.mark.node.as.historical=true"; \
       JAVA_OPTS="$JAVA_OPTS $node_name"; \
       echo "Using Appdynamics java agent"; \
     fi; \
