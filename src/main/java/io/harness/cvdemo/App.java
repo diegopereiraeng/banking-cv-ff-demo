@@ -54,11 +54,16 @@ public class App extends Application<AppConfiguration> {
 
     // Configure CORS parameters
     cors.setInitParameter("allowedOrigins", "*");
-    cors.setInitParameter("allowedHeaders", "X-Requested-With,Content-Type,Accept,Origin");
+    cors.setInitParameter("allowedHeaders",
+            "Cache-Control,If-Modified-Since,Pragma,Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
     cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
 
     // Add URL mapping
     cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+
+    // DO NOT pass a preflight request to down-stream auth filters
+    // unauthenticated preflight requests should be permitted by spec
+    cors.setInitParameter(CrossOriginFilter.CHAIN_PREFLIGHT_PARAM, Boolean.FALSE.toString());
     //registerCorsFilter(c.getAllowedOrigins(), e);
 
     defaultConfig = c.getDefaultConfig();
