@@ -34,8 +34,8 @@ public class BehaviorGenerator {
     executorService = new ScheduledThreadPoolExecutor(100);
     running = new ArrayList<>();
     applyConfig(config);
-
-    cfClient = new CfClient("28b69c40-d2aa-4636-9508-94576fd86a77", io.harness.cf.client.api.Config.builder().build());
+    String ffKey = System.getenv("FF_KEY");
+    cfClient = new CfClient(ffKey, io.harness.cf.client.api.Config.builder().build());
     target = Target.builder().name("BehaviorGenerator").identifier("diego.pereira@harness.io").build();
 
   }
@@ -64,9 +64,9 @@ public class BehaviorGenerator {
             cfClient.boolVariation("external_transaction", target, false);
     log.info("FF external_transaction Boolean variation for target" + target+ " is " + resultFlag1 );
 
-    resultFlag2 =
-            cfClient.stringVariation("transaction_url", target, "default_value");
-    log.info("FF transaction_url Boolean variation for target" + target+ " is " + resultFlag2 );
+//    resultFlag2 =
+//            cfClient.stringVariation("transaction_url", target, "default_value");
+//    log.info("FF transaction_url Boolean variation for target" + target+ " is " + resultFlag2 );
 
     config.setDarkTheme(resultFlag1);
 

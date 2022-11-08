@@ -90,7 +90,7 @@ public class MetricsGenerator implements Runnable {
       log.info("FF ENV - checked value: "+ffKey);
 
 
-      cfClient = new CfClient("28b69c40-d2aa-4636-9508-94576fd86a77", io.harness.cf.client.api.Config.builder().build());
+      cfClient = new CfClient(ffKey, io.harness.cf.client.api.Config.builder().build());
 
       Target target = Target.builder().name("MetricsGenerator").identifier("diego.pereira@harness.io").build();
       /**

@@ -43,7 +43,7 @@ public class PaymentsResource {
     @GET
     @Path("list")
     public Response executeNormalCall(@QueryParam("bug") Boolean bug) {
-        int max = 500, min = 250;
+        int max = 400, min = 200;
 
         try {
             if(bug == null ) {
@@ -81,7 +81,7 @@ public class PaymentsResource {
     public Response executeErrorCall(@QueryParam("value") double value,@QueryParam("bug") Boolean bug) {
 
 
-        int max = 300, min = 40;
+        int max = 200, min = 40;
 
         try {
             if(bug == null ) {
@@ -122,7 +122,7 @@ public class PaymentsResource {
     @GET
     @Path("process")
     public Response executeDelayedCall(@QueryParam("value") double value,@QueryParam("bug") Boolean bug) {
-        int max = 1500, min = 400;
+        int max = 1000, min = 300;
 
 
 
