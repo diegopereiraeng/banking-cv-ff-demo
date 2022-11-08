@@ -26,6 +26,9 @@ import java.util.List;
 import javax.servlet.DispatcherType;
 import javax.servlet.FilterRegistration;
 
+import static io.dropwizard.jersey.filter.AllowedMethodsFilter.ALLOWED_METHODS_PARAM;
+import static org.eclipse.jetty.servlets.CrossOriginFilter.*;
+
 public class App extends Application<AppConfiguration> {
 
   public static final BehaviorGenerator behaviorGenerator =
@@ -53,13 +56,15 @@ public class App extends Application<AppConfiguration> {
             e.servlets().addFilter("CORS", CrossOriginFilter.class);
 
     // Configure CORS parameters
-    cors.setInitParameter("allowedOrigins", "*");
-    cors.setInitParameter("allowedHeaders",
-            "Cache-Control,If-Modified-Since,Pragma,Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
-    cors.setInitParameter("allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD");
+    cors.setInitParameter(CrossOriginFilter.ALLOWED_ORIGINS_PARAM, "*");
+    cors.setInitParameter(CrossOriginFilter.ALLOWED_HEADERS_PARAM, "X-Requested-With,Content-Type,Accept,Origin,Authorization");
+    cors.setInitParameter(CrossOriginFilter.ALLOWED_METHODS_PARAM, "OPTIONS,GET,PUT,POST,DELETE,HEAD");
+    cors.setInitParameter(CrossOriginFilter.ALLOW_CREDENTIALS_PARAM, "true");
 
     // Add URL mapping
     cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+
+
 
     // DO NOT pass a preflight request to down-stream auth filters
     // unauthenticated preflight requests should be permitted by spec
