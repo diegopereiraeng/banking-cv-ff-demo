@@ -88,6 +88,20 @@ public class App extends Application<AppConfiguration> {
     cors.setInitParameter("allowedOrigins", "*");
   }
 
+
+  private void registerCorsFilter2(String allowedOrigins,
+                                  Environment environment) {
+    FilterRegistration.Dynamic cors =
+            environment.servlets().addFilter("CORS", CrossOriginFilter.class);
+    cors.setInitParameters(ImmutableMap.of(
+            "allowedOrigins", allowedOrigins, "allowedHeaders",
+            "X-Requested-With,Content-Type,Accept,Origin,Authorization,X-api-key",
+            "allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD", "preflightMaxAge",
+            "86400"));
+    cors.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true,
+            "/*");
+  }
+
   public static void main(String[] args) throws Exception {
     new App().run(args);
   }
