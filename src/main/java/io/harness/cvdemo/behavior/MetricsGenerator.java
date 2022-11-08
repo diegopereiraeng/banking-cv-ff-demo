@@ -85,13 +85,17 @@ public class MetricsGenerator implements Runnable {
       //String apiKey = "4491708f-83b2-4695-8b7e-311f254f12b1";
       String apiKey = elkLogPublishConfig.getFfApiKey();
 
+      log.info("FF ENV - check for ff key in env");
+      String ffKey = System.getenv("FF_KEY");
+      log.info("FF ENV - checked value: "+ffKey);
+
+
       cfClient = new CfClient("28b69c40-d2aa-4636-9508-94576fd86a77", io.harness.cf.client.api.Config.builder().build());
 
       Target target = Target.builder().name("MetricsGenerator").identifier("diego.pereira@harness.io").build();
       /**
        * Define you target on which you would like to evaluate the featureFlag
        */
-
 
       for (int i = 0; i < metricConfig.getCallsPerMinute(); i++) {
 
