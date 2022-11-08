@@ -88,6 +88,7 @@ public class App extends Application<AppConfiguration> {
     cors.setInitParameter("allowedOrigins", "*");
   }
 
+
   private void registerCorsFilter2(String allowedOrigins,
                                   Environment environment) {
     FilterRegistration.Dynamic cors =
