@@ -21,7 +21,6 @@ COPY config.yml /opt/cv-demo/
 COPY target/cv-demo-1.0.1.jar /opt/cv-demo/app.jar
 
 # Appdynamics
-ADD /appdy/appagent/javaagent.jar
 RUN wget -O AppServerAgent.zip "$(curl 'https://download.appdynamics.com/download/custom/v1/' \
 	  -H 'authority: download.appdynamics.com' \
 	  -H 'accept: application/json, text/plain, */*' \
