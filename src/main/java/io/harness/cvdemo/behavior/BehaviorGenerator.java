@@ -54,7 +54,6 @@ public class BehaviorGenerator {
     running.clear();
     config.setRunning(false);
   }
-
   public Config getConfig() {
 
     boolean resultFlag1;
