@@ -63,8 +63,8 @@ public class App extends Application<AppConfiguration> {
             "X-Requested-With,Content-Type,Accept,Origin,Authorization,X-api-key",
         "allowedMethods", "OPTIONS,GET,PUT,POST,DELETE,HEAD", "preflightMaxAge",
         "86400"));
-    cors.addMappingForUrlPatterns(EnumSet.of(DispatcherType.REQUEST), true,
-                                  "/*");
+    cors.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+    cors.setInitParameter("allowedOrigins", "*");
   }
 
   public static void main(String[] args) throws Exception {
