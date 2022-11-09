@@ -28,7 +28,6 @@ public class LogGenerator implements Runnable {
   private String ffName = "";
   private SecureRandom r = new SecureRandom();
 
-
   public LogGenerator(LogConfig logConfig, ElkLogPublishConfig elkLogPublishConfig, String name) {
     this.logConfig = logConfig;
     this.elkLogPublishConfig = elkLogPublishConfig;
