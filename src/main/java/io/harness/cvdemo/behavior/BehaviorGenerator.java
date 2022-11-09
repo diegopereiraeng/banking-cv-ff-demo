@@ -67,6 +67,7 @@ public class BehaviorGenerator {
 //            cfClient.stringVariation("transaction_url", target, "default_value");
 //    log.info("FF transaction_url Boolean variation for target" + target+ " is " + resultFlag2 );
 
+
     config.setDarkTheme(resultFlag1);
 
     log.info("FF Dark_Theme set to "+config.getDarkTheme());
