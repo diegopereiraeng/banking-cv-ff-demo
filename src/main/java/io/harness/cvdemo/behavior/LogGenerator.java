@@ -36,6 +36,7 @@ public class LogGenerator implements Runnable {
     logPublisher = new LogPublisher(elkLogPublishConfig);
   }
 
+
   @SneakyThrows
   @Override
   public void run() {
