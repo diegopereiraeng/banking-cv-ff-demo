@@ -58,7 +58,6 @@ public class BehaviorGenerator {
 
     boolean resultFlag1;
     String resultFlag2;
-
     resultFlag1 =
             cfClient.boolVariation("external_transaction", target, false);
     log.info("FF external_transaction Boolean variation for target" + target+ " is " + resultFlag1 );
