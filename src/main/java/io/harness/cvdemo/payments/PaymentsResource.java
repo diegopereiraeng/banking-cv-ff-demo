@@ -129,6 +129,7 @@ public class PaymentsResource {
                 bug = false;
             }
 
+
             if (bug) {
                 log.info("FF - process bug is enabled");
                 max = 6300;
