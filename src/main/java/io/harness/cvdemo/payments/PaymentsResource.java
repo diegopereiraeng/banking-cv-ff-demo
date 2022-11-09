@@ -119,6 +119,7 @@ public class PaymentsResource {
         return Response.serverError().build();
     }
 
+
     @GET
     @Path("process")
     public Response executeDelayedCall(@QueryParam("value") double value,@QueryParam("bug") Boolean bug) {
