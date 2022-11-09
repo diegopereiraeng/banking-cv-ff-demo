@@ -122,8 +122,7 @@ public class PaymentsResource {
     @GET
     @Path("process")
     public Response executeDelayedCall(@QueryParam("value") double value,@QueryParam("bug") Boolean bug) {
-        int max = 1000, min = 300;
-
+        int max = 900, min = 300;
 
 
         try {
