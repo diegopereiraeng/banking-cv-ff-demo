@@ -124,7 +124,6 @@ public class PaymentsResource {
     public Response executeDelayedCall(@QueryParam("value") double value,@QueryParam("bug") Boolean bug) {
         int max = 900, min = 300;
 
-
         try {
             if(bug == null ) {
                 bug = false;
