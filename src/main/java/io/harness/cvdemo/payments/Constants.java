@@ -5,9 +5,9 @@ package io.harness.cvdemo.payments;
  */
 public class Constants {
 
-  public static final String LIST = "list";
+  public static final String LIST = "payment_list_call";
 
-  public static final String STATUS = "status";
+  public static final String STATUS = "payment_status_call";
 
-  public static final String PROCESS = "process";
+  public static final String PROCESS = "payment_process_call";
 }

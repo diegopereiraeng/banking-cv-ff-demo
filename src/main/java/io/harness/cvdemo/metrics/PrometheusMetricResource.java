@@ -1,8 +1,8 @@
 package io.harness.cvdemo.metrics;
 
-import static io.harness.cvdemo.metrics.Constants.DELAY_CALL;
-import static io.harness.cvdemo.metrics.Constants.ERROR_CALL;
-import static io.harness.cvdemo.metrics.Constants.NORMAL_CALL;
+import static io.harness.cvdemo.metrics.Constants.*;
+import static io.harness.cvdemo.payments.Constants.LIST;
+import static io.harness.cvdemo.payments.Constants.PROCESS;
 
 import com.google.common.collect.Sets;
 import com.google.inject.Inject;
@@ -27,7 +27,7 @@ import javax.ws.rs.core.MediaType;
 @Consumes(MediaType.APPLICATION_JSON)
 public class PrometheusMetricResource {
   public static final Set<String> METRICS =
-      Sets.newHashSet(NORMAL_CALL, ERROR_CALL, DELAY_CALL);
+      Sets.newHashSet(NORMAL_CALL, ERROR_CALL, DELAY_CALL, Constants.LIST, STATUS, Constants.PROCESS);
 
   @Inject private CVDemoMetricsRegistry metricRegistry;
 

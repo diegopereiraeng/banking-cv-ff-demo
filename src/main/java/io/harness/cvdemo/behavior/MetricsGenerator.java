@@ -147,7 +147,8 @@ public class MetricsGenerator implements Runnable {
 
           WebTarget getTarget = client.target("http://localhost:8080"
                   + "/metric/normal-call");
-          if (result && r.nextInt((100 - 1) + 1) < 50) {
+          //if (result && r.nextInt((100 - 1) + 1) < 50) {
+          if (result) {
             boolean result2 = App.behaviorGenerator.checkFlag(elkLogPublishConfig.getFfLogKey());
             double value = r.nextInt((1000 - 100) + 100);
             if (result2){

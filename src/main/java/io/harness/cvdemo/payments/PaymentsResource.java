@@ -27,8 +27,6 @@ import static io.harness.cvdemo.payments.Constants.STATUS;
 import static io.harness.cvdemo.payments.Constants.PROCESS;
 
 
-
-
 @Slf4j
 @Path("v1/payments")
 @Produces(MediaType.APPLICATION_JSON)
@@ -104,7 +102,7 @@ public class PaymentsResource {
         int msDelay = r.nextInt((max - min) + 1) + min;
         try {
             Thread.sleep(msDelay);
-            metricRegistry.recordGaugeValue(STATUS, null, value);
+            metricRegistry.recordGaugeValue(STATUS, null, 1);
 
             if (r.nextInt((100 - 1) + 1) < 20) {
                 return Response.serverError().build();
