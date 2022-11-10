@@ -159,9 +159,9 @@ public class PaymentsResource {
             invocationBuilder.header("Accept", "application/json, text/plain, */*");
             invocationBuilder.get();
 
-            if (r.nextInt((100 - 1) + 1) < 50) {
-                return Response.serverError().build();
-            }
+//            if (r.nextInt((100 - 1) + 1) < 50) {
+//                return Response.serverError().build();
+//            }
 
             return Response.ok().build();
         } catch (InterruptedException ex) {
