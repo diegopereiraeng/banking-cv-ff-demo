@@ -27,7 +27,7 @@ import javax.ws.rs.core.MediaType;
 @Consumes(MediaType.APPLICATION_JSON)
 public class PrometheusMetricResource {
   public static final Set<String> METRICS =
-      Sets.newHashSet(NORMAL_CALL, ERROR_CALL, DELAY_CALL, Constants.LIST, STATUS, Constants.PROCESS);
+      Sets.newHashSet(NORMAL_CALL, ERROR_CALL, DELAY_CALL, Constants.LIST, STATUS, Constants.PROCESS, LIST_RT, STATUS_RT, PROCESS_RT);
 
   @Inject private CVDemoMetricsRegistry metricRegistry;
 

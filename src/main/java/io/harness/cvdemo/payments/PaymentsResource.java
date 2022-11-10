@@ -21,10 +21,15 @@ import java.security.SecureRandom;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
-
+import static io.harness.cvdemo.metrics.Constants.LIST_RT;
+import static io.harness.cvdemo.metrics.Constants.STATUS_RT;
+import static io.harness.cvdemo.metrics.Constants.PROCESS_RT;
 import static io.harness.cvdemo.payments.Constants.LIST;
 import static io.harness.cvdemo.payments.Constants.STATUS;
 import static io.harness.cvdemo.payments.Constants.PROCESS;
+import static io.harness.cvdemo.metrics.Constants.LIST_ERRORS;
+import static io.harness.cvdemo.metrics.Constants.STATUS_ERRORS;
+import static io.harness.cvdemo.metrics.Constants.PROCESS_ERRORS;
 
 
 @Slf4j
@@ -66,15 +71,23 @@ public class PaymentsResource {
             metricRegistry.recordGaugeValue(LIST, null, 1);
 
             if (r.nextInt((100 - 1) + 1) < 4) {
+                metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
+                metricRegistry.recordGaugeValue(LIST_ERRORS, null, 1);
                 return Response.serverError().build();
             }
-
+            metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
             return Response.ok().build();
         } catch (InterruptedException ex) {
+            metricRegistry.recordGaugeValue(LIST_ERRORS, null, 1);
+            metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
             Thread.currentThread().interrupt();
         } catch (Exception e) {
+            metricRegistry.recordGaugeValue(LIST_ERRORS, null, 1);
+            metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
             return Response.serverError().build();
         }
+        metricRegistry.recordGaugeValue(LIST_ERRORS, null, 1);
+        metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
         return Response.serverError().build();
     }
 
@@ -110,15 +123,23 @@ public class PaymentsResource {
             metricRegistry.recordGaugeValue(STATUS, null, 1);
 
             if (r.nextInt((100 - 1) + 1) < 20) {
+                metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
+                metricRegistry.recordGaugeValue(STATUS_ERRORS, null, 1);
                 return Response.serverError().build();
             }
-
+            metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
             return Response.ok().build();
         } catch (InterruptedException ex) {
+            metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
+            metricRegistry.recordGaugeValue(STATUS_ERRORS, null, 1);
             Thread.currentThread().interrupt();
         } catch (Exception e) {
+            metricRegistry.recordGaugeValue(STATUS_ERRORS, null, 1);
+            metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
             return Response.serverError().build();
         }
+        metricRegistry.recordGaugeValue(STATUS_ERRORS, null, 1);
+        metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
         return Response.serverError().build();
     }
 
@@ -163,16 +184,24 @@ public class PaymentsResource {
             invocationBuilder.header("Accept", "application/json, text/plain, */*");
             invocationBuilder.get();
 
-//            if (r.nextInt((100 - 1) + 1) < 50) {
-//                return Response.serverError().build();
-//            }
-
+            if (r.nextInt((100 - 1) + 1) < 2) {
+                metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
+                metricRegistry.recordGaugeValue(PROCESS_ERRORS, null, 1);
+                return Response.serverError().build();
+            }
+            metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
             return Response.ok().build();
         } catch (InterruptedException ex) {
+            metricRegistry.recordGaugeValue(PROCESS_ERRORS, null, 1);
+            metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
             Thread.currentThread().interrupt();
         } catch (Exception e) {
+            metricRegistry.recordGaugeValue(PROCESS_ERRORS, null, 1);
+            metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
             return Response.serverError().build();
         }
+        metricRegistry.recordGaugeValue(PROCESS_ERRORS, null, 1);
+        metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
         return Response.serverError().build();
     }
 }

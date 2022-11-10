@@ -13,11 +13,11 @@ defaultConfig:
   darkTheme: false
   logConfig:
     logsPerMinute: 60
-    errorRate: 5.0
+    errorRate: 3.0
     errorMessage: KnownException
   metricConfig:
     callsPerMinute: 60
-    errorRate: 5.0
+    errorRate: 3.0
     minErrorValue: 0.01
     maxErrorValue: 1.00
     shouldDoDelayedCalls: false
