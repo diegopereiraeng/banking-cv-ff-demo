@@ -65,6 +65,10 @@ public class PaymentsResource {
             Thread.sleep(msDelay);
             metricRegistry.recordGaugeValue(LIST, null, 1);
 
+            if (r.nextInt((100 - 1) + 1) < 4) {
+                return Response.serverError().build();
+            }
+
             return Response.ok().build();
         } catch (InterruptedException ex) {
             Thread.currentThread().interrupt();
