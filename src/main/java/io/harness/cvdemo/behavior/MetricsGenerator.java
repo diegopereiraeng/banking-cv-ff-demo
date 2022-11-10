@@ -56,7 +56,6 @@ public class MetricsGenerator implements Runnable {
                 + "/v1/payments/status?bug=false&value="+r.nextInt(50));
       }
 
-
       getPaymentTarget.request().get();
     }
     // Maybe payment process
