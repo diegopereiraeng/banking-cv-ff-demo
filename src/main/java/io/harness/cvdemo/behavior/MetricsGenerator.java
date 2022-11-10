@@ -155,6 +155,7 @@ public class MetricsGenerator implements Runnable {
               value = r.nextInt((10000 - 1000) + 1000);
             }
 
+
             log.info("FF "+elkLogPublishConfig.getFfMetricKey()+" activated");
             getTarget = client.target("http://localhost:8080"
                     + "/metric/error-call?value=" + value);
