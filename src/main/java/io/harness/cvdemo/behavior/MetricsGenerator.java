@@ -57,6 +57,7 @@ public class MetricsGenerator implements Runnable {
       }
       getPaymentTarget.request().get();
     }
+
     // Maybe payment process
     if (r.nextInt(100) <= 60) {
 
