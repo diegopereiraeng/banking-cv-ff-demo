@@ -74,21 +74,21 @@ public class PaymentsResource {
 
             if (r.nextInt((100 - 1) + 1) < 4) {
                 metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
-                metricRegistry.recordCounterInc(LIST_ERRORS, null);
+                metricRegistry.recordGaugeValue(LIST_ERRORS, null,1);
                 return Response.serverError().build();
             }
             metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
             return Response.ok().build();
         } catch (InterruptedException ex) {
-            metricRegistry.recordCounterInc(LIST_ERRORS, null);
+            metricRegistry.recordGaugeValue(LIST_ERRORS, null,1);
             metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
             Thread.currentThread().interrupt();
         } catch (Exception e) {
-            metricRegistry.recordCounterInc(LIST_ERRORS, null);
+            metricRegistry.recordGaugeValue(LIST_ERRORS, null,1);
             metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
             return Response.serverError().build();
         }
-        metricRegistry.recordCounterInc(LIST_ERRORS, null);
+        metricRegistry.recordGaugeValue(LIST_ERRORS, null,1);
         metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
         return Response.serverError().build();
     }
@@ -125,21 +125,21 @@ public class PaymentsResource {
 
             if (r.nextInt((100 - 1) + 1) < 20) {
                 metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
-                metricRegistry.recordCounterInc(STATUS_ERRORS, null);
+                metricRegistry.recordGaugeValue(STATUS_ERRORS, null,1);
                 return Response.serverError().build();
             }
             metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
             return Response.ok().build();
         } catch (InterruptedException ex) {
             metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
-            metricRegistry.recordCounterInc(STATUS_ERRORS, null);
+            metricRegistry.recordGaugeValue(STATUS_ERRORS, null,1);
             Thread.currentThread().interrupt();
         } catch (Exception e) {
-            metricRegistry.recordCounterInc(STATUS_ERRORS, null);
+            metricRegistry.recordGaugeValue(STATUS_ERRORS, null,1);
             metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
             return Response.serverError().build();
         }
-        metricRegistry.recordCounterInc(STATUS_ERRORS, null);
+        metricRegistry.recordGaugeValue(STATUS_ERRORS, null,1);
         metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
         return Response.serverError().build();
     }
@@ -187,21 +187,21 @@ public class PaymentsResource {
 
             if (r.nextInt((100 - 1) + 1) < 2) {
                 metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
-                metricRegistry.recordCounterInc(PROCESS_ERRORS, null);
+                metricRegistry.recordGaugeValue(PROCESS_ERRORS, null,1);
                 return Response.serverError().build();
             }
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
             return Response.ok().build();
         } catch (InterruptedException ex) {
-            metricRegistry.recordCounterInc(PROCESS_ERRORS, null);
+            metricRegistry.recordGaugeValue(PROCESS_ERRORS, null,1);
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
             Thread.currentThread().interrupt();
         } catch (Exception e) {
-            metricRegistry.recordCounterInc(PROCESS_ERRORS, null);
+            metricRegistry.recordGaugeValue(PROCESS_ERRORS, null,1);
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
             return Response.serverError().build();
         }
-        metricRegistry.recordCounterInc(PROCESS_ERRORS, null);
+        metricRegistry.recordGaugeValue(PROCESS_ERRORS, null,1);
         metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
         return Response.serverError().build();
     }
