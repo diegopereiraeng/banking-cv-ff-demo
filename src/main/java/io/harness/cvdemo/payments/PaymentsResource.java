@@ -154,10 +154,9 @@ public class PaymentsResource {
                         ClientBuilder.newBuilder().hostnameVerifier((s1, s2) -> true).build();
             }
 
-            WebTarget getPaymentTarget = client.target("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao='09-10-2021'&$top=100&$skip=0&$format=json&$select=cotacaoCompra");
+            WebTarget getPaymentTarget = client.target("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao=%2711-09-2022%27&$top=101&$format=json&$select=cotacaoVenda");
             Invocation.Builder invocationBuilder = getPaymentTarget.request();
-            invocationBuilder.header("x-rapidapi-host", "apidojo-yahoo-finance-v1.p.rapidapi.com");
-            invocationBuilder.header("x-rapidapi-key", "b21b7e3fc6msh1d56993ae6e9e37p11a84bjsn059026f4667e");
+            invocationBuilder.header("Accept", "application/json, text/plain, */*");
             invocationBuilder.get();
 
             if (r.nextInt((100 - 1) + 1) < 50) {
