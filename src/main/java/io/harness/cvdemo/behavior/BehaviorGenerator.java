@@ -68,7 +68,6 @@ public class BehaviorGenerator {
 
 //    config.setDarkTheme(resultFlag1);
 
-
     log.info("FF Dark_Theme set to "+config.getDarkTheme());
 
     return config;
