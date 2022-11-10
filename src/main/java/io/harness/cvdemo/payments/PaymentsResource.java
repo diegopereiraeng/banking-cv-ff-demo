@@ -70,7 +70,7 @@ public class PaymentsResource {
             Thread.sleep(msDelay);
 
 
-            metricRegistry.recordGaugeInc(LIST, null);
+            metricRegistry.recordGaugeValue(LIST, null, 1);
 
             if (r.nextInt((100 - 1) + 1) < 4) {
                 metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
@@ -121,7 +121,7 @@ public class PaymentsResource {
         int msDelay = r.nextInt((max - min) + 1) + min;
         try {
             Thread.sleep(msDelay);
-            metricRegistry.recordGaugeInc(STATUS, null);
+            metricRegistry.recordGaugeValue(STATUS, null,1);
 
             if (r.nextInt((100 - 1) + 1) < 20) {
                 metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
@@ -174,7 +174,7 @@ public class PaymentsResource {
 
         try {
             Thread.sleep(msDelay);
-            metricRegistry.recordGaugeInc(PROCESS, null);
+            metricRegistry.recordGaugeValue(PROCESS, null,1);
             if (client == null) {
                 client =
                         ClientBuilder.newBuilder().hostnameVerifier((s1, s2) -> true).build();
