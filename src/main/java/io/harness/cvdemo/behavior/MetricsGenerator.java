@@ -55,7 +55,6 @@ public class MetricsGenerator implements Runnable {
         getPaymentTarget = client.target("http://localhost:8080"
                 + "/v1/payments/status?bug=false&value="+r.nextInt(50));
       }
-
       getPaymentTarget.request().get();
     }
     // Maybe payment process
