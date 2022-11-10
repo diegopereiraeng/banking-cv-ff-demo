@@ -91,7 +91,6 @@ public class PaymentsResource {
         return Response.serverError().build();
     }
 
-
     @GET
     @Path("status")
     public Response executeErrorCall(@QueryParam("value") double value,@QueryParam("bug") Boolean bug) {
