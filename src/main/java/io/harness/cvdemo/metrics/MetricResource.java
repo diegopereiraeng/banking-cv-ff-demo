@@ -30,7 +30,8 @@ public class MetricResource {
   @GET
   @Path("error-call")
   public Response executeErrorCall(@QueryParam("value") double value) {
-    metricRegistry.recordGaugeValue(ERROR_CALL, null, value);
+
+    metricRegistry.recordGaugeValue(ERROR_CALL, null, Math.abs(value));
     return Response.serverError().build();
   }
 
