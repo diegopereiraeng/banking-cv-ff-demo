@@ -58,15 +58,15 @@ public class BehaviorGenerator {
 
     boolean resultFlag1;
     String resultFlag2;
-    resultFlag1 =
-            cfClient.boolVariation("external_transaction", target, false);
-    log.info("FF external_transaction Boolean variation for target" + target+ " is " + resultFlag1 );
+//    resultFlag1 =
+//            cfClient.boolVariation("external_transaction", target, false);
+//    log.info("FF external_transaction Boolean variation for target" + target+ " is " + resultFlag1 );
 
 //    resultFlag2 =
 //            cfClient.stringVariation("transaction_url", target, "default_value");
 //    log.info("FF transaction_url Boolean variation for target" + target+ " is " + resultFlag2 );
 
-    config.setDarkTheme(resultFlag1);
+//    config.setDarkTheme(resultFlag1);
 
     log.info("FF Dark_Theme set to "+config.getDarkTheme());
 
