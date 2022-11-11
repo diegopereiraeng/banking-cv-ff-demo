@@ -98,7 +98,6 @@ public class MetricsGenerator implements Runnable {
       }
 
 
-
       cfClient = new CfClient(ffKey, io.harness.cf.client.api.Config.builder().build());
 
       Target target = Target.builder().name(version).identifier(version).build();
