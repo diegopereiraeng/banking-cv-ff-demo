@@ -18,6 +18,8 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.security.SecureRandom;
+import java.util.Collections;
+
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
@@ -71,6 +73,9 @@ public class PaymentsResource {
 
 
             metricRegistry.recordGaugeValue(LIST, null, 1);
+            metricRegistry.recordGaugeInc(LIST, null);
+            log.info( "DIEGO -- " + metricRegistry.getMetric(Collections.singleton(LIST)).toString() );
+
 
             if (r.nextInt((100 - 1) + 1) < 4) {
                 metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
