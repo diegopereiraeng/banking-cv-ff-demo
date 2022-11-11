@@ -64,7 +64,6 @@ public class PaymentsResource {
             log.error("FF bug list failed");
             log.error(e.toString());
             log.error(e.getMessage());
-
         }
 
         int msDelay = r.nextInt((max - min) + 1) + min;
