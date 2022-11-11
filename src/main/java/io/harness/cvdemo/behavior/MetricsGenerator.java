@@ -103,6 +103,7 @@ public class MetricsGenerator implements Runnable {
       String name = inetadd.getHostName();
 
       String targetDeploy = "stable";
+      log.info("Diego - hostname: "+name);
 
       if(name.contains("canary")){
         targetDeploy = "canary";
