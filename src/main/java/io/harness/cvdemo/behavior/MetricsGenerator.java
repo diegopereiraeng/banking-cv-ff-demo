@@ -91,11 +91,17 @@ public class MetricsGenerator implements Runnable {
       log.info("FF ENV - check for ff key in env");
       String ffKey = System.getenv("FF_KEY");
       log.info("FF ENV - checked value: "+ffKey);
+      String version = System.getenv("DD_VERSION");
+
+      if ( version == null || version == ""){
+        version = "MetricsGenerator";
+      }
+
 
 
       cfClient = new CfClient(ffKey, io.harness.cf.client.api.Config.builder().build());
 
-      Target target = Target.builder().name("MetricsGenerator").identifier("diego.pereira@harness.io").build();
+      Target target = Target.builder().name(version).identifier(version).build();
 
       // get podname
       InetAddress inetadd = InetAddress.getLocalHost();
@@ -107,7 +113,7 @@ public class MetricsGenerator implements Runnable {
 
       if(name.contains("canary")){
         targetDeploy = "canary";
-        target = Target.builder().name("MetricsGenerator-"+targetDeploy).identifier("diego.pereira@harness.io").build();
+        target = Target.builder().name(version+"-"+targetDeploy).identifier("MetricsGenerator-"+targetDeploy).build();
       }
 
 
