@@ -73,7 +73,7 @@ public class PaymentsResource {
             metricRegistry.recordCounterInc(LIST, null);
             //log.info( "DIEGO -- " + metricRegistry.getMetric(Collections.singleton(LIST)).toString() );
 
-            if (r.nextInt((100 - 1) + 1) < 4) {
+            if (r.nextInt((100 - 1) + 1) < 2) {
                 metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(LIST_ERRORS, null);
                 return Response.serverError().build();
@@ -124,7 +124,7 @@ public class PaymentsResource {
             Thread.sleep(msDelay);
             metricRegistry.recordGaugeInc(STATUS, null);
 
-            if (r.nextInt((100 - 1) + 1) < 20) {
+            if (r.nextInt((100 - 1) + 1) < 2) {
                 metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(STATUS_ERRORS, null);
                 return Response.serverError().build();
