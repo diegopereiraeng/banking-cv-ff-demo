@@ -140,6 +140,16 @@ public class CVDemoMetricsRegistry {
         metric.inc();
       }
     }
+    else{
+      registerCounterMetric(metricName, labelValues, null);
+      metric =
+              (Counter)namesToCollectors.get(getAbsoluteMetricName(metricName));
+      if (labelValues != null) {
+        metric.labels(labelValues).inc();
+      } else {
+        metric.inc();
+      }
+    }
   }
 
   public void recordHistogram(String metricName, String[] labelValues,
