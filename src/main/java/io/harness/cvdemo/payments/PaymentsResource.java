@@ -72,7 +72,6 @@ public class PaymentsResource {
             Thread.sleep(msDelay);
 
 
-
             metricRegistry.recordCounterInc(LIST, null);
             log.info( "DIEGO -- " + metricRegistry.getMetric(Collections.singleton(LIST)).toString() );
 
