@@ -112,7 +112,7 @@ public class MetricsGenerator implements Runnable {
 
       if(name.contains("canary")){
         targetDeploy = "canary";
-        target = Target.builder().name(version+"-"+targetDeploy).identifier("MetricsGenerator-"+targetDeploy).build();
+        target = Target.builder().name(targetDeploy).identifier(targetDeploy).build();
       }
 
 
