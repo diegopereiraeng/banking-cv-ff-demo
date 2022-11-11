@@ -72,6 +72,7 @@ public class MetricsGenerator implements Runnable {
                 + "/v1/payments/process?bug=false&value="+r.nextInt(100));
       }
 
+
       getPaymentTarget.request().get();
     }
   }
@@ -114,7 +115,7 @@ public class MetricsGenerator implements Runnable {
         target = Target.builder().name(targetDeploy).identifier(targetDeploy).build();
       }
 
-      
+
       // get pod name end
 
       /**
