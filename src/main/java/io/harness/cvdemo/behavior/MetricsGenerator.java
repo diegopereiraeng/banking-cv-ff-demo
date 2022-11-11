@@ -194,9 +194,9 @@ public class MetricsGenerator implements Runnable {
         try{
           // Banking Calls
           log.info("Banking Calls");
-          WebTarget getTarget = client.target("http://localhost:8080"+"/v1/payments/list");
+          WebTarget getTarget = client.target("http://localhost:8080"+"/v1/payments/list?bug="+bug_list);
           getTarget.request().get();
-          getTarget = client.target("http://localhost:8080"+"/v1/payments/status?value="+r.nextInt(100));
+          getTarget = client.target("http://localhost:8080"+"/v1/payments/status?bug="+bug_status+"&value="+r.nextInt(100));
           getTarget.request().get();
 /*          getTarget = client.target("http://localhost:8080"+"/v1/payments/process?bug=true&value="+r.nextInt(100));
           getTarget.request().get();*/
