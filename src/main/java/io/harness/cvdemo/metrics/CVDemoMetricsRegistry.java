@@ -158,10 +158,23 @@ public class CVDemoMetricsRegistry {
   public void recordGaugeInc(String metricName, String[] labelValues) {
     Gauge metric =
         (Gauge)namesToCollectors.get(getAbsoluteMetricName(metricName));
+
+
     if (metric != null) {
       if (labelValues != null) {
         metric.labels(labelValues).inc();
       } else {
+        metric.inc();
+      }
+    }
+    else{
+      registerGaugeMetric(metricName, labelValues);
+      metric = (Gauge)namesToCollectors.get(getAbsoluteMetricName(metricName));
+      if (labelValues != null) {
+        metric.labels(labelValues).set(0);
+        metric.labels(labelValues).inc();
+      } else {
+        metric.set(0);
         metric.inc();
       }
     }
