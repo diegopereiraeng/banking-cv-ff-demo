@@ -15,6 +15,9 @@ import javax.ws.rs.client.WebTarget;
 
 import java.security.SecureRandom;
 
+//get hostname
+import java.net.InetAddress;
+
 
 @Slf4j
 public class MetricsGenerator implements Runnable {
@@ -93,6 +96,24 @@ public class MetricsGenerator implements Runnable {
       cfClient = new CfClient(ffKey, io.harness.cf.client.api.Config.builder().build());
 
       Target target = Target.builder().name("MetricsGenerator").identifier("diego.pereira@harness.io").build();
+
+      // get podname
+      InetAddress inetadd = InetAddress.getLocalHost();
+
+      String name = inetadd.getHostName();
+
+      String targetDeploy = "stable";
+
+      if(name.contains("canary")){
+        targetDeploy = "canary";
+        target = Target.builder().name("MetricsGenerator-"+targetDeploy).identifier("diego.pereira@harness.io").build();
+      }
+
+
+      // get pod name end
+
+
+
       /**
        * Define you target on which you would like to evaluate the featureFlag
        */
