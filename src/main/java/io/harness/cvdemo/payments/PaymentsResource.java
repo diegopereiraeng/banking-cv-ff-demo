@@ -70,7 +70,7 @@ public class PaymentsResource {
         try {
             Thread.sleep(msDelay);
 
-            metricRegistry.recordCounterInc(LIST, null);
+            metricRegistry.recordGaugeInc(LIST, null);
             //log.info( "DIEGO -- " + metricRegistry.getMetric(Collections.singleton(LIST)).toString() );
 
             if (r.nextInt((100 - 1) + 1) < 2) {
@@ -207,3 +207,4 @@ public class PaymentsResource {
         return Response.serverError().build();
     }
 }
+
