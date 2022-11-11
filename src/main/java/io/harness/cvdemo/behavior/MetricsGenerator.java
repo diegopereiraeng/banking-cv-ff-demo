@@ -118,8 +118,6 @@ public class MetricsGenerator implements Runnable {
 
       // get pod name end
 
-
-
       /**
        * Define you target on which you would like to evaluate the featureFlag
        */
