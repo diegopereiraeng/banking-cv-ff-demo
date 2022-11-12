@@ -100,7 +100,9 @@ public class MetricsGenerator implements Runnable {
 
       cfClient = new CfClient(ffKey, io.harness.cf.client.api.Config.builder().build());
 
-      Target target = Target.builder().name(version).identifier(version).build();
+
+
+
 
       // get podname
       InetAddress inetadd = InetAddress.getLocalHost();
@@ -111,10 +113,12 @@ public class MetricsGenerator implements Runnable {
       log.info("Diego - hostname: "+name);
 
       if(name.contains("canary")){
+        log.info("Diego - Set as Canary");
         targetDeploy = "canary";
-        target = Target.builder().name(targetDeploy).identifier(targetDeploy).build();
+        version = targetDeploy;
       }
 
+      Target target = Target.builder().name(version).identifier(version).build();
 
       // get pod name end
 
@@ -143,7 +147,7 @@ public class MetricsGenerator implements Runnable {
             log.info("FF - check if bug list is enabled");
             bug_list = cfClient.boolVariation("bug_list_response", target, false);
             log.info("FF - check if bug list is "+bug_list);
-            
+
             log.info("FF - check if External Transaction Enabled");
             Boolean externalTransaction = cfClient.boolVariation("external_transaction",target,false);
             log.info("FF - checked if External Transaction Enabled");
