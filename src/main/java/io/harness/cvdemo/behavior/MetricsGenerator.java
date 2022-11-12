@@ -102,8 +102,6 @@ public class MetricsGenerator implements Runnable {
 
 
 
-
-
       // get podname
       InetAddress inetadd = InetAddress.getLocalHost();
 
