@@ -143,8 +143,7 @@ public class MetricsGenerator implements Runnable {
             log.info("FF - check if bug list is enabled");
             bug_list = cfClient.boolVariation("bug_list_response", target, false);
             log.info("FF - check if bug list is "+bug_list);
-
-
+            
             log.info("FF - check if External Transaction Enabled");
             Boolean externalTransaction = cfClient.boolVariation("external_transaction",target,false);
             log.info("FF - checked if External Transaction Enabled");
