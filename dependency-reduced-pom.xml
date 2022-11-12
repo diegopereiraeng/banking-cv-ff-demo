@@ -4,7 +4,7 @@
   <groupId>io.harness.cvdemo</groupId>
   <artifactId>ff-cv-demo</artifactId>
   <name>cv-demo</name>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <description>Diego FF CV Demo</description>
   <url>http://maven.apache.org</url>
   <build>

@@ -160,7 +160,7 @@ public class MetricsGenerator implements Runnable {
             }
           }
         }catch (Exception e){
-          log.error("Metrics Generator Feature Flags Error -> External Calls Control");
+          log.error("Metrics Generator Feature Flags Error -> External Calls Control and Bug Control");
         }
 
         try {
