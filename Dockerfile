@@ -59,7 +59,6 @@ WORKDIR /opt/cv-demo
 
 CMD bash -c ' \
     if [[ "$ENABLE_APPDYNAMICS" == "true" ]]; then \
-      tar -xvzf AppServerAgent-4.5.0.23604.tar.gz; \
       node_name="-Dappdynamics.agent.nodeName=$(hostname)"; \
       JAVA_OPTS=$JAVA_OPTS" -javaagent:/appdy/appagent/javaagent.jar -Dappdynamics.jvm.shutdown.mark.node.as.historical=true"; \
       JAVA_OPTS="$JAVA_OPTS $node_name"; \
