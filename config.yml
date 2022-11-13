@@ -2,7 +2,7 @@ allowedOrigins: http://localhost:8080
 
 elkUrl: http://35.222.26.80
 elkIndex: index
-ffApiKey: 78f5d400-e061-4e96-8300-fc2f0cfc9225
+ffApiKey: 28e29591-7c8e-40d6-b903-e37a8c6e9e1d
 ffMetricKey: errorconfig
 ffLogKey: logerrorconfig
 target: env

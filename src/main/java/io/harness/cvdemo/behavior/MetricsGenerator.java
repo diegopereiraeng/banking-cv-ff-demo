@@ -1,9 +1,6 @@
 package io.harness.cvdemo.behavior;
 
-import io.harness.cf.client.api.BaseConfig;
 import io.harness.cf.client.api.CfClient;
-import io.harness.cf.client.connector.HarnessConfig;
-import io.harness.cf.client.connector.HarnessConnector;
 import io.harness.cf.client.dto.Target;
 import io.harness.cvdemo.App;
 import io.harness.cvdemo.config.beans.ElkLogPublishConfig;
@@ -101,18 +98,7 @@ public class MetricsGenerator implements Runnable {
         version = "MetricsGenerator";
       }
 
-      HarnessConfig connectorConfig = HarnessConfig.builder()
-              .configUrl("https://config.ff.harness.io/api/1.0")
-              .eventUrl("https://config.ff.harness.io/api/1.0")
-              .build();
-
-      BaseConfig options = BaseConfig.builder()
-              .pollIntervalInSeconds(60)
-              .streamEnabled(true)
-              .analyticsEnabled(true)
-              .build();
-
-      cfClient = new CfClient(new HarnessConnector(apiKey, connectorConfig), options);
+      cfClient = new CfClient(ffKey, io.harness.cf.client.api.Config.builder().build());
 
 
 

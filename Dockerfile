@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y unzip
 
 # Copy app files
 COPY config.yml /opt/cv-demo/
-COPY target/cv-demo-1.0.1.jar /opt/cv-demo/app.jar
+COPY target/cv-demo-1.1.0.jar /opt/cv-demo/app.jar
 
 # Appdynamics
 RUN wget -O AppServerAgent.zip "$(curl 'https://download.appdynamics.com/download/custom/v1/' \
