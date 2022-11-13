@@ -1,6 +1,9 @@
 package io.harness.cvdemo.behavior;
 
+import io.harness.cf.client.api.BaseConfig;
 import io.harness.cf.client.api.CfClient;
+import io.harness.cf.client.connector.HarnessConfig;
+import io.harness.cf.client.connector.HarnessConnector;
 import io.harness.cf.client.dto.Target;
 import io.harness.cvdemo.AppConfiguration;
 import io.harness.cvdemo.config.beans.Config;
@@ -35,7 +38,19 @@ public class BehaviorGenerator {
     running = new ArrayList<>();
     applyConfig(config);
     String ffKey = System.getenv("FF_KEY");
-    cfClient = new CfClient(ffKey, io.harness.cf.client.api.Config.builder().build());
+    HarnessConfig connectorConfig = HarnessConfig.builder()
+            .configUrl("https://config.ff.harness.io/api/1.0")
+            .eventUrl("https://config.ff.harness.io/api/1.0")
+            .build();
+
+    BaseConfig options = BaseConfig.builder()
+            .pollIntervalInSeconds(60)
+            .streamEnabled(true)
+            .analyticsEnabled(true)
+            .build();
+
+    cfClient = new CfClient(new HarnessConnector(ffKey, connectorConfig), options);
+
     target = Target.builder().name("BehaviorGenerator").identifier("diego.pereira@harness.io").build();
 
   }
