@@ -27,6 +27,7 @@ public class BehaviorGenerator {
   public boolean checkFlag(String flag) {
     boolean result = cfClient.boolVariation(flag, target, false);
 
+
     return result;
   }
 
