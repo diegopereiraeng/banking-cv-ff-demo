@@ -18,6 +18,7 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Collections;
 
 import lombok.SneakyThrows;
@@ -189,22 +190,29 @@ public class PaymentsResource {
             if (r.nextInt((100 - 1) + 1) < 30) {
                 metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
-                return Response.serverError().build();
+                return Response.serverError()
+                        .status(Response.Status.UNAUTHORIZED)
+                        .entity("Insufficient funds!")
+                        .build();
             }
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
             return Response.ok().build();
         } catch (InterruptedException ex) {
             metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
-            Thread.currentThread().interrupt();
+            return Response.serverError()
+                    .status(Response.Status.SERVICE_UNAVAILABLE)
+                    .entity("Transaction Interrupted, Tey Again!")
+                    .build();
         } catch (Exception e) {
             metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
-            return Response.serverError().build();
+            return Response.serverError()
+                    .status(Response.Status.CONFLICT)
+                    .entity("Please talk to your bank manager.")
+                    .build();
         }
-        metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
-        metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
-        return Response.serverError().build();
+
     }
 }
 
