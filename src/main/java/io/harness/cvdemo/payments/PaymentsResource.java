@@ -196,7 +196,7 @@ public class PaymentsResource {
                         .build();
             }
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
-            return Response.ok().build();
+            return Response.ok().entity("Payment Accepted.").build();
         } catch (InterruptedException ex) {
             metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
