@@ -186,7 +186,7 @@ public class PaymentsResource {
             invocationBuilder.header("Accept", "application/json, text/plain, */*");
             invocationBuilder.get();
 
-            if (r.nextInt((100 - 1) + 1) < 25) {
+            if (r.nextInt((100 - 1) + 1) < 30) {
                 metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
                 return Response.serverError().build();
