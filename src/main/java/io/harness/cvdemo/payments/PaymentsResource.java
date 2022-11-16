@@ -17,6 +17,8 @@ import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Collections;
@@ -146,6 +148,26 @@ public class PaymentsResource {
         return Response.serverError().build();
     }
 
+    private String getVersion(){
+        String version = "stable";
+        try {
+            InetAddress inetAdd = InetAddress.getLocalHost();
+
+            String name = inetAdd.getHostName();
+
+            log.info("Diego - hostname: "+name);
+
+            if(name.contains("canary")){
+                log.info("Diego - Set as Canary");
+                version = "canary";
+            }
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+
+        return version;
+    }
+
 
     @GET
     @Path("process")
@@ -192,7 +214,7 @@ public class PaymentsResource {
                 metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
                 return Response.serverError()
                         .status(Response.Status.UNAUTHORIZED)
-                        .entity("Bug Diego")
+                        .entity("Bug Diego - "+this.getVersion())
                         .build();
             }
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
