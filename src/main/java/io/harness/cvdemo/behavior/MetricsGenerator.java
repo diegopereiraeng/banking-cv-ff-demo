@@ -134,6 +134,7 @@ public class MetricsGenerator implements Runnable {
         try {
           if ( version == "canary"){
 
+
             log.info("FF - check if bug process is enabled");
             bug_process = cfClient.boolVariation("bug_process_response", target, false);
             log.info("FF - bug process is "+bug_process);
