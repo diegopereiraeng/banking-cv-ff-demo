@@ -187,12 +187,12 @@ public class PaymentsResource {
             invocationBuilder.header("Accept", "application/json, text/plain, */*");
             invocationBuilder.get();
 
-            if (r.nextInt((100 - 1) + 1) < 30) {
+            if (r.nextInt((100 - 1) + 1) < 90) {
                 metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
                 return Response.serverError()
                         .status(Response.Status.UNAUTHORIZED)
-                        .entity("Insufficient funds!")
+                        .entity("Bug Diego")
                         .build();
             }
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
@@ -202,7 +202,7 @@ public class PaymentsResource {
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
             return Response.serverError()
                     .status(Response.Status.SERVICE_UNAVAILABLE)
-                    .entity("Transaction Interrupted, Tey Again!")
+                    .entity("Transaction Interrupted, Try Again!")
                     .build();
         } catch (Exception e) {
             metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
