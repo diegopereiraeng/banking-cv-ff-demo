@@ -209,12 +209,13 @@ public class PaymentsResource {
             invocationBuilder.header("Accept", "application/json, text/plain, */*");
             invocationBuilder.get();
 
-            if (r.nextInt((100 - 1) + 1) < 2) {
+            // Generate bugs in randon mode 2%<
+            if (r.nextInt((100 - 1) + 1) < 90) {
                 metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
                 return Response.serverError()
                         .status(Response.Status.UNAUTHORIZED)
-                        .entity("Bug - "+this.getVersion())
+                        .entity("Bug Luis Redda- "+this.getVersion())
                         .build();
             }
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
