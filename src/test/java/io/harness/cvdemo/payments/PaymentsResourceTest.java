@@ -10,7 +10,6 @@ public class PaymentsResourceTest {
     @Before
     public void setUp() throws Exception {
         System.out.println("Before Unit Test - setUp");
-
         assertEquals("Health Check OK","Health Check OK");
 
     }
