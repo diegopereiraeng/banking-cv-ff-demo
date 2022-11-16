@@ -54,13 +54,12 @@ ENV JAVA_TOOL_OPTIONS="-agentpath:/opt/harness-et-agent/lib/libETAgent.so"
 #COPY newrelic-java-5.3.0.tar.gz /opt/cv-demo/
 
 
-
 WORKDIR /opt/cv-demo
 
 CMD bash -c ' \
     if [[ "$ENABLE_APPDYNAMICS" == "true" ]]; then \
       node_name="-Dappdynamics.agent.nodeName=$(hostname)"; \
-      JAVA_OPTS=$JAVA_OPTS" -javaagent:/appdy/appagent/javaagent.jar -Dappdynamics.jvm.shutdown.mark.node.as.historical=true"; \
+      JAVA_OPTS=$JAVA_OPTS" -javaagent:/appdy/appagent/javaagent.jar -Dappdynamics.jvm.shutdown.mark.node.as.historical=false"; \
       JAVA_OPTS="$JAVA_OPTS $node_name"; \
       echo "Using Appdynamics java agent"; \
     fi; \
