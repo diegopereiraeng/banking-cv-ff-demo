@@ -27,6 +27,7 @@ public class PaymentsResourceTest {
         assertEquals("Health Check OK","Health Check OK");
     }
 
+
     @Test
     public void paymentStatus() {
         System.out.println("Unit Test metricGeneratorHealthCheck");
