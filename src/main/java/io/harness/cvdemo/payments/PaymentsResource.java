@@ -215,11 +215,11 @@ public class PaymentsResource {
                 metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
                 return Response.serverError()
                         .status(Response.Status.UNAUTHORIZED)
-                        .entity("Bug Luis Redda- "+this.getVersion())
+                        .entity("Bug Luis Redda - "+this.getVersion())
                         .build();
             }
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
-            return Response.ok().entity("Payment Accepted.").build();
+            return Response.ok().entity("Payment Accepted - version: "+this.getVersion()).build();
         } catch (InterruptedException ex) {
             metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
