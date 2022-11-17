@@ -210,12 +210,12 @@ public class PaymentsResource {
             invocationBuilder.get();
 
             // Generate bugs in randon mode 70%<
-            if (r.nextInt((100 - 1) + 1) < 2) {
+            if (r.nextInt((100 - 1) + 1) < 70) {
                 metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
                 return Response.serverError()
                         .status(Response.Status.UNAUTHORIZED)
-                        .entity("Bug - "+this.getVersion())
+                        .entity("Bug Patrick v1 - "+this.getVersion())
                         .build();
             }
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
