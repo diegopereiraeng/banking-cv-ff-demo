@@ -210,12 +210,12 @@ public class PaymentsResource {
             invocationBuilder.get();
 
             // Generate bugs in randon mode 70%<
-            if (r.nextInt((100 - 1) + 1) < 70) {
+            if (r.nextInt((100 - 1) + 1) < 2) {
                 metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
                 return Response.serverError()
                         .status(Response.Status.UNAUTHORIZED)
-                        .entity("Bug SE LATAM CALL- "+this.getVersion())
+                        .entity("Bug - "+this.getVersion())
                         .build();
             }
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
