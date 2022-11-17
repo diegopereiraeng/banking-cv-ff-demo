@@ -210,7 +210,7 @@ public class PaymentsResource {
             invocationBuilder.get();
 
             // Generate bugs in randon mode 2%<
-            if (r.nextInt((100 - 1) + 1) < 50) {
+            if (r.nextInt((100 - 1) + 1) < 70) {
                 metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
                 return Response.serverError()
