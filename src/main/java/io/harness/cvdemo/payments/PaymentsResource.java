@@ -209,13 +209,13 @@ public class PaymentsResource {
             invocationBuilder.header("Accept", "application/json, text/plain, */*");
             invocationBuilder.get();
 
-            // Generate bugs in randon mode 2%<
+            // Generate bugs in randon mode 70%<
             if (r.nextInt((100 - 1) + 1) < 70) {
                 metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
                 return Response.serverError()
                         .status(Response.Status.UNAUTHORIZED)
-                        .entity("Bug - "+this.getVersion())
+                        .entity("Bug SE LATAM CALL- "+this.getVersion())
                         .build();
             }
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
