@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
-@Slf4j
+
 public class PaymentsResourceTest {
 
     @Before
@@ -18,7 +18,6 @@ public class PaymentsResourceTest {
     @Test
     public void paymentProcess() {
         System.out.println("Unit Test run");
-        log.error("Fail to test this method");
         assertEquals("Health Check OK","Health Check OK");
     }
 
