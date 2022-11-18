@@ -218,6 +218,7 @@ public class PaymentsResource {
                         .entity("Bug Diego - "+this.getVersion())
                         .build();
             }
+
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
             return Response.ok().entity("Payment Accepted - version: "+this.getVersion()).build();
         } catch (InterruptedException ex) {
