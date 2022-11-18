@@ -215,7 +215,7 @@ public class PaymentsResource {
                 metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
                 return Response.serverError()
                         .status(Response.Status.UNAUTHORIZED)
-                        .entity("Bug Diego - "+this.getVersion())
+                        .entity("Bug Ravi - "+this.getVersion())
                         .build();
             }
 
