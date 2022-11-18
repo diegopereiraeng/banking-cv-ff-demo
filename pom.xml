@@ -19,7 +19,7 @@
     </repositories>
     <properties>
         <java.version>1.8</java.version>
-        <dropwizard.version>2.0.25</dropwizard.version>
+        <dropwizard.version>2.1.4</dropwizard.version>
         <!-- jackson.version>2.10.3</jackson.version -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
