@@ -6,6 +6,7 @@ ffApiKey: 28e29591-7c8e-40d6-b903-e37a8c6e9e1d
 ffMetricKey: errorconfig
 ffLogKey: logerrorconfig
 target: env
+elkPass: abcdef
 
 defaultConfig:
   running: true

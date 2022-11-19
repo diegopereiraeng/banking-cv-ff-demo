@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ElkLogPublishConfig {
     private String elkUrl;
+    private String elkPass;
     private String elkIndex;
     private String ffApiKey;
     private String ffMetricKey;

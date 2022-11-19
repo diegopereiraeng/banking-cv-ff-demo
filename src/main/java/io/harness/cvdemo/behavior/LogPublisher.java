@@ -56,6 +56,7 @@ public class LogPublisher {
             httpPost.setEntity(new StringEntity(outMsg, ContentType.APPLICATION_JSON));
             httpPost.setHeader("hostname", InetAddress.getLocalHost().getHostName());
             httpPost.setHeader("Content-type", "application/json");
+            httpPost.setHeader("Authorization",elkLogPublishConfig.getElkPass());
             CloseableHttpResponse response = httpclient.execute(httpPost);
 
             response.close();
