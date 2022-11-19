@@ -17,6 +17,7 @@ import java.security.SecureRandom;
 
 //get hostname
 import java.net.InetAddress;
+import java.util.concurrent.CompletableFuture;
 
 
 @Slf4j
@@ -35,6 +36,30 @@ public class MetricsGenerator implements Runnable {
       client =
           ClientBuilder.newBuilder().hostnameVerifier((s1, s2) -> true).build();
     }
+  }
+
+  private CompletableFuture<Void> createFuture(Boolean bug_list, Boolean bug_status, Boolean bug_process){
+    Runnable runnable = () -> {
+
+      log.info("Staring Async Task - "+Thread.currentThread().getName());
+      this.paymentGenerator(bug_list,bug_status,bug_process);
+      try{
+        // Banking Calls
+        log.info("Banking Calls");
+        WebTarget getTarget = client.target("http://localhost:8080"+"/v1/payments/list?bug="+bug_list);
+        getTarget.request().get();
+        getTarget = client.target("http://localhost:8080"+"/v1/payments/status?bug="+bug_status+"&value="+r.nextInt(100));
+        getTarget.request().get();
+/*          getTarget = client.target("http://localhost:8080"+"/v1/payments/process?bug=true&value="+r.nextInt(100));
+          getTarget.request().get();*/
+
+      }catch (Exception e){
+        log.error("Metrics Generator Error (Banking Calls 2)");
+      }
+      log.info("Finished Async Task - "+Thread.currentThread().getName());
+
+    };
+    return CompletableFuture.runAsync(runnable);
   }
 
   public void paymentGenerator(Boolean bug_list, Boolean bug_status, Boolean bug_process){
@@ -132,7 +157,7 @@ public class MetricsGenerator implements Runnable {
         Boolean bug_list = false;
 
         try {
-          if ( version == "canary"){
+          if ( version == "not-bug"){
 
 
             log.info("FF - check if bug process is enabled");
@@ -166,7 +191,8 @@ public class MetricsGenerator implements Runnable {
 
         try {
 
-          paymentGenerator(bug_list,bug_status,bug_process);
+          createFuture(bug_list,bug_status,bug_process).get();
+
 
         }catch (Exception e){
           log.error("Payments Generator Error");
@@ -221,21 +247,7 @@ public class MetricsGenerator implements Runnable {
           log.error("Metrics Generator Error (Prometheus metrics /normal-calls etc)");
         }
 
-        try{
-          // Banking Calls
-          log.info("Banking Calls");
-          WebTarget getTarget = client.target("http://localhost:8080"+"/v1/payments/list?bug="+bug_list);
-          getTarget.request().get();
-          getTarget = client.target("http://localhost:8080"+"/v1/payments/status?bug="+bug_status+"&value="+r.nextInt(100));
-          getTarget.request().get();
-/*          getTarget = client.target("http://localhost:8080"+"/v1/payments/process?bug=true&value="+r.nextInt(100));
-          getTarget.request().get();*/
 
-        }catch (Exception e){
-          log.error("Metrics Generator Error (Banking Calls 2)");
-        }
-
-        log.info("FF - check if FF is initialized");
 
 
 
