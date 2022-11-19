@@ -17,20 +17,38 @@ public class PaymentsResourceTest {
 
     @Test
     public void paymentProcess() {
-        System.out.println("Unit Test run");
+        System.out.println("Payment PRocess Check");
+        try {
+            Thread.sleep(10000);
+        }
+         catch (InterruptedException ex) {
+
+        }
         assertEquals("Health Check OK","Health Check OK");
     }
 
     @Test
     public void paymentList() {
-        System.out.println("Unit Test metricGeneratorHealthCheck");
+        System.out.println("Unit Test Payment List");
+        try {
+            Thread.sleep(5000);
+        }
+        catch (InterruptedException ex) {
+
+        }
         assertEquals("Health Check OK","Health Check OK");
     }
 
 
     @Test
     public void paymentStatus() {
-        System.out.println("Unit Test metricGeneratorHealthCheck");
+        System.out.println("Unit Test paymentStatus");
+        try {
+            Thread.sleep(1000);
+        }
+        catch (InterruptedException ex) {
+
+        }
         assertEquals("Health Check OK","Health Check OK");
     }
 
