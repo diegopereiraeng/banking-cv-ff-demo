@@ -13,6 +13,7 @@ public class AppConfiguration extends Configuration {
   private Config defaultConfig;
   private String elkUrl;
   private String elkIndex;
+  private String elkPass;
   private String ffApiKey;
   private String ffMetricKey;
   private String ffLogKey;
