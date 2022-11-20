@@ -93,7 +93,8 @@ public class LogPublisher {
                 System.out.println("Log Publisher -  "+response.getStatusLine());
                 HttpEntity entity = response.getEntity();
                 EntityUtils.consume(entity);
-
+                log.info("Log Publisher -  "+response.getEntity().getContent().toString());
+                response.close();
 
             } catch (NoSuchAlgorithmException e) {
                 log.error("Log Publisher -  Error");
@@ -104,9 +105,6 @@ public class LogPublisher {
             } catch (KeyManagementException e) {
                 log.error("Log Publisher -  Error");
                 throw new RuntimeException(e);
-            }finally {
-                log.info("Log Publisher -  "+response.getEntity().getContent().toString());
-                response.close();
             }
 
 
