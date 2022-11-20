@@ -67,5 +67,8 @@ public class LogPublisher {
 
             response.close();
         }
+        else{
+            log.warn("Log warning - Log Disabled");
+        }
     }
 }
