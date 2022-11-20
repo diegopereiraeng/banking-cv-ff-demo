@@ -85,27 +85,33 @@ public class LogPublisher {
                 CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(
                         sslsf).build();
             } catch (NoSuchAlgorithmException e) {
+                log.error("Diego - Error");
                 throw new RuntimeException(e);
             } catch (KeyStoreException e) {
+                log.error("Diego - Error");
                 throw new RuntimeException(e);
             } catch (KeyManagementException e) {
+                log.error("Diego - Error");
                 throw new RuntimeException(e);
             }
 
             CloseableHttpResponse response = httpclient.execute(httpPost);
 
             try {
-                System.out.println(response.getStatusLine());
+                System.out.println("Diego - "+response.getStatusLine());
                 HttpEntity entity = response.getEntity();
                 EntityUtils.consume(entity);
+
+
             } finally {
+                log.info("Diego - "+response.getEntity().getContent().toString());
                 response.close();
             }
 
 
 
 
-            response.close();
+            //response.close();
         }
         else{
             log.warn("Log warning - Log Disabled");
