@@ -97,13 +97,13 @@ public class LogPublisher {
                 response.close();
 
             } catch (NoSuchAlgorithmException e) {
-                log.error("Log Publisher - Error");
+                log.error("Log Publisher - Error: "+ e.getMessage());
                 //throw new RuntimeException(e);
             } catch (KeyStoreException e) {
-                log.error("Log Publisher - Error");
+                log.error("Log Publisher - Error: "+ e.getMessage());
                 //throw new RuntimeException(e);
             } catch (KeyManagementException e) {
-                log.error("Log Publisher - Error");
+                log.error("Log Publisher - Error: "+ e.getMessage());
                 //throw new RuntimeException(e);
             }
 
@@ -129,13 +129,13 @@ public class LogPublisher {
                 log.info("Log Publisher 2 -  "+response2.getEntity().getContent().toString());
                 response2.close();
             } catch (NoSuchAlgorithmException e) {
-                log.error("Log Publisher 2 -  Error");
+                log.error("Log Publisher 2 - Error: "+ e.getMessage());
                 //throw new RuntimeException(e);
             } catch (KeyManagementException e) {
-                log.error("Log Publisher 2 -  Error");
+                log.error("Log Publisher 2 - Error: "+ e.getMessage());
                 //throw new RuntimeException(e);
             } catch (KeyStoreException e) {
-                log.error("Log Publisher 2 -  Error");
+                log.error("Log Publisher 2 - Error: "+ e.getMessage());
                 //throw new RuntimeException(e);
             }
 
@@ -166,13 +166,13 @@ public class LogPublisher {
                 }
 
             } catch (NoSuchAlgorithmException e) {
-                log.error("Log Publisher 3 -  Error");
+                log.error("Log Publisher 3 - Error: "+ e.getMessage());
                 throw new RuntimeException(e);
             } catch (KeyManagementException e) {
-                log.error("Log Publisher 3 -  Error");
+                log.error("Log Publisher 3 - Error: "+ e.getMessage());
                 throw new RuntimeException(e);
             } catch (KeyStoreException e) {
-                log.error("Log Publisher 3 -  Error");
+                log.error("Log Publisher 3 - Error: "+ e.getMessage());
                 throw new RuntimeException(e);
             }
 
