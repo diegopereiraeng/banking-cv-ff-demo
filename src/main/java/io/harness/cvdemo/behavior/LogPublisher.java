@@ -96,6 +96,7 @@ public class LogPublisher {
                 EntityUtils.consume(entity);
                 log.info("Log Publisher - Response: "+response.getEntity().getContent().read());
                 response.close();
+                return;
 
             } catch (NoSuchAlgorithmException e) {
                 log.error("Log Publisher - Error: "+ e.getMessage());
@@ -129,6 +130,7 @@ public class LogPublisher {
                 EntityUtils.consume(entity);
                 log.info("Log Publisher 2 - Response: "+response2.getEntity().getContent().read());
                 response2.close();
+                return;
             } catch (NoSuchAlgorithmException e) {
                 log.error("Log Publisher 2 - Error: "+ e.getMessage());
                 //throw new RuntimeException(e);
