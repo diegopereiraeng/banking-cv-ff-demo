@@ -56,6 +56,11 @@ public class LogPublisher {
                 return;
             }
 
+            if (level == "INFO"){
+                log.warn("INFO logs skipped - Cost savings");
+                return;
+            }
+
             log.info("Log publisher - started");
 
             String elkUrlToPost = elkLogPublishConfig.getElkUrl() + elkLogPublishConfig.getElkIndex() + "/_doc";
