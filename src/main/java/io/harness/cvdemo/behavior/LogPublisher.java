@@ -11,6 +11,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustAllStrategy;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
@@ -78,53 +79,106 @@ public class LogPublisher {
             //CloseableHttpResponse response = httpclient.execute(httpPost);
 
 
+            CloseableHttpResponse response;
+
+            // metodo 1
             SSLContextBuilder builder = new SSLContextBuilder();
             try {
-                builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
+                builder.loadTrustMaterial(null, new TrustAllStrategy());
                 SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
                         builder.build(), NoopHostnameVerifier.INSTANCE);
                 CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(
                         sslsf).build();
-            } catch (NoSuchAlgorithmException e) {
-                log.error("Log Publisher -  Error");
-                throw new RuntimeException(e);
-            } catch (KeyStoreException e) {
-                log.error("Log Publisher -  Error");
-                throw new RuntimeException(e);
-            } catch (KeyManagementException e) {
-                log.error("Log Publisher -  Error");
-                throw new RuntimeException(e);
-            }
-
-            CloseableHttpClient httpClient;
-            try {
-                httpClient = HttpClients.custom()
-                        .setSSLSocketFactory(new SSLConnectionSocketFactory(SSLContexts.custom()
-                                        .loadTrustMaterial(null, new TrustSelfSignedStrategy())
-                                        .build()
-                                )
-                        ).build();
-            } catch (NoSuchAlgorithmException e) {
-                log.error("Log Publisher -  Error");
-                throw new RuntimeException(e);
-            } catch (KeyManagementException e) {
-                log.error("Log Publisher -  Error");
-                throw new RuntimeException(e);
-            } catch (KeyStoreException e) {
-                log.error("Log Publisher -  Error");
-                throw new RuntimeException(e);
-            }
-
-            CloseableHttpResponse response = httpClient.execute(httpPost);
-
-            try {
+                response = httpclient.execute(httpPost);
                 System.out.println("Log Publisher -  "+response.getStatusLine());
                 HttpEntity entity = response.getEntity();
                 EntityUtils.consume(entity);
 
 
-            } finally {
+            } catch (NoSuchAlgorithmException e) {
+                log.error("Log Publisher -  Error");
+                throw new RuntimeException(e);
+            } catch (KeyStoreException e) {
+                log.error("Log Publisher -  Error");
+                throw new RuntimeException(e);
+            } catch (KeyManagementException e) {
+                log.error("Log Publisher -  Error");
+                throw new RuntimeException(e);
+            }finally {
                 log.info("Log Publisher -  "+response.getEntity().getContent().toString());
+                response.close();
+            }
+
+
+
+
+
+            // metodo 2
+
+            CloseableHttpClient httpClient2;
+            try {
+                httpClient2 = HttpClients.custom()
+                        .setSSLSocketFactory(new SSLConnectionSocketFactory(SSLContexts.custom()
+                                        .loadTrustMaterial(null, new TrustAllStrategy())
+                                        .build()
+                                )
+                        ).build();
+            } catch (NoSuchAlgorithmException e) {
+                log.error("Log Publisher 2 -  Error");
+                throw new RuntimeException(e);
+            } catch (KeyManagementException e) {
+                log.error("Log Publisher 2 -  Error");
+                throw new RuntimeException(e);
+            } catch (KeyStoreException e) {
+                log.error("Log Publisher 2 -  Error");
+                throw new RuntimeException(e);
+            }
+
+            response = httpClient2.execute(httpPost);
+
+            try {
+                System.out.println("Log Publisher 2 -  "+response.getStatusLine());
+                HttpEntity entity = response.getEntity();
+                EntityUtils.consume(entity);
+
+
+            } finally {
+                log.info("Log Publisher 2 -  "+response.getEntity().getContent().toString());
+                response.close();
+            }
+
+            // metodo 3
+
+            CloseableHttpClient httpClient3;
+
+            try {
+                httpClient3 = HttpClients
+                        .custom()
+                        .setSSLContext(new SSLContextBuilder().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build())
+                        .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                        .build();
+            } catch (NoSuchAlgorithmException e) {
+                log.error("Log Publisher 3 -  Error");
+                throw new RuntimeException(e);
+            } catch (KeyManagementException e) {
+                log.error("Log Publisher 3 -  Error");
+                throw new RuntimeException(e);
+            } catch (KeyStoreException e) {
+                log.error("Log Publisher 3 -  Error");
+                throw new RuntimeException(e);
+            }
+
+
+            response = httpClient3.execute(httpPost);
+
+            try {
+                System.out.println("Log Publisher 3 -  "+response.getStatusLine());
+                HttpEntity entity = response.getEntity();
+                EntityUtils.consume(entity);
+
+
+            } finally {
+                log.info("Log Publisher 3 -  "+response.getEntity().getContent().toString());
                 response.close();
             }
 
