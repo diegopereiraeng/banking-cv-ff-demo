@@ -6,15 +6,24 @@ import com.google.gson.JsonObject;
 import io.harness.cvdemo.config.beans.ElkLogPublishConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -60,12 +69,38 @@ public class LogPublisher {
             httpPost.setEntity(new StringEntity(outMsg, ContentType.APPLICATION_JSON));
             httpPost.setHeader("hostname", InetAddress.getLocalHost().getHostName());
             httpPost.setHeader("Content-type", "application/json");
-            httpPost.setHeader("es-secondary-authorization",elkLogPublishConfig.getElkPass());
+            httpPost.setHeader("Authorization",elkLogPublishConfig.getElkPass());
 
             log.info("Log configuration: url call: "+elkUrlToPost);
             log.info("Log configuration: json: "+outMsg);
 
+            //CloseableHttpResponse response = httpclient.execute(httpPost);
+
+
+            SSLContextBuilder builder = new SSLContextBuilder();
+            try {
+                builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
+                SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
+                        builder.build(), NoopHostnameVerifier.INSTANCE);
+                CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(
+                        sslsf).build();
+            } catch (NoSuchAlgorithmException e) {
+                throw new RuntimeException(e);
+            } catch (KeyStoreException e) {
+                throw new RuntimeException(e);
+            } catch (KeyManagementException e) {
+                throw new RuntimeException(e);
+            }
+
             CloseableHttpResponse response = httpclient.execute(httpPost);
+
+            try {
+                System.out.println(response.getStatusLine());
+                HttpEntity entity = response.getEntity();
+                EntityUtils.consume(entity);
+            } finally {
+                response.close();
+            }
 
 
 
