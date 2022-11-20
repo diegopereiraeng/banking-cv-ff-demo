@@ -34,6 +34,8 @@ public class LogPublisher {
     }
 
     public void publishLogs(String level, String logMsg) throws IOException {
+        log.info("Log configuration: elkurl: "+elkLogPublishConfig.getElkUrl());
+        log.info("Log configuration: elkIndex: "+elkLogPublishConfig.getElkIndex());
         if (StringUtils.isNotEmpty(elkLogPublishConfig.getElkUrl())
                 && StringUtils.isNotEmpty(elkLogPublishConfig.getElkIndex())) {
 
@@ -58,8 +60,7 @@ public class LogPublisher {
             httpPost.setHeader("Content-type", "application/json");
             httpPost.setHeader("Authorization",elkLogPublishConfig.getElkPass());
             CloseableHttpResponse response = httpclient.execute(httpPost);
-            log.info("Log configuration: elkurl: "+elkLogPublishConfig.getElkUrl());
-            log.info("Log configuration: elkIndex: "+elkLogPublishConfig.getElkIndex());
+
             log.info("Log configuration: url call: "+elkUrlToPost);
             log.info("Log configuration: json: "+outMsg);
 
