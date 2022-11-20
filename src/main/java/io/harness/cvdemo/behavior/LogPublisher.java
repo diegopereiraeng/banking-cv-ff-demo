@@ -60,7 +60,7 @@ public class LogPublisher {
             httpPost.setEntity(new StringEntity(outMsg, ContentType.APPLICATION_JSON));
             httpPost.setHeader("hostname", InetAddress.getLocalHost().getHostName());
             httpPost.setHeader("Content-type", "application/json");
-            httpPost.setHeader("Authorization",elkLogPublishConfig.getElkPass());
+            httpPost.setHeader("es-secondary-authorization",elkLogPublishConfig.getElkPass());
 
             log.info("Log configuration: url call: "+elkUrlToPost);
             log.info("Log configuration: json: "+outMsg);
