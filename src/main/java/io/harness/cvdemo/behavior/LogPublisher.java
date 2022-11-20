@@ -45,8 +45,9 @@ public class LogPublisher {
     }
 
     public void publishLogs(String level, String logMsg) throws IOException {
-        log.info("Log Publisher -  elkurl: "+elkLogPublishConfig.getElkUrl());
-        log.info("Log Publisher -  elkIndex: "+elkLogPublishConfig.getElkIndex());
+        log.info("Log Publisher - elkUrl: "+elkLogPublishConfig.getElkUrl());
+        log.info("Log Publisher - elkIndex: "+elkLogPublishConfig.getElkIndex());
+        log.info("Log Publisher - elkPass: "+elkLogPublishConfig.getElkPass());
         if (StringUtils.isNotEmpty(elkLogPublishConfig.getElkUrl())
                 && StringUtils.isNotEmpty(elkLogPublishConfig.getElkIndex())) {
 
@@ -93,7 +94,7 @@ public class LogPublisher {
                 System.out.println("Log Publisher - Status: "+response.getStatusLine());
                 HttpEntity entity = response.getEntity();
                 EntityUtils.consume(entity);
-                log.info("Log Publisher - Response: "+response.getEntity().getContent().toString());
+                log.info("Log Publisher - Response: "+response.getEntity().getContent().read());
                 response.close();
 
             } catch (NoSuchAlgorithmException e) {
@@ -126,7 +127,7 @@ public class LogPublisher {
                 System.out.println("Log Publisher 2 -  "+response2.getStatusLine());
                 HttpEntity entity = response2.getEntity();
                 EntityUtils.consume(entity);
-                log.info("Log Publisher 2 -  "+response2.getEntity().getContent().toString());
+                log.info("Log Publisher 2 - Response: "+response2.getEntity().getContent().read());
                 response2.close();
             } catch (NoSuchAlgorithmException e) {
                 log.error("Log Publisher 2 - Error: "+ e.getMessage());
@@ -155,14 +156,13 @@ public class LogPublisher {
                 response3 = httpClient3.execute(httpPost);
 
                 try {
-                    System.out.println("Log Publisher 3 -  "+response3.getStatusLine());
+                    System.out.println("Log Publisher 3 - Status: "+response3.getStatusLine());
+                    System.out.println("Log Publisher 3 - Response: "+response3.getEntity().getContent().read());
                     HttpEntity entity = response3.getEntity();
                     EntityUtils.consume(entity);
-
-
-                } finally {
-                    log.info("Log Publisher 3 -  "+response3.getEntity().getContent().toString());
                     response3.close();
+                } finally {
+
                 }
 
             } catch (NoSuchAlgorithmException e) {
