@@ -42,6 +42,8 @@ public class BehaviorGenerator {
   }
 
   public void startAll()  {
+
+    log.info("Behavior Generator - StartAll ELK_PASS: "+this.elkLogPublishConfig.getElkPass());
     running.add(executorService.scheduleAtFixedRate(
         new LogGenerator(config.getLogConfig(), this.elkLogPublishConfig, config.getName()), 0, 1, TimeUnit.MINUTES));
     running.add(executorService.scheduleAtFixedRate(
@@ -75,6 +77,7 @@ public class BehaviorGenerator {
   }
 
   public void applyConfig(AppConfiguration config)  {
+    log.info("Behavior Generator - Apply Config ELK_PASS: "+config.getElkPass());
     this.elkLogPublishConfig = ElkLogPublishConfig.builder()
             .elkUrl(config.getElkUrl())
             .elkIndex(config.getElkIndex())
