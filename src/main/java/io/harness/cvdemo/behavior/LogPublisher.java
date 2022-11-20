@@ -51,7 +51,7 @@ public class LogPublisher {
         if (StringUtils.isNotEmpty(elkLogPublishConfig.getElkUrl())
                 && StringUtils.isNotEmpty(elkLogPublishConfig.getElkIndex())) {
 
-            if (StringUtils.isNotEmpty(elkLogPublishConfig.getElkPass())){
+            if (StringUtils.isEmpty(elkLogPublishConfig.getElkPass())){
                 log.error("Elastic ApiKey is null");
                 return;
             }
