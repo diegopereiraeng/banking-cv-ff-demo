@@ -17,6 +17,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
@@ -95,7 +96,26 @@ public class LogPublisher {
                 throw new RuntimeException(e);
             }
 
-            CloseableHttpResponse response = httpclient.execute(httpPost);
+            CloseableHttpClient httpClient;
+            try {
+                httpClient = HttpClients.custom()
+                        .setSSLSocketFactory(new SSLConnectionSocketFactory(SSLContexts.custom()
+                                        .loadTrustMaterial(null, new TrustSelfSignedStrategy())
+                                        .build()
+                                )
+                        ).build();
+            } catch (NoSuchAlgorithmException e) {
+                log.error("Log Publisher -  Error");
+                throw new RuntimeException(e);
+            } catch (KeyManagementException e) {
+                log.error("Log Publisher -  Error");
+                throw new RuntimeException(e);
+            } catch (KeyStoreException e) {
+                log.error("Log Publisher -  Error");
+                throw new RuntimeException(e);
+            }
+
+            CloseableHttpResponse response = httpClient.execute(httpPost);
 
             try {
                 System.out.println("Log Publisher -  "+response.getStatusLine());
