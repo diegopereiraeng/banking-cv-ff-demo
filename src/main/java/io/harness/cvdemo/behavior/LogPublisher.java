@@ -47,7 +47,7 @@ public class LogPublisher {
     public void publishLogs(String level, String logMsg) throws IOException {
         log.info("Log Publisher - elkUrl: "+elkLogPublishConfig.getElkUrl());
         log.info("Log Publisher - elkIndex: "+elkLogPublishConfig.getElkIndex());
-        log.info("Log Publisher - elkPass: "+elkLogPublishConfig.getElkPass());
+        log.debug("Log Publisher - elkPass: "+elkLogPublishConfig.getElkPass());
         if (StringUtils.isNotEmpty(elkLogPublishConfig.getElkUrl())
                 && StringUtils.isNotEmpty(elkLogPublishConfig.getElkIndex())) {
 
