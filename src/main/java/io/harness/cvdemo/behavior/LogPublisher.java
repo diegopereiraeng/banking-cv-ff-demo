@@ -90,21 +90,21 @@ public class LogPublisher {
                 CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(
                         sslsf).build();
                 response = httpclient.execute(httpPost);
-                System.out.println("Log Publisher -  "+response.getStatusLine());
+                System.out.println("Log Publisher - Status: "+response.getStatusLine());
                 HttpEntity entity = response.getEntity();
                 EntityUtils.consume(entity);
-                log.info("Log Publisher -  "+response.getEntity().getContent().toString());
+                log.info("Log Publisher - Response: "+response.getEntity().getContent().toString());
                 response.close();
 
             } catch (NoSuchAlgorithmException e) {
-                log.error("Log Publisher -  Error");
-                throw new RuntimeException(e);
+                log.error("Log Publisher - Error");
+                //throw new RuntimeException(e);
             } catch (KeyStoreException e) {
-                log.error("Log Publisher -  Error");
-                throw new RuntimeException(e);
+                log.error("Log Publisher - Error");
+                //throw new RuntimeException(e);
             } catch (KeyManagementException e) {
-                log.error("Log Publisher -  Error");
-                throw new RuntimeException(e);
+                log.error("Log Publisher - Error");
+                //throw new RuntimeException(e);
             }
 
 
@@ -114,6 +114,7 @@ public class LogPublisher {
             // metodo 2
 
             CloseableHttpClient httpClient2;
+            CloseableHttpResponse response2;
             try {
                 httpClient2 = HttpClients.custom()
                         .setSSLSocketFactory(new SSLConnectionSocketFactory(SSLContexts.custom()
@@ -121,32 +122,27 @@ public class LogPublisher {
                                         .build()
                                 )
                         ).build();
+                response2 = httpClient2.execute(httpPost);
+                System.out.println("Log Publisher 2 -  "+response2.getStatusLine());
+                HttpEntity entity = response2.getEntity();
+                EntityUtils.consume(entity);
+                log.info("Log Publisher 2 -  "+response2.getEntity().getContent().toString());
+                response2.close();
             } catch (NoSuchAlgorithmException e) {
                 log.error("Log Publisher 2 -  Error");
-                throw new RuntimeException(e);
+                //throw new RuntimeException(e);
             } catch (KeyManagementException e) {
                 log.error("Log Publisher 2 -  Error");
-                throw new RuntimeException(e);
+                //throw new RuntimeException(e);
             } catch (KeyStoreException e) {
                 log.error("Log Publisher 2 -  Error");
-                throw new RuntimeException(e);
+                //throw new RuntimeException(e);
             }
 
-            response = httpClient2.execute(httpPost);
 
-            try {
-                System.out.println("Log Publisher 2 -  "+response.getStatusLine());
-                HttpEntity entity = response.getEntity();
-                EntityUtils.consume(entity);
-
-
-            } finally {
-                log.info("Log Publisher 2 -  "+response.getEntity().getContent().toString());
-                response.close();
-            }
 
             // metodo 3
-
+            CloseableHttpResponse response3;
             CloseableHttpClient httpClient3;
 
             try {
@@ -155,6 +151,20 @@ public class LogPublisher {
                         .setSSLContext(new SSLContextBuilder().loadTrustMaterial(null, TrustAllStrategy.INSTANCE).build())
                         .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                         .build();
+
+                response3 = httpClient3.execute(httpPost);
+
+                try {
+                    System.out.println("Log Publisher 3 -  "+response3.getStatusLine());
+                    HttpEntity entity = response3.getEntity();
+                    EntityUtils.consume(entity);
+
+
+                } finally {
+                    log.info("Log Publisher 3 -  "+response3.getEntity().getContent().toString());
+                    response3.close();
+                }
+
             } catch (NoSuchAlgorithmException e) {
                 log.error("Log Publisher 3 -  Error");
                 throw new RuntimeException(e);
@@ -167,18 +177,7 @@ public class LogPublisher {
             }
 
 
-            response = httpClient3.execute(httpPost);
 
-            try {
-                System.out.println("Log Publisher 3 -  "+response.getStatusLine());
-                HttpEntity entity = response.getEntity();
-                EntityUtils.consume(entity);
-
-
-            } finally {
-                log.info("Log Publisher 3 -  "+response.getEntity().getContent().toString());
-                response.close();
-            }
 
 
 
