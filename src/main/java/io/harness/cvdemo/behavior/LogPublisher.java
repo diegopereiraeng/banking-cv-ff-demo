@@ -63,6 +63,7 @@ public class LogPublisher {
             log.info("Log configuration: url call: "+elkUrlToPost);
             log.info("Log configuration: json: "+outMsg);
 
+
             response.close();
         }
     }
