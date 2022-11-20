@@ -43,12 +43,12 @@ public class LogPublisher {
     }
 
     public void publishLogs(String level, String logMsg) throws IOException {
-        log.info("Log configuration: elkurl: "+elkLogPublishConfig.getElkUrl());
-        log.info("Log configuration: elkIndex: "+elkLogPublishConfig.getElkIndex());
+        log.info("Log Publisher -  elkurl: "+elkLogPublishConfig.getElkUrl());
+        log.info("Log Publisher -  elkIndex: "+elkLogPublishConfig.getElkIndex());
         if (StringUtils.isNotEmpty(elkLogPublishConfig.getElkUrl())
                 && StringUtils.isNotEmpty(elkLogPublishConfig.getElkIndex())) {
 
-            log.info("Log publisher started");
+            log.info("Log publisher - started");
 
             String elkUrlToPost = elkLogPublishConfig.getElkUrl() + elkLogPublishConfig.getElkIndex() + "/_doc";
             LogData logData = new LogData();
@@ -71,8 +71,8 @@ public class LogPublisher {
             httpPost.setHeader("Content-type", "application/json");
             httpPost.setHeader("Authorization",elkLogPublishConfig.getElkPass());
 
-            log.info("Log configuration: url call: "+elkUrlToPost);
-            log.info("Log configuration: json: "+outMsg);
+            log.info("Log Publisher -  url call: "+elkUrlToPost);
+            log.info("Log Publisher -  json: "+outMsg);
 
             //CloseableHttpResponse response = httpclient.execute(httpPost);
 
@@ -85,26 +85,26 @@ public class LogPublisher {
                 CloseableHttpClient httpclient = HttpClients.custom().setSSLSocketFactory(
                         sslsf).build();
             } catch (NoSuchAlgorithmException e) {
-                log.error("Diego - Error");
+                log.error("Log Publisher -  Error");
                 throw new RuntimeException(e);
             } catch (KeyStoreException e) {
-                log.error("Diego - Error");
+                log.error("Log Publisher -  Error");
                 throw new RuntimeException(e);
             } catch (KeyManagementException e) {
-                log.error("Diego - Error");
+                log.error("Log Publisher -  Error");
                 throw new RuntimeException(e);
             }
 
             CloseableHttpResponse response = httpclient.execute(httpPost);
 
             try {
-                System.out.println("Diego - "+response.getStatusLine());
+                System.out.println("Log Publisher -  "+response.getStatusLine());
                 HttpEntity entity = response.getEntity();
                 EntityUtils.consume(entity);
 
 
             } finally {
-                log.info("Diego - "+response.getEntity().getContent().toString());
+                log.info("Log Publisher -  "+response.getEntity().getContent().toString());
                 response.close();
             }
 
@@ -114,7 +114,7 @@ public class LogPublisher {
             //response.close();
         }
         else{
-            log.warn("Log warning - Log Disabled");
+            log.warn("Log Publisher - Disabled");
         }
     }
 }

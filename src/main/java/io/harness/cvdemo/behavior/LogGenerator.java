@@ -90,8 +90,14 @@ public class LogGenerator implements Runnable {
         else{
           log.info("FF "+elkLogPublishConfig.getFfLogKey()+" not activated - ff status: "+result);
         }
+        try {
+          logPublisher.publishLogs(level, logMsg);
+        }catch (RuntimeException e){
+          log.error("Log Publisher - " + e.getMessage());
+        }catch (Exception e){
+          log.error("Log Publisher - " + e.getMessage());
+        }
 
-        logPublisher.publishLogs(level, logMsg);
 
         Thread.sleep(60000 / logConfig.getLogsPerMinute());
       }
