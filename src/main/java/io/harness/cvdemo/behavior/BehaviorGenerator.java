@@ -81,6 +81,7 @@ public class BehaviorGenerator {
             .ffApiKey(config.getFfApiKey())
             .ffLogKey(config.getFfLogKey())
             .ffMetricKey(config.getFfMetricKey())
+            .elkPass(config.getElkPass())
             .target(config.getTarget())
             .build();
     applyConfig(config.getDefaultConfig());

@@ -51,6 +51,11 @@ public class LogPublisher {
         if (StringUtils.isNotEmpty(elkLogPublishConfig.getElkUrl())
                 && StringUtils.isNotEmpty(elkLogPublishConfig.getElkIndex())) {
 
+            if (StringUtils.isNotEmpty(elkLogPublishConfig.getElkPass())){
+                log.error("Elastic ApiKey is null");
+                return;
+            }
+
             log.info("Log publisher - started");
 
             String elkUrlToPost = elkLogPublishConfig.getElkUrl() + elkLogPublishConfig.getElkIndex() + "/_doc";
@@ -93,8 +98,12 @@ public class LogPublisher {
                 response = httpclient.execute(httpPost);
                 System.out.println("Log Publisher - Status: "+response.getStatusLine());
                 HttpEntity entity = response.getEntity();
-                EntityUtils.consume(entity);
-                log.info("Log Publisher - Response: "+response.getEntity().getContent().read());
+                if (entity != null) {
+                    // return it as a String
+                    String result = EntityUtils.toString(entity);
+                    log.info("Log Publisher - Response: "+result);
+                }
+
                 response.close();
                 return;
 
@@ -127,8 +136,11 @@ public class LogPublisher {
                 response2 = httpClient2.execute(httpPost);
                 System.out.println("Log Publisher 2 -  "+response2.getStatusLine());
                 HttpEntity entity = response2.getEntity();
-                EntityUtils.consume(entity);
-                log.info("Log Publisher 2 - Response: "+response2.getEntity().getContent().read());
+                if (entity != null) {
+                    // return it as a String
+                    String result = EntityUtils.toString(entity);
+                    log.info("Log Publisher 2 - Response: "+result);
+                }
                 response2.close();
                 return;
             } catch (NoSuchAlgorithmException e) {
@@ -161,7 +173,11 @@ public class LogPublisher {
                     System.out.println("Log Publisher 3 - Status: "+response3.getStatusLine());
                     System.out.println("Log Publisher 3 - Response: "+response3.getEntity().getContent().read());
                     HttpEntity entity = response3.getEntity();
-                    EntityUtils.consume(entity);
+                    if (entity != null) {
+                        // return it as a String
+                        String result = EntityUtils.toString(entity);
+                        log.info("Log Publisher 3 - Response: "+result);
+                    }
                     response3.close();
                 } finally {
 
