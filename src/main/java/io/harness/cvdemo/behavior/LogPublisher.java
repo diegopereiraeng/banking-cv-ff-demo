@@ -39,6 +39,8 @@ public class LogPublisher {
         if (StringUtils.isNotEmpty(elkLogPublishConfig.getElkUrl())
                 && StringUtils.isNotEmpty(elkLogPublishConfig.getElkIndex())) {
 
+            log.info("Log publisher started");
+
             String elkUrlToPost = elkLogPublishConfig.getElkUrl() + elkLogPublishConfig.getElkIndex() + "/_doc";
             LogData logData = new LogData();
             logData.hostname = InetAddress.getLocalHost().getHostName();
@@ -59,10 +61,13 @@ public class LogPublisher {
             httpPost.setHeader("hostname", InetAddress.getLocalHost().getHostName());
             httpPost.setHeader("Content-type", "application/json");
             httpPost.setHeader("Authorization",elkLogPublishConfig.getElkPass());
-            CloseableHttpResponse response = httpclient.execute(httpPost);
 
             log.info("Log configuration: url call: "+elkUrlToPost);
             log.info("Log configuration: json: "+outMsg);
+
+            CloseableHttpResponse response = httpclient.execute(httpPost);
+
+
 
 
             response.close();
