@@ -61,7 +61,6 @@ public class LogGenerator implements Runnable {
       try{
 
 
-
         //io.harness.cvdemo.config.beans.Config config2 = App.behaviorGenerator.getConfig();
         //config2.setDarkTheme(resultDarktheme);
         //App.behaviorGenerator.applyConfig(config2);
@@ -106,7 +105,6 @@ public class LogGenerator implements Runnable {
             log.warn("Log Publisher - " + e.getMessage());
           }
         }
-
 
         Thread.sleep(60000 / logConfig.getLogsPerMinute());
       }

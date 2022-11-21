@@ -125,9 +125,6 @@ public class LogPublisher {
             }
 
 
-
-
-
             // metodo 2
 
             CloseableHttpClient httpClient2;

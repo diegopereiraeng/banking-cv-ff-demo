@@ -76,7 +76,7 @@ public class PaymentsResource {
             metricRegistry.recordGaugeInc(LIST, null);
             //log.info( "DIEGO -- " + metricRegistry.getMetric(Collections.singleton(LIST)).toString() );
 
-            if (r.nextInt((100 - 1) + 1) < 2) {
+            if (r.nextInt((100 - 1) + 1) < 5) {
                 metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(LIST_ERRORS, null);
                 log.error("ERROR [Payment List] - Bug Demo");
@@ -131,7 +131,7 @@ public class PaymentsResource {
             Thread.sleep(msDelay);
             metricRegistry.recordGaugeInc(STATUS, null);
 
-            if (r.nextInt((100 - 1) + 1) < 2) {
+            if (r.nextInt((100 - 1) + 1) < 5) {
                 metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(STATUS_ERRORS, null);
                 log.error("ERROR [Payment Status] - Bug Demo");
@@ -219,7 +219,7 @@ public class PaymentsResource {
             invocationBuilder.get();
 
             // Generate bugs in randon mode 70%<
-            if (r.nextInt((100 - 1) + 1) < 3) {
+            if (r.nextInt((100 - 1) + 1) < 5) {
                 metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
                 log.error("ERROR [Payment Process] - Bug Demo");
