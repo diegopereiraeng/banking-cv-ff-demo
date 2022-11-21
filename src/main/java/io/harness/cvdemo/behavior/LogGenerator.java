@@ -90,19 +90,20 @@ public class LogGenerator implements Runnable {
         else{
           log.info("FF "+elkLogPublishConfig.getFfLogKey()+" not activated - ff status: "+result);
         }
+
         try {
           logPublisher.publishLogs(level, logMsg);
         }catch (RuntimeException e){
           if (e.getMessage() == null){
-            log.error("Log Publisher - Unknown Error");
+            log.warn("Log Publisher - Unknown Error");
           }else {
-            log.error("Log Publisher - " + e.getMessage());
+            log.warn("Log Publisher - " + e.getMessage());
           }
         }catch (Exception e){
           if (e.getMessage() == null){
-            log.error("Log Publisher - Unknown Error");
+            log.warn("Log Publisher - Unknown Error 2");
           }else {
-            log.error("Log Publisher - " + e.getMessage());
+            log.warn("Log Publisher - " + e.getMessage());
           }
         }
 
