@@ -61,6 +61,7 @@ public class LogPublisher {
                 return;
             }
 
+
             log.info("Log publisher - started");
 
             String elkUrlToPost = elkLogPublishConfig.getElkUrl() + elkLogPublishConfig.getElkIndex() + "/_doc";
