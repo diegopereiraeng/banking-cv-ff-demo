@@ -157,7 +157,7 @@ public class MetricsGenerator implements Runnable {
         Boolean bug_list = false;
 
         try {
-          if ( version == "canary"){
+          if ( version == "not-bug"){
 
 
             log.info("FF - check if bug process is enabled");
