@@ -105,7 +105,6 @@ public class PaymentsResource {
     @Path("status")
     public Response paymentStatus(@QueryParam("value") double value,@QueryParam("bug") Boolean bug) {
 
-
         int max = 200, min = 40;
 
         try {
@@ -124,7 +123,6 @@ public class PaymentsResource {
             log.error(e.getMessage());
 
         }
-
 
         int msDelay = r.nextInt((max - min) + 1) + min;
         try {
