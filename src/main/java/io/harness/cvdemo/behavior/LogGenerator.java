@@ -93,9 +93,17 @@ public class LogGenerator implements Runnable {
         try {
           logPublisher.publishLogs(level, logMsg);
         }catch (RuntimeException e){
-          log.error("Log Publisher - " + e.getMessage());
+          if (e.getMessage() == null){
+            log.error("Log Publisher - Unknown Error");
+          }else {
+            log.error("Log Publisher - " + e.getMessage());
+          }
         }catch (Exception e){
-          log.error("Log Publisher - " + e.getMessage());
+          if (e.getMessage() == null){
+            log.error("Log Publisher - Unknown Error");
+          }else {
+            log.error("Log Publisher - " + e.getMessage());
+          }
         }
 
 
