@@ -79,6 +79,7 @@ public class PaymentsResource {
             if (r.nextInt((100 - 1) + 1) < 2) {
                 metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(LIST_ERRORS, null);
+                log.error("ERROR [Payment List] - Bug Demo");
                 return Response.serverError().build();
             }
             metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
@@ -86,14 +87,17 @@ public class PaymentsResource {
         } catch (InterruptedException ex) {
             metricRegistry.recordGaugeInc(LIST_ERRORS, null);
             metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
+            log.error("ERROR [Payment List] - Bug Demo");
             Thread.currentThread().interrupt();
         } catch (Exception e) {
             metricRegistry.recordGaugeInc(LIST_ERRORS, null);
             metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
+            log.error("ERROR [Payment List] - Bug Demo");
             return Response.serverError().build();
         }
         metricRegistry.recordGaugeInc(LIST_ERRORS, null);
         metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
+        log.error("ERROR [Payment List] - Bug Demo");
         return Response.serverError().build();
     }
 
@@ -130,6 +134,7 @@ public class PaymentsResource {
             if (r.nextInt((100 - 1) + 1) < 2) {
                 metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(STATUS_ERRORS, null);
+                log.error("ERROR [Payment Status] - Bug Demo");
                 return Response.serverError().build();
             }
             metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
@@ -137,14 +142,17 @@ public class PaymentsResource {
         } catch (InterruptedException ex) {
             metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
             metricRegistry.recordGaugeInc(STATUS_ERRORS, null);
+            log.error("ERROR [Payment Status] - Bug Demo");
             Thread.currentThread().interrupt();
         } catch (Exception e) {
             metricRegistry.recordGaugeInc(STATUS_ERRORS, null);
             metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
+            log.error("ERROR [Payment Status] - Bug Demo");
             return Response.serverError().build();
         }
         metricRegistry.recordGaugeInc(STATUS_ERRORS, null);
         metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
+        log.error("ERROR [Payment Status] - Bug Demo");
         return Response.serverError().build();
     }
 
@@ -213,6 +221,7 @@ public class PaymentsResource {
             if (r.nextInt((100 - 1) + 1) < 3) {
                 metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
+                log.error("ERROR [Payment Process] - Bug Demo");
                 return Response.serverError()
                         .status(Response.Status.UNAUTHORIZED)
                         .entity("Bug Demo - "+this.getVersion())
@@ -225,6 +234,7 @@ public class PaymentsResource {
         } catch (InterruptedException ex) {
             metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
+            log.error("ERROR [Payment Process] - Interrupted");
             return Response.serverError()
                     .status(Response.Status.SERVICE_UNAVAILABLE)
                     .entity("Transaction Interrupted, Try Again!")
@@ -232,6 +242,7 @@ public class PaymentsResource {
         } catch (Exception e) {
             metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
+            log.error("ERROR [Payment Process] - Conflict");
             return Response.serverError()
                     .status(Response.Status.CONFLICT)
                     .entity("Please talk to your bank manager.")
