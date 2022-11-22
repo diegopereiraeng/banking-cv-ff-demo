@@ -218,10 +218,10 @@ public class PaymentsResource {
             if (r.nextInt((100 - 1) + 1) < 75) {
                 metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
-                log.error("ERROR [Payment Process] - Bug Alex");
+                log.error("ERROR [Payment Process] - Bug Gabriel");
                 return Response.serverError()
                         .status(Response.Status.UNAUTHORIZED)
-                        .entity("Bug Alex - "+this.getVersion())
+                        .entity("Bug Gabriel - "+this.getVersion())
                         .build();
             }
 
