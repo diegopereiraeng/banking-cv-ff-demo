@@ -202,7 +202,6 @@ public class PaymentsResource {
 
         int msDelay = r.nextInt((max - min) + 1) + min;
 
-
         try {
             Thread.sleep(msDelay);
             metricRegistry.recordGaugeInc(PROCESS, null);
@@ -210,7 +209,6 @@ public class PaymentsResource {
                 client =
                         ClientBuilder.newBuilder().hostnameVerifier((s1, s2) -> true).build();
             }
-
 
             WebTarget getPaymentTarget = client.target("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao=%2711-09-2022%27&$top=101&$format=json&$select=cotacaoVenda");
             Invocation.Builder invocationBuilder = getPaymentTarget.request();
