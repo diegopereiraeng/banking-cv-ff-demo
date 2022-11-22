@@ -50,8 +50,8 @@ public class MetricsGenerator implements Runnable {
         getTarget.request().get();
         getTarget = client.target("http://localhost:8080"+"/v1/payments/status?bug="+bug_status+"&value="+r.nextInt(100));
         getTarget.request().get();
-/*          getTarget = client.target("http://localhost:8080"+"/v1/payments/process?bug=true&value="+r.nextInt(100));
-          getTarget.request().get();*/
+        getTarget = client.target("http://localhost:8080"+"/v1/payments/process?bug="+bug_status+"&value="+r.nextInt(100));
+        getTarget.request().get();
 
       }catch (Exception e){
         log.error("Metrics Generator Error (Banking Calls 2)");
@@ -87,7 +87,7 @@ public class MetricsGenerator implements Runnable {
     }
 
     // Maybe payment process
-    if (r.nextInt(100) <= 60) {
+    if (r.nextInt(100) <= 80) {
 
       if (bug_process){
         getPaymentTarget = client.target("http://localhost:8080"
