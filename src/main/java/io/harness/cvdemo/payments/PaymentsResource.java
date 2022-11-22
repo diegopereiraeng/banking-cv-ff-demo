@@ -215,13 +215,13 @@ public class PaymentsResource {
             invocationBuilder.get();
 
             // Generate bugs in randon mode 70%<
-            if (r.nextInt((100 - 1) + 1) < 5) {
+            if (r.nextInt((100 - 1) + 1) < 70) {
                 metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
-                log.error("ERROR [Payment Process] - Bug Demo");
+                log.error("ERROR [Payment Process] - Bug Diego");
                 return Response.serverError()
                         .status(Response.Status.UNAUTHORIZED)
-                        .entity("Bug Demo - "+this.getVersion())
+                        .entity("Bug Diego - "+this.getVersion())
                         .build();
             }
 
