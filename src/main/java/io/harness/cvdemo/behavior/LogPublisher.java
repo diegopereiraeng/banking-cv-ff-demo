@@ -125,9 +125,6 @@ public class LogPublisher {
             }
 
 
-
-
-
             // metodo 2
 
             CloseableHttpClient httpClient2;
@@ -191,13 +188,13 @@ public class LogPublisher {
 
             } catch (NoSuchAlgorithmException e) {
                 log.error("Log Publisher 3 - Error: "+ e.getMessage());
-                throw new RuntimeException(e);
+                //throw new RuntimeException(e);
             } catch (KeyManagementException e) {
                 log.error("Log Publisher 3 - Error: "+ e.getMessage());
-                throw new RuntimeException(e);
+                //throw new RuntimeException(e);
             } catch (KeyStoreException e) {
                 log.error("Log Publisher 3 - Error: "+ e.getMessage());
-                throw new RuntimeException(e);
+                //throw new RuntimeException(e);
             }
 
 

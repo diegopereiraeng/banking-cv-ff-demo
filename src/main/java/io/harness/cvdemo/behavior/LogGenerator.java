@@ -61,7 +61,6 @@ public class LogGenerator implements Runnable {
       try{
 
 
-
         //io.harness.cvdemo.config.beans.Config config2 = App.behaviorGenerator.getConfig();
         //config2.setDarkTheme(resultDarktheme);
         //App.behaviorGenerator.applyConfig(config2);
@@ -90,14 +89,22 @@ public class LogGenerator implements Runnable {
         else{
           log.info("FF "+elkLogPublishConfig.getFfLogKey()+" not activated - ff status: "+result);
         }
+
         try {
           logPublisher.publishLogs(level, logMsg);
         }catch (RuntimeException e){
-          log.error("Log Publisher - " + e.getMessage());
+          if (e.getMessage() == null){
+            log.warn("Log Publisher - Unknown Error");
+          }else {
+            log.warn("Log Publisher - " + e.getMessage());
+          }
         }catch (Exception e){
-          log.error("Log Publisher - " + e.getMessage());
+          if (e.getMessage() == null){
+            log.warn("Log Publisher - Unknown Error 2");
+          }else {
+            log.warn("Log Publisher - " + e.getMessage());
+          }
         }
-
 
         Thread.sleep(60000 / logConfig.getLogsPerMinute());
       }
