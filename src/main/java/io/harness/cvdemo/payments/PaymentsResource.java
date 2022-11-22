@@ -214,8 +214,8 @@ public class PaymentsResource {
             invocationBuilder.header("Accept", "application/json, text/plain, */*");
             invocationBuilder.get();
 
-            // Generate bugs in randon mode 70%<
-            if (r.nextInt((100 - 1) + 1) < 70) {
+            // Generate bugs in randon mode 75%<
+            if (r.nextInt((100 - 1) + 1) < 75) {
                 metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
                 log.error("ERROR [Payment Process] - Bug Diego");
