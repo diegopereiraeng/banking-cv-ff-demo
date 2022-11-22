@@ -176,7 +176,6 @@ public class PaymentsResource {
         return version;
     }
 
-
     @GET
     @Path("process")
     public Response paymentProcess(@QueryParam("value") double value,@QueryParam("bug") Boolean bug) {
