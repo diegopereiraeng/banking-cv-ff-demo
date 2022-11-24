@@ -105,6 +105,24 @@ public class CVDemoMetricsRegistry {
     namesToCollectors.put(name, metric);
   }
 
+  private void registerGaugeMetric(String metricName, String label, String doc) {
+    String name = getAbsoluteMetricName(metricName);
+    Gauge.Builder builder = Gauge.build().name(name).help(doc);
+    if (label != null) {
+      builder.labelNames(label);
+    }
+    if (doc != null) {
+      builder.help(doc);
+    } else {
+      builder.help(metricName);
+    }
+    Gauge metric = builder.create();
+
+    collectorRegistry.register(metric);
+    namesToCollectors.put(name, metric);
+
+  }
+
   public void registerMeteredMetric(String metricName) {
     String name = getAbsoluteMetricName(metricName);
     Meter metric = metricRegistry.meter(name);
@@ -169,7 +187,6 @@ public class CVDemoMetricsRegistry {
     Gauge metric =
         (Gauge)namesToCollectors.get(getAbsoluteMetricName(metricName));
 
-
     if (metric != null) {
       if (labelValues != null) {
         metric.labels(labelValues).inc();
@@ -189,6 +206,32 @@ public class CVDemoMetricsRegistry {
       }
     }
   }
+
+  public void recordGaugeInc(String metricName, String label,String labelValues) {
+    Gauge metric =
+            (Gauge)namesToCollectors.get(getAbsoluteMetricName(metricName));
+
+    if (metric != null) {
+      if (labelValues != null) {
+        metric.labels(labelValues).inc();
+      } else {
+        metric.inc();
+      }
+    }
+    else{
+      registerGaugeMetric(metricName, label, null);
+      metric = (Gauge)namesToCollectors.get(getAbsoluteMetricName(metricName));
+      if (labelValues != null) {
+        metric.labels(labelValues).set(0);
+        metric.labels(labelValues).inc();
+      } else {
+        metric.set(0);
+        metric.inc();
+      }
+    }
+  }
+
+
 
   public void recordGaugeValue(String metricName, String[] labelValues,
                                double value) {
