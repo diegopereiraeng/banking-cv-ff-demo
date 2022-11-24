@@ -93,14 +93,13 @@ public class PaymentsResource {
                 log.error("ERROR [Payment List] - List Exception");
                 metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(LIST_ERRORS, null);
-                metricRegistry.recordGaugeInc(LIST, "status",status);
                 if (exception == "Interruption"){
                     Thread.currentThread().interrupt();
                 }
                 return Response.serverError().entity("ERROR [Payment List] - List Exception: "+exception).build();
             }else{
                 metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
-                metricRegistry.recordGaugeInc(LIST,"status" , status);
+                metricRegistry.recordGaugeInc(LIST, null);
                 return Response.ok().entity("Payment List - version: "+this.getVersion()).build();
             }
 

@@ -7,6 +7,7 @@ import com.google.inject.Module;
 
 import com.codahale.metrics.MetricRegistry;
 import io.dropwizard.Application;
+import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.harness.cvdemo.payments.PaymentsResource;
 import io.harness.cvdemo.behavior.BehaviorGenerator;
@@ -29,22 +30,38 @@ import javax.servlet.FilterRegistration;
 import static io.dropwizard.jersey.filter.AllowedMethodsFilter.ALLOWED_METHODS_PARAM;
 import static org.eclipse.jetty.servlets.CrossOriginFilter.*;
 
+//dropwizard + prometheus
+import io.github.maksymdolgykh.dropwizard.micrometer.MicrometerBundle;
+import io.github.maksymdolgykh.dropwizard.micrometer.MicrometerHttpFilter;
+
 public class App extends Application<AppConfiguration> {
 
   public static final BehaviorGenerator behaviorGenerator =
       new BehaviorGenerator();
+
   public static Config defaultConfig;
 
   private final MetricRegistry metricRegistry = new MetricRegistry();
 
   @Override
+  public void initialize(Bootstrap<AppConfiguration> bootstrap) {
+
+    bootstrap.addBundle(new MicrometerBundle());
+
+  }
+  @Override
   public void run(AppConfiguration c, Environment e)  {
+
+    FilterRegistration.Dynamic micrometerFilter = e.servlets().addFilter("MicrometerHttpFilter", new MicrometerHttpFilter());
+    micrometerFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+
     List<Module> moduleList = new ArrayList<>();
     moduleList.add(new MetricRegistryModule(metricRegistry));
     Injector injector = Guice.createInjector(moduleList);
 
     e.jersey().register(new CVDemoMetricsRegistry(
         new MetricRegistry(), CollectorRegistry.defaultRegistry));
+
 
 
     e.jersey().register(injector.getInstance(PrometheusMetricResource.class));
