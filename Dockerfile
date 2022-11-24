@@ -81,4 +81,4 @@ CMD bash -c ' \
     if [[ "" != "$LOG_MSG" ]]; then yq write -i $CONFIG_FILE defaultConfig.logConfig.errorMessage "LOG_MSG"; fi; \
 
 
-    java $JAVA_TOOL_OPTIONS $JAVA_OPTS -Xshare:off -jar app.jar server config.yml'
+    java $JAVA_TOOL_OPTIONS $JAVA_OPTS -Xshare:off --add-opens java.base/java.lang=ALL-UNNAMED -jar app.jar server config.yml'
