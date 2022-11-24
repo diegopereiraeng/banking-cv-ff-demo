@@ -99,7 +99,7 @@ public class PaymentsResource {
                 }
                 return Response.serverError().entity("ERROR [Payment List] - List Exception: "+exception).build();
             }else{
-                metricRegistry.recordGaugeValue(LIST_RT, new String[]{"status:" + status}, msDelay);
+                metricRegistry.recordGaugeValue(LIST_RT, new String[]{status}, msDelay);
                 metricRegistry.recordGaugeInc(LIST,"status" , status);
                 return Response.ok().entity("Payment List - version: "+this.getVersion()).build();
             }
