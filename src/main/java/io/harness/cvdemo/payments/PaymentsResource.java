@@ -69,36 +69,43 @@ public class PaymentsResource {
             log.error(e.getMessage());
         }
 
+        String status = "200";
+        String exception = "unknown";
+
         int msDelay = r.nextInt((max - min) + 1) + min;
         try {
             Thread.sleep(msDelay);
 
-            metricRegistry.recordGaugeInc(LIST, null);
             //log.info( "DIEGO -- " + metricRegistry.getMetric(Collections.singleton(LIST)).toString() );
 
             if (r.nextInt((100 - 1) + 1) < 5) {
-                metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
-                metricRegistry.recordGaugeInc(LIST_ERRORS, null);
-                log.error("ERROR [Payment List] - List Exception");
-                return Response.serverError().build();
+                status = "500";
             }
-            metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
-            return Response.ok().build();
+
         } catch (InterruptedException ex) {
-            metricRegistry.recordGaugeInc(LIST_ERRORS, null);
-            metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
-            log.error("ERROR [Payment List] - List Exception");
-            Thread.currentThread().interrupt();
+            status = "500";
+            exception = "Interruption";
+
         } catch (Exception e) {
-            metricRegistry.recordGaugeInc(LIST_ERRORS, null);
-            metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
-            log.error("ERROR [Payment List] - List Exception");
-            return Response.serverError().build();
+            status = "500";
+        }finally {
+            if (status != "200"){
+                log.error("ERROR [Payment List] - List Exception");
+                metricRegistry.recordGaugeValue(LIST_RT, new String[]{"status:" + status}, msDelay);
+                metricRegistry.recordGaugeInc(LIST_ERRORS, new String[]{"status:" + status});
+                metricRegistry.recordGaugeInc(LIST, new String[]{"status:" + status});
+                if (exception != ""){
+                    Thread.currentThread().interrupt();
+                }
+                return Response.serverError().entity("ERROR [Payment List] - List Exception: "+exception).build();
+            }else{
+                metricRegistry.recordGaugeValue(LIST_RT, new String[]{"status:" + status}, msDelay);
+                metricRegistry.recordGaugeInc(LIST, new String[]{"status:" + status});
+                return Response.ok().entity("Payment List - version: "+this.getVersion()).build();
+            }
+
         }
-        metricRegistry.recordGaugeInc(LIST_ERRORS, null);
-        metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
-        log.error("ERROR [Payment List] - List Exception");
-        return Response.serverError().build();
+
     }
 
     @GET
