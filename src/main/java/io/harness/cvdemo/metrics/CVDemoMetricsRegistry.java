@@ -219,6 +219,7 @@ public class CVDemoMetricsRegistry {
       }
     }
     else{
+      
       registerGaugeMetric(metricName, label, null);
       metric = (Gauge)namesToCollectors.get(getAbsoluteMetricName(metricName));
       if (labelValues != null) {

@@ -94,7 +94,7 @@ public class PaymentsResource {
                 metricRegistry.recordGaugeValue(LIST_RT, new String[]{status}, msDelay);
                 metricRegistry.recordGaugeInc(LIST_ERRORS, new String[]{status});
                 metricRegistry.recordGaugeInc(LIST, "status",status);
-                if (exception != ""){
+                if (exception == "Interruption"){
                     Thread.currentThread().interrupt();
                 }
                 return Response.serverError().entity("ERROR [Payment List] - List Exception: "+exception).build();
@@ -222,7 +222,7 @@ public class PaymentsResource {
             invocationBuilder.get();
 
             // Generate bugs in randon mode 75%<
-            if (r.nextInt((100 - 1) + 1) < 75) {
+            if (r.nextInt((100 - 1) + 1) < 5) {
                 metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
                 log.error("ERROR [Payment Process] - Bug Rangel");
