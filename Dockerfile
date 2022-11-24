@@ -13,8 +13,8 @@ RUN apt-get update && apt-get install -y unzip
 #ENV JAVA_OPTS="$JAVA_OPTS -javaagent:/opt/newrelic/newrelic.jar"
 
 #DataDog
-RUN wget -O dd-java-agent.jar "https://dtdg.co/latest-java-tracer"
-ENV JAVA_OPTS="$JAVA_OPTS -javaagent:/dd-java-agent.jar"
+#RUN wget -O dd-java-agent.jar "https://dtdg.co/latest-java-tracer"
+#ENV JAVA_OPTS="$JAVA_OPTS -javaagent:/dd-java-agent.jar"
 
 # Copy app files
 COPY config.yml /opt/cv-demo/
@@ -41,7 +41,7 @@ RUN wget -O AppServerAgent.zip "$(curl 'https://download.appdynamics.com/downloa
 
 # Error Tracking
 COPY harness-et-agent /opt/harness-et-agent
-ENV JAVA_TOOL_OPTIONS="-agentpath:/opt/harness-et-agent/lib/libETAgent.so"
+#ENV JAVA_TOOL_OPTIONS="-agentpath:/opt/harness-et-agent/lib/libETAgent.so"
 
 #ENV ET_COLLECTOR_URL=https://app.harness.io/gratis/et-collector
 #ENV ET_APPLICATION_NAME=FF_CV_DEMO
