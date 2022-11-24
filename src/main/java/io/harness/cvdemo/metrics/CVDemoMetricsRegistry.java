@@ -13,6 +13,7 @@ import io.prometheus.client.Gauge;
 import io.prometheus.client.Histogram;
 import io.prometheus.client.Summary;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -30,6 +31,7 @@ import javax.inject.Singleton;
  *
  * Created by Pranjal on 11/01/2018
  */
+@Slf4j
 @NoArgsConstructor
 @Singleton
 public class CVDemoMetricsRegistry {
@@ -203,8 +205,8 @@ public class CVDemoMetricsRegistry {
       }
     }
     else{
-      
-      registerGaugeMetric(metricName, label, null);
+      log.info("label to register: "+label);
+      registerGaugeMetric(metricName, new String[]{label});
       metric = (Gauge)namesToCollectors.get(getAbsoluteMetricName(metricName));
       if (labelValues != null) {
         metric.labels(labelValues).set(0);
@@ -279,6 +281,10 @@ public class CVDemoMetricsRegistry {
     Object metric = namesToCollectors.get(name);
     if (metric != null) {
       if (metric instanceof Gauge) {
+//        log.info("gauge value: "+value);
+//        log.info("gauge metric name: "+metricName);
+//        log.info("gauge metric : "+metric);
+//        log.info("gauge log : "+metric);
         ((Gauge)metric).set(value);
       } else if (metric instanceof Meter) {
         ((Meter)metric).mark((long)value);

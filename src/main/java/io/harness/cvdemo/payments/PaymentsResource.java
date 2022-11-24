@@ -98,6 +98,8 @@ public class PaymentsResource {
                 }
                 return Response.serverError().entity("ERROR [Payment List] - List Exception: "+exception).build();
             }else{
+
+
                 metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(LIST, null);
                 return Response.ok().entity("Payment List - version: "+this.getVersion()).build();
@@ -131,6 +133,8 @@ public class PaymentsResource {
 
         }
 
+        String status = "200";
+        String exception = "unknown";
 
         int msDelay = r.nextInt((max - min) + 1) + min;
         try {
@@ -138,28 +142,35 @@ public class PaymentsResource {
             metricRegistry.recordGaugeInc(STATUS, null);
 
             if (r.nextInt((100 - 1) + 1) < 5) {
+                status = "500";
+            }
+
+        } catch (InterruptedException ex) {
+            status = "500";
+            exception = "Interruption";
+
+        } catch (Exception e) {
+            status = "500";
+        }
+        finally {
+            if (status != "200"){
+                log.error("ERROR [Payment Status] - Status Error");
                 metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
                 metricRegistry.recordGaugeInc(STATUS_ERRORS, null);
-                log.error("ERROR [Payment Status] - Status Error");
-                return Response.serverError().build();
+                if (exception == "Interruption"){
+                    Thread.currentThread().interrupt();
+                }
+                return Response.serverError().entity("ERROR [Payment Status] - Status Error: "+exception).build();
+            }else{
+
+
+                metricRegistry.recordGaugeValue(LIST_RT, null, msDelay);
+                metricRegistry.recordGaugeInc(STATUS, null);
+                return Response.ok().entity("ERROR [Payment Status] - Status Error: "+this.getVersion()).build();
             }
-            metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
-            return Response.ok().build();
-        } catch (InterruptedException ex) {
-            metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
-            metricRegistry.recordGaugeInc(STATUS_ERRORS, null);
-            log.error("ERROR [Payment Status] - Status Error");
-            Thread.currentThread().interrupt();
-        } catch (Exception e) {
-            metricRegistry.recordGaugeInc(STATUS_ERRORS, null);
-            metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
-            log.error("ERROR [Payment Status] - Status Error");
-            return Response.serverError().build();
+
         }
-        metricRegistry.recordGaugeInc(STATUS_ERRORS, null);
-        metricRegistry.recordGaugeValue(STATUS_RT, null, msDelay);
-        log.error("ERROR [Payment Status] - Status Error");
-        return Response.serverError().build();
+
     }
 
     private String getVersion(){
