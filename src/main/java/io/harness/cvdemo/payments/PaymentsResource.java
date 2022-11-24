@@ -91,16 +91,16 @@ public class PaymentsResource {
         }finally {
             if (status != "200"){
                 log.error("ERROR [Payment List] - List Exception");
-                metricRegistry.recordGaugeValue(LIST_RT, new String[]{"status:" + status}, msDelay);
-                metricRegistry.recordGaugeInc(LIST_ERRORS, new String[]{"status:" + status});
-                metricRegistry.recordGaugeInc(LIST, new String[]{"status:" + status});
+                metricRegistry.recordGaugeValue(LIST_RT, new String[]{status}, msDelay);
+                metricRegistry.recordGaugeInc(LIST_ERRORS, new String[]{status});
+                metricRegistry.recordGaugeInc(LIST, new String[]{status});
                 if (exception != ""){
                     Thread.currentThread().interrupt();
                 }
                 return Response.serverError().entity("ERROR [Payment List] - List Exception: "+exception).build();
             }else{
                 metricRegistry.recordGaugeValue(LIST_RT, new String[]{"status:" + status}, msDelay);
-                metricRegistry.recordGaugeInc(LIST, new String[]{"status:" + status});
+                metricRegistry.recordGaugeInc(LIST, new String[]{status});
                 return Response.ok().entity("Payment List - version: "+this.getVersion()).build();
             }
 
