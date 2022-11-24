@@ -1,4 +1,4 @@
-FROM openjdk:8
+FROM openjdk:11
 
 # install yq - a YAML query command line tool
 RUN curl -Lso yq https://github.com/mikefarah/yq/releases/download/2.2.1/yq_linux_amd64 && \
