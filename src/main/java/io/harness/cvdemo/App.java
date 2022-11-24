@@ -31,8 +31,8 @@ import static io.dropwizard.jersey.filter.AllowedMethodsFilter.ALLOWED_METHODS_P
 import static org.eclipse.jetty.servlets.CrossOriginFilter.*;
 
 //dropwizard + prometheus
-import io.github.maksymdolgykh.dropwizard.micrometer.MicrometerBundle;
-import io.github.maksymdolgykh.dropwizard.micrometer.MicrometerHttpFilter;
+//import io.github.maksymdolgykh.dropwizard.micrometer.MicrometerBundle;
+//import io.github.maksymdolgykh.dropwizard.micrometer.MicrometerHttpFilter;
 
 public class App extends Application<AppConfiguration> {
 
@@ -43,17 +43,17 @@ public class App extends Application<AppConfiguration> {
 
   private final MetricRegistry metricRegistry = new MetricRegistry();
 
-  @Override
-  public void initialize(Bootstrap<AppConfiguration> bootstrap) {
-
-    bootstrap.addBundle(new MicrometerBundle());
-
-  }
+//  @Override
+//  public void initialize(Bootstrap<AppConfiguration> bootstrap) {
+//
+//    bootstrap.addBundle(new MicrometerBundle());
+//
+//  }
   @Override
   public void run(AppConfiguration c, Environment e)  {
 
-    FilterRegistration.Dynamic micrometerFilter = e.servlets().addFilter("MicrometerHttpFilter", new MicrometerHttpFilter());
-    micrometerFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
+//    FilterRegistration.Dynamic micrometerFilter = e.servlets().addFilter("MicrometerHttpFilter", new MicrometerHttpFilter());
+//    micrometerFilter.addMappingForUrlPatterns(EnumSet.allOf(DispatcherType.class), true, "/*");
 
     List<Module> moduleList = new ArrayList<>();
     moduleList.add(new MetricRegistryModule(metricRegistry));

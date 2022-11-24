@@ -26,11 +26,11 @@
 
     <dependencies>
         <!-- Prometheus with Dropwizard-->
-        <dependency>
-            <groupId>io.github.maksymdolgykh.dropwizard</groupId>
-            <artifactId>dropwizard-micrometer-core</artifactId>
-            <version>2.0.5</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.github.maksymdolgykh.dropwizard</groupId>-->
+<!--            <artifactId>dropwizard-micrometer-core</artifactId>-->
+<!--            <version>2.0.5</version>-->
+<!--        </dependency>-->
         <!-- Prometheus with Dropwizard-->
         <dependency>
             <groupId>org.asynchttpclient</groupId>
