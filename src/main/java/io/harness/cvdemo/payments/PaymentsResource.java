@@ -230,6 +230,17 @@ public class PaymentsResource {
             }
 
 
+            // Generate bugs in randon mode 75%<
+            if (r.nextInt((100 - 1) + 1) < 5) {
+                metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
+                metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
+                log.error("ERROR [Payment Process] - Bug Demo");
+                return Response.serverError()
+                        .status(Response.Status.INTERNAL_SERVER_ERROR)
+                        .entity("[Payment Process] - Bug Demo - "+this.getVersion())
+                        .build();
+            }
+
 
             WebTarget ValidationAPI = client.target("http://payments-validation.harness-demo.site/"+validationPath+"/validation");
             Invocation.Builder invocationBuilder = ValidationAPI.request();
@@ -249,6 +260,13 @@ public class PaymentsResource {
                 if(listValidations.getStatus() == 200){
                     validated = true;
                     log.info("[Validation Journey] Invoice Validated");
+                    WebTarget getPaymentTarget = client.target("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao=%2711-09-2022%27&$top=101&$format=json&$select=cotacaoVenda");
+                    invocationBuilder = getPaymentTarget.request();
+                    invocationBuilder.header("Accept", "application/json, text/plain, */*");
+                    invocationBuilder.get();
+
+                    metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
+                    return Response.ok().entity("Payment Accepted - version: "+this.getVersion()).build();
                 }
                 else {
                     metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
@@ -269,24 +287,7 @@ public class PaymentsResource {
                         .build();
             }
 
-            WebTarget getPaymentTarget = client.target("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao=%2711-09-2022%27&$top=101&$format=json&$select=cotacaoVenda");
-            invocationBuilder = getPaymentTarget.request();
-            invocationBuilder.header("Accept", "application/json, text/plain, */*");
-            invocationBuilder.get();
 
-            // Generate bugs in randon mode 75%<
-            if (r.nextInt((100 - 1) + 1) < 5) {
-                metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
-                metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
-                log.error("ERROR [Payment Process] - Bug Demo");
-                return Response.serverError()
-                        .status(Response.Status.INTERNAL_SERVER_ERROR)
-                        .entity("Bug Demo - "+this.getVersion())
-                        .build();
-            }
-
-            metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
-            return Response.ok().entity("Payment Accepted - version: "+this.getVersion()).build();
         } catch (InterruptedException ex) {
             metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
