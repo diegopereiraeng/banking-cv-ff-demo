@@ -268,7 +268,6 @@ public class PaymentsResource {
                         .build();
             }
 
-
             WebTarget getPaymentTarget = client.target("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao=%2711-09-2022%27&$top=101&$format=json&$select=cotacaoVenda");
             invocationBuilder = getPaymentTarget.request();
             invocationBuilder.header("Accept", "application/json, text/plain, */*");
