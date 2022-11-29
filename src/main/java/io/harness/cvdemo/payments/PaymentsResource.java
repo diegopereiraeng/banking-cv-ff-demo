@@ -235,6 +235,7 @@ public class PaymentsResource {
             Invocation.Builder invocationBuilder = ValidationAPI.request();
             invocationBuilder.header("Accept", "application/json, text/plain, */*");
             Response listValidations =  invocationBuilder.get();
+            log.info("[Validation Journey] Status from Validation HealthCheck: "+ listValidations.getStatus());
             if(listValidations.getStatus() == 200){
                 ValidationAPI = client.target("http://payments-validation.harness-demo.site/"+validationPath+"/validation");
                 invocationBuilder = ValidationAPI.request();
@@ -247,7 +248,7 @@ public class PaymentsResource {
                 Response validation =  invocationBuilder.post(Entity.json(jsonString));
                 if(listValidations.getStatus() == 200){
                     validated = true;
-
+                    log.info("[Validation Journey] Invoice Validated");
                 }
                 else {
                     metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
