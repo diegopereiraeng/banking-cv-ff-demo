@@ -219,7 +219,7 @@ public class PaymentsResource {
 
         }
 
-        
+
         int msDelay = r.nextInt((max - min) + 1) + min;
 
         if(invoiceID + 0 == 0 ) {
@@ -250,13 +250,15 @@ public class PaymentsResource {
 //                        .build();
 //            }
 
-            WebTarget ValidationAPI = client.target("http://payments-validation.harness-demo.site/"+validationPath+"/validation");
+            WebTarget ValidationAPI = client.target("http://payments-validation.harness-demo.site/"+validationPath+"/auth/validation");
             Invocation.Builder invocationBuilder = ValidationAPI.request();
             invocationBuilder.header("Accept", "application/json, text/plain, */*");
             Response listValidations =  invocationBuilder.get();
             log.info("[Validation Journey] Status from Validation HealthCheck: "+ listValidations.getStatus());
+
+
             if(listValidations.getStatus() == 200){
-                ValidationAPI = client.target("http://payments-validation.harness-demo.site/"+validationPath+"/validation");
+                ValidationAPI = client.target("http://payments-validation.harness-demo.site/"+validationPath+"/auth/validation");
                 invocationBuilder = ValidationAPI.request();
                 String jsonString = new JSONObject()
                         .put("id", invoiceID)
