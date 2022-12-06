@@ -219,6 +219,7 @@ public class PaymentsResource {
 
         }
 
+        
         int msDelay = r.nextInt((max - min) + 1) + min;
 
         if(invoiceID + 0 == 0 ) {
