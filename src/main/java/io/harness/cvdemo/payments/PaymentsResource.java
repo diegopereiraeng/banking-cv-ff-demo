@@ -193,13 +193,17 @@ public class PaymentsResource {
 
     @GET
     @Path("process")
-    public Response paymentProcess(@QueryParam("value") double value,@QueryParam("bug") Boolean bug,@QueryParam("validationPath") String validationPath) {
+    public Response paymentProcess(@QueryParam("value") double value,@QueryParam("bug") Boolean bug,@QueryParam("validationPath") String validationPath, ,@QueryParam("validationID") String validationID,,@QueryParam("invoiceID") String invoiceID) {
         int max = 200, min = 100;
         boolean validated = false;
 
         try {
             if(bug == null ) {
                 bug = false;
+            }
+
+            if(validationID == null ) {
+                validationID = "";
             }
 
 
@@ -217,6 +221,10 @@ public class PaymentsResource {
 
         int msDelay = r.nextInt((max - min) + 1) + min;
 
+        if(invoiceID == null ) {
+            invoiceID = msDelay;
+        }
+
         try {
             Thread.sleep(msDelay);
             metricRegistry.recordGaugeInc(PROCESS, null);
@@ -230,17 +238,16 @@ public class PaymentsResource {
             }
 
 
-            // Generate bugs in randon mode 75%<
-            if (r.nextInt((100 - 1) + 1) < 5) {
-                metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
-                metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
-                log.error("ERROR [Payment Process] - Bug Demo");
-                return Response.serverError()
-                        .status(Response.Status.INTERNAL_SERVER_ERROR)
-                        .entity("[Payment Process] - Bug Demo - "+this.getVersion())
-                        .build();
-            }
-
+//            // Generate bugs in randon mode 75%<
+//            if (r.nextInt((100 - 1) + 1) < 5) {
+//                metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
+//                metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
+//                log.error("ERROR [Payment Process] - Bug Demo");
+//                return Response.serverError()
+//                        .status(Response.Status.INTERNAL_SERVER_ERROR)
+//                        .entity("[Payment Process] - Bug Demo - "+this.getVersion())
+//                        .build();
+//            }
 
             WebTarget ValidationAPI = client.target("http://payments-validation.harness-demo.site/"+validationPath+"/validation");
             Invocation.Builder invocationBuilder = ValidationAPI.request();
@@ -251,8 +258,9 @@ public class PaymentsResource {
                 ValidationAPI = client.target("http://payments-validation.harness-demo.site/"+validationPath+"/validation");
                 invocationBuilder = ValidationAPI.request();
                 String jsonString = new JSONObject()
-                        .put("id", msDelay)
+                        .put("id", invoiceID)
                         .put("status", "not verified")
+                        .put("validationID", validationID)
                         //.put("JSON3", new JSONObject().put("key1", "value1"))
                         .toString();
                 invocationBuilder.header("Accept", "application/json, text/plain, */*");
