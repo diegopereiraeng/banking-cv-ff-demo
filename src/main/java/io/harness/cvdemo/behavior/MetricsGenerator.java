@@ -193,7 +193,6 @@ public class MetricsGenerator implements Runnable {
 
           createFuture(bug_list,bug_status,bug_process).get();
 
-
         }catch (Exception e){
           log.error("Payments Generator Error");
         }
