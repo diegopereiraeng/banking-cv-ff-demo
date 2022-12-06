@@ -193,7 +193,7 @@ public class PaymentsResource {
 
     @GET
     @Path("process")
-    public Response paymentProcess(@QueryParam("value") double value,@QueryParam("bug") Boolean bug,@QueryParam("validationPath") String validationPath, ,@QueryParam("validationID") String validationID,,@QueryParam("invoiceID") String invoiceID) {
+    public Response paymentProcess(@QueryParam("value") double value,@QueryParam("bug") Boolean bug,@QueryParam("validationPath") String validationPath, @QueryParam("validationID") String validationID,,@QueryParam("invoiceID") String invoiceID) {
         int max = 200, min = 100;
         boolean validated = false;
 
