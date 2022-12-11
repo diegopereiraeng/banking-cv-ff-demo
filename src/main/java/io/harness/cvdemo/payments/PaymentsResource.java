@@ -1,11 +1,12 @@
 package io.harness.cvdemo.payments;
 
 import com.google.inject.Inject;
-import io.harness.cf.client.api.CfClient;
-import io.harness.cf.client.dto.Target;
-import io.harness.cvdemo.behavior.MetricsGenerator;
 import io.harness.cvdemo.metrics.CVDemoMetricsRegistry;
-
+import io.harness.cvdemo.models.Payment;
+import io.harness.cvdemo.models.Representation;
+import lombok.extern.slf4j.Slf4j;
+import org.eclipse.jetty.io.ssl.ALPNProcessor;
+import org.json.JSONObject;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -17,22 +18,11 @@ import javax.ws.rs.core.Response;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.security.SecureRandom;
-import java.util.Arrays;
-import java.util.Collections;
 
-import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
-import org.json.JSONObject;
-
-import static io.harness.cvdemo.metrics.Constants.LIST_RT;
-import static io.harness.cvdemo.metrics.Constants.STATUS_RT;
-import static io.harness.cvdemo.metrics.Constants.PROCESS_RT;
+import static io.harness.cvdemo.metrics.Constants.*;
 import static io.harness.cvdemo.payments.Constants.LIST;
-import static io.harness.cvdemo.payments.Constants.STATUS;
 import static io.harness.cvdemo.payments.Constants.PROCESS;
-import static io.harness.cvdemo.metrics.Constants.LIST_ERRORS;
-import static io.harness.cvdemo.metrics.Constants.STATUS_ERRORS;
-import static io.harness.cvdemo.metrics.Constants.PROCESS_ERRORS;
+import static io.harness.cvdemo.payments.Constants.STATUS;
 
 
 @Slf4j
@@ -268,16 +258,27 @@ public class PaymentsResource {
                         .toString();
                 invocationBuilder.header("Accept", "application/json, text/plain, */*");
                 Response validation =  invocationBuilder.post(Entity.json(jsonString));
-                if(listValidations.getStatus() == 200){
+                if(validation.getStatus() == 200){
                     validated = true;
-                    log.info("[Validation Journey] Invoice Validated");
+                    log.debug("[Validation Journey] Invoice Validated");
                     WebTarget getPaymentTarget = client.target("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao=%2711-09-2022%27&$top=101&$format=json&$select=cotacaoVenda");
                     invocationBuilder = getPaymentTarget.request();
                     invocationBuilder.header("Accept", "application/json, text/plain, */*");
-                    invocationBuilder.get();
+                    Representation<Payment> response = invocationBuilder.get(Representation.class);
+                    Payment responsePay = response.getData();
+                    if(response.getCode() == 200){
+                        metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
 
-                    metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
-                    return Response.ok().entity("Payment Accepted - version: "+this.getVersion()).build();
+                        return Response.ok().entity("Payment Accepted - version: "+this.getVersion()+" - auth version: "+responsePay.getVersion()).build();
+                    }
+
+                    log.error("ERROR [Payment Validation] - Invoice Denied - Try again later");
+                    return Response.serverError()
+                            .status(Response.Status.INTERNAL_SERVER_ERROR)
+                            .entity("ERROR [Payment Validation] - Invoice Denied - Try again later - "+this.getVersion()+" - auth version: "+responsePay.getVersion())
+                            .build();
+
+
                 }
                 else {
                     metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);

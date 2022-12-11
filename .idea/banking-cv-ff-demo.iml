@@ -2,8 +2,26 @@
 <module type="JAVA_MODULE" version="4">
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
-    <content url="file://$MODULE_DIR$" />
-    <orderEntry type="inheritedJdk" />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/main/resources" type="java-resource" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
+      <sourceFolder url="file://$MODULE_DIR$/src/test/resources" type="java-test-resource" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+      <excludeFolder url="file://$MODULE_DIR$/harness-et-agent" />
+      <excludeFolder url="file://$MODULE_DIR$/tests" />
+    </content>
+    <orderEntry type="jdk" jdkName="11" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="Maven: com.google.inject:guice:4.0" level="project" />
+    <orderEntry type="library" exported="" name="Maven: io.harness:ff-java-server-sdk:1.0.4" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.projectlombok:lombok:1.18.20" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.json:json:20180130" level="project" />
+    <orderEntry type="library" exported="" name="Maven: jakarta.ws.rs:jakarta.ws.rs-api:2.1.6" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.eclipse.jetty:jetty-io:9.4.49.v20220914" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.apache.httpcomponents:httpclient:4.5.13" level="project" />
+    <orderEntry type="library" exported="" name="Maven: com.google.code.gson:gson:2.8.8" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.apache.commons:commons-lang3:3.4" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.apache.httpcomponents:httpcore:4.4.13" level="project" />
   </component>
 </module>
