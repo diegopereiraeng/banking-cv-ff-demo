@@ -1,5 +1,8 @@
 package io.harness.cvdemo.payments;
 
+import com.fasterxml.jackson.core.json.JsonReadFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.inject.Inject;
 import io.harness.cvdemo.metrics.CVDemoMetricsRegistry;
 import io.harness.cvdemo.models.Payment;
@@ -244,8 +247,8 @@ public class PaymentsResource {
             Invocation.Builder invocationBuilder = ValidationAPI.request();
             invocationBuilder.header("Accept", "application/json, text/plain, */*");
             Response listValidations =  invocationBuilder.get();
-            log.info("[Validation Journey] Status from Validation HealthCheck: "+ listValidations.getStatus());
-
+            log.info("[Validation Journey] - Status: "+listValidations.getStatus()+" from Validation HealthCheck on: "+validationPath );
+            log.info("[Validation Journey] - ValidationID "+validationID);
 
             if(listValidations.getStatus() == 200){
                 ValidationAPI = client.target("http://payments-validation.harness-demo.site/"+validationPath+"/auth/validation");
@@ -258,17 +261,32 @@ public class PaymentsResource {
                         .toString();
                 invocationBuilder.header("Accept", "application/json, text/plain, */*");
                 Response validation =  invocationBuilder.post(Entity.json(jsonString));
+                String validationBody = validation.readEntity(String.class);
+                log.debug("[Validation Journey] - Response: "+validationBody);
+                // Map String to Representation
+                ObjectMapper mapper = new ObjectMapper();
+                //Representation responseRepPay = mapper.readValue(validationBody, Representation.class);
+                //mapper.enable(JsonReadFeature.ALLOW_UNQUOTED_FIELD_NAMES.mappedFeature());
+                JsonNode validationNode = mapper.readTree(validationBody);
+                Representation<Payment> responseRepPay = mapper.treeToValue(validationNode,Representation.class);
+                log.debug("[Validation Journey] - Response Parsed Rep: "+responseRepPay.getData());
+                Payment responsePay = mapper.treeToValue(validationNode.get("data"),Payment.class);
+                log.debug("[Validation Journey] - Response Parsed: "+responsePay.getVersion());
+
                 if(validation.getStatus() == 200){
                     validated = true;
-                    log.debug("[Validation Journey] Invoice Validated");
+                    log.debug("[Validation Journey] - Invoice "+invoiceID+" Validated");
                     WebTarget getPaymentTarget = client.target("https://olinda.bcb.gov.br/olinda/servico/PTAX/versao/v1/odata/CotacaoDolarDia(dataCotacao=@dataCotacao)?@dataCotacao=%2711-09-2022%27&$top=101&$format=json&$select=cotacaoVenda");
                     invocationBuilder = getPaymentTarget.request();
                     invocationBuilder.header("Accept", "application/json, text/plain, */*");
-                    Representation<Payment> response = invocationBuilder.get(Representation.class);
-                    Payment responsePay = response.getData();
-                    if(response.getCode() == 200){
+                    Response response = invocationBuilder.get();
+
+                    //log.info("[Validation Journey] - "+response.getEntity().toString());
+
+                    if(validation.getStatus() == 200){
                         metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
 
+                        //return Response.ok().entity("Payment Accepted - version: "+this.getVersion()).build();
                         return Response.ok().entity("Payment Accepted - version: "+this.getVersion()+" - auth version: "+responsePay.getVersion()).build();
                     }
 
@@ -277,6 +295,10 @@ public class PaymentsResource {
                             .status(Response.Status.INTERNAL_SERVER_ERROR)
                             .entity("ERROR [Payment Validation] - Invoice Denied - Try again later - "+this.getVersion()+" - auth version: "+responsePay.getVersion())
                             .build();
+//                    return Response.serverError()
+//                            .status(Response.Status.INTERNAL_SERVER_ERROR)
+//                            .entity("ERROR [Payment Validation] - Invoice Denied - Try again later - "+this.getVersion())
+//                            .build();
 
 
                 }
@@ -312,6 +334,7 @@ public class PaymentsResource {
             metricRegistry.recordGaugeInc(PROCESS_ERRORS, null);
             metricRegistry.recordGaugeValue(PROCESS_RT, null, msDelay);
             log.error("ERROR [Payment Process] - Conflict Error");
+            e.printStackTrace();
             return Response.serverError()
                     .status(Response.Status.CONFLICT)
                     .entity("Conflict Error - Please talk to your bank manager.")
