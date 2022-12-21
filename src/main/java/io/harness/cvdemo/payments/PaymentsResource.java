@@ -290,6 +290,7 @@ public class PaymentsResource {
                         return Response.ok().entity("Payment Accepted - version: "+this.getVersion()+" - auth version: "+responsePay.getVersion()).build();
                     }
 
+
                     log.error("ERROR [Payment Validation] - Invoice Denied - Try again later");
                     return Response.serverError()
                             .status(Response.Status.INTERNAL_SERVER_ERROR)
