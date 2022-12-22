@@ -243,7 +243,7 @@ public class PaymentsResource {
 //                        .build();
 //            }
 
-            WebTarget ValidationAPI = client.target("http://payments-validation.harness-demo.site/"+validationPath+"/auth/validation");
+            WebTarget ValidationAPI = client.target("http://"+validationPath+"-payments-validation.harness-demo.site/auth/validation");
             Invocation.Builder invocationBuilder = ValidationAPI.request();
             invocationBuilder.header("Accept", "application/json, text/plain, */*");
             Response listValidations =  invocationBuilder.get();
