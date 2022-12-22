@@ -251,7 +251,7 @@ public class PaymentsResource {
             log.info("[Validation Journey] - ValidationID "+validationID);
 
             if(listValidations.getStatus() == 200){
-                ValidationAPI = client.target("http://payments-validation.harness-demo.site/"+validationPath+"/auth/validation");
+                ValidationAPI = client.target("http://"+validationPath+"-payments-validation.harness-demo.site/auth/validation");
                 invocationBuilder = ValidationAPI.request();
                 String jsonString = new JSONObject()
                         .put("id", invoiceID)
