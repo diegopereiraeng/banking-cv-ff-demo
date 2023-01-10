@@ -337,7 +337,7 @@ public class PaymentsResource {
             e.printStackTrace();
             return Response.serverError()
                     .status(Response.Status.CONFLICT)
-                    .entity("Conflict Error - Please talk to your bank manager.")
+                    .entity("Conflict Error - Please talk to your bank manager.\n\n"+e.getMessage())
                     .build();
         }
 
